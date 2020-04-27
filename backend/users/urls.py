@@ -15,8 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from .views import users_list
+from .views import users, messages
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
-    path('users_list/', users_list),
+    path('users/', users),
+    path('messages/', messages),
 ]
