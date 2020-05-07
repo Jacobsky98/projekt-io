@@ -7,7 +7,7 @@ const initalState = {
 
 export default (state = initalState, action) => {
     switch(action.type){
-        case LOGIN:
+        case LOGIN:            
             return {
                 ...state,
                 token: action.token,

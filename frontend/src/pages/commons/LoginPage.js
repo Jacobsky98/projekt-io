@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import {FormControl, Input, InputLabel, Grid, Button } from '@material-ui/core';
 
+import * as authActions from '../../store/actions/auth';
+import { useDispatch } from 'react-redux';
+
 const useStyles = makeStyles((theme) => ({
     titleText: {
       fontFamily: 'Roboto',
@@ -30,12 +33,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const LoginPage = (props) => {
+    const dispatch = useDispatch();
     const [ login, setLogin ] = useState('');
     const [ password, setPassword ] = useState('');
     const classes = useStyles();
 
     const handleLogin = () => {
-        console.log(login, password);
+        if(login.length > 0 && password.length > 0){
+            dispatch(authActions.login(login, password));
+        }
     }
 
     return (

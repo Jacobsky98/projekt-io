@@ -1,17 +1,9 @@
 import React from 'react';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-} from 'react-router-dom';
+import AppRouter from './router/AppRouter';
+import {BrowserRouter as Router} from 'react-router-dom';
 import {Provider} from 'react-redux';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import ReduxThunk from 'redux-thunk';
-
-import LoginPage from './pages/commons/LoginPage';
-import RegisterPage from './pages/commons/RegisterPage';
-import StudentCourses from './pages/student/StudentCourses';
-
 import authReducer from './store/reducers/auth';
 
 const rootReducer = combineReducers({
@@ -21,27 +13,11 @@ const rootReducer = combineReducers({
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 
 const App = () => {
-  
-  //trzeba sprawdzic czy user jest zalogowany
-  //jesli tak to na jakich prawach - dajemy redirect do odpowiedniej strony
-  //domyslnie zawsze wyswietlane LoginPage
-  //trzeba zabezpieczyc pozostale podstrony przed wejsciem bez zalogowania (mozna wywalac wtedy na LoginPage)
-
   return (
     <Provider store={store}>
       <Router>
-      <Switch>
-        <Route path='/student_courses'>
-          <StudentCourses />
-        </Route>
-        <Route path='/register'>
-          <RegisterPage/>
-        </Route>
-        <Route path='/'>
-          <LoginPage/>
-        </Route>
-      </Switch>
-    </Router>
+        <AppRouter/>
+      </Router>
     </Provider>
   )
 }
