@@ -7,6 +7,7 @@ import {
 
 import LoginPage from './pages/commons/LoginPage';
 import RegisterPage from './pages/commons/RegisterPage';
+import StudentCourses from './pages/student/StudentCourses';
 
 const App = () => {
   //trzeba sprawdzic czy user jest zalogowany
@@ -17,6 +18,9 @@ const App = () => {
   return (
     <Router>
       <Switch>
+        <Route path='/student_courses'>
+          <StudentCourses />
+        </Route>
         <Route path='/register'>
           <RegisterPage/>
         </Route>

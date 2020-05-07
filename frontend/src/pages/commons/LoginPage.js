@@ -61,6 +61,7 @@ const LoginPage = (props) => {
             <Grid container justify="center">
                 <Link to="/register" className={classes.link}>Przejdź do rejestracji</Link>
             </Grid>
+            <Link to="/student_courses" className={classes.link}>Przejdź do Panelu studenta</Link>
         </Grid>
     );
 };
