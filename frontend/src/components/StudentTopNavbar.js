@@ -1,4 +1,7 @@
 import React from "react";
+import { useDispatch } from 'react-redux';
+import * as authActions from '../store/actions/auth';
+
 import {Grid, IconButton } from '@material-ui/core';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
 import EqualizerIcon from '@material-ui/icons/Equalizer';
@@ -9,6 +12,12 @@ import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded';
 
 
 const StudentTopNavbar = () => {
+    const dispatch = useDispatch();
+
+    const handleLogout = () => {
+        dispatch(authActions.logout());
+    }
+
     return (
         <Grid container xs={12} >
             <Grid container direction="column" justify="center" alignItems="center" xs={2}>
@@ -32,7 +41,7 @@ const StudentTopNavbar = () => {
                 <div>Opinie</div>
             </Grid>
             <Grid container direction="column" justify="center" alignItems="center" xs={2}>
-                <IconButton><ExitToAppRoundedIcon fontSize={'large'}/></IconButton>
+                <IconButton onClick={handleLogout}><ExitToAppRoundedIcon fontSize={'large'}/></IconButton>
                 <div>Wyloguj</div>
             </Grid>
         </Grid>
