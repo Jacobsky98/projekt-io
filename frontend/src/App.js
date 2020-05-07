@@ -10,6 +10,7 @@ import ReduxThunk from 'redux-thunk';
 
 import LoginPage from './pages/commons/LoginPage';
 import RegisterPage from './pages/commons/RegisterPage';
+import StudentCourses from './pages/student/StudentCourses';
 
 import authReducer from './store/reducers/auth';
 
@@ -30,6 +31,9 @@ const App = () => {
     <Provider store={store}>
       <Router>
       <Switch>
+        <Route path='/student_courses'>
+          <StudentCourses />
+        </Route>
         <Route path='/register'>
           <RegisterPage/>
         </Route>
