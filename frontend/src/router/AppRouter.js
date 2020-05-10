@@ -1,10 +1,16 @@
 import React, {useState, useEffect} from 'react';
-import {Switch, Route, Redirect} from 'react-router-dom';
+import {Switch, Route, Redirect, Router} from 'react-router-dom';
 import {useSelector} from 'react-redux';
 import LoginPage from '../pages/commons/LoginPage';
 import RegisterPage from '../pages/commons/RegisterPage';
 import StudentCourses from '../pages/student/StudentCourses';
 import {ROLES} from "../constants/Constants";
+import {PageTemplate} from "../components/PageTemplate";
+import {AdminNavigationBar} from "../components/Admin/AdminNavigationBar";
+import {AdminCoursesPage} from "../pages/admin/AdminCourserPage";
+import {AdminMessagesPage} from "../pages/admin/AdminMessagesPage";
+import {AdminOpinionsPage} from "../pages/admin/AdminOpinionsPage";
+import {AdminUsersPage} from "../pages/admin/AdminUsersPage";
 
 const AppRouter = () => {
   const mapState = (state) => ({
@@ -13,7 +19,7 @@ const AppRouter = () => {
     isLogged: state.auth.isLogged,
   });
 
-  const {
+  let {
     userData,
     token,
     isLogged,
@@ -31,11 +37,15 @@ const AppRouter = () => {
       )
     } else if (userData.role === ROLES.ADMIN) {
       return (
-          <Switch>
-            <Route path='/admin'>
-              <StudentCourses/>
-            </Route>
-          </Switch>
+          <PageTemplate NavbarComponent={AdminNavigationBar}>
+            <Switch>
+              <Route path='/admin/courses' render={() => <AdminCoursesPage/>}/>
+              <Route path='/admin/messages' render={() => <AdminMessagesPage/>}/>
+              <Route path='/admin/opinions' render={() => <AdminOpinionsPage/>}/>
+              <Route path='/admin/users' render={() => <AdminUsersPage/>}/>
+              <Redirect from='/' to='/admin'/>
+            </Switch>
+          </PageTemplate>
       )
     } else if (userData.role === ROLES.INSTRUCTOR) {
       return (
@@ -43,6 +53,7 @@ const AppRouter = () => {
             <Route path='/instructor'>
               <StudentCourses/>
             </Route>
+            <Redirect from='/' to='/instructor'/>
           </Switch>
       )
     }
