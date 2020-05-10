@@ -7,9 +7,32 @@ from users.models import User
 class Grade(models.Model):
     value = models.IntegerField()
 
+class Group(models.Model):
+    group_number = models.IntegerField()
+    student_id = models.ForeignKey(User,on_delete=models.CASCADE)
+
 
 class Course(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name  = models.CharField(max_length=50)
+    lecturer = models.ForeignKey(User, on_delete=models.CASCADE)
+    group_id = models.IntegerField()
+    
+class AttendingCourse(models.Model):
+    course_id = models.ForeignKey(Course,on_delete=models.CASCADE)
+    users_id = models.ForeignKey(User,on_delete=models.CASCADE)
+    group_id = models.ForeignKey(Group,on_delete=models.CASCADE)
+    grade = Grade()
+    
+class Activities(models.Model):
+    course_id = models.ForeignKey(Course,on_delete=models.CASCADE)
+    group_id = models.ForeignKey(Group,on_delete=models.CASCADE)
+
+class AttendingActivity(models.Model):
+    course_id = models.ForeignKey(Course,on_delete=models.CASCADE)
+    group_id = models.ForeignKey(Group,on_delete=models.CASCADE)
+    activity_id = models.ForeignKey(Activities,on_delete=models.CASCADE)
+    student_id = models.ForeignKey(User,on_delete=models.CASCADE)
+    presence = models.BooleanField()
 
 
 class Message(models.Model):
