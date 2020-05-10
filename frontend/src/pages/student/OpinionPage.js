@@ -11,9 +11,6 @@ const useStyles = makeStyles((theme) => ({
     width: "400px",
     marginBottom: "20px",
   },
-  text: {
-    fontFamily: "Roboto",
-  },
 }));
 
 const OpinionPage = (props) => {
@@ -47,7 +44,7 @@ const OpinionPage = (props) => {
           <StudentTopNavbar />
         </Grid>
         <Grid item xs={6}>
-          <p className={classes.text}>Wyraź swoją opinię o prowadzącym:</p>
+          <p>Wyraź swoją opinię o prowadzącym:</p>
           <Select
             className={classes.width}
             native
@@ -78,7 +75,7 @@ const OpinionPage = (props) => {
           </Grid>
           <Grid item xs={6}>
             {wasSent ? (
-              <p className={classes.text}>Twoja opinia została wysłana!</p>
+              <p>Twoja opinia została wysłana!</p>
             ) : (
               <Button
                 className={classes.width}
