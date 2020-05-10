@@ -6,6 +6,7 @@ from users.models import User
 
 class Grade(models.Model):
     value = models.IntegerField()
+    date = models.DateTimeField()
 
 class Group(models.Model):
     group_number = models.IntegerField()
@@ -26,6 +27,7 @@ class AttendingCourse(models.Model):
 class Activities(models.Model):
     course_id = models.ForeignKey(Course,on_delete=models.CASCADE)
     group_id = models.ForeignKey(Group,on_delete=models.CASCADE)
+    date = models.DateTimeField()
 
 class AttendingActivity(models.Model):
     course_id = models.ForeignKey(Course,on_delete=models.CASCADE)
@@ -33,6 +35,7 @@ class AttendingActivity(models.Model):
     activity_id = models.ForeignKey(Activities,on_delete=models.CASCADE)
     student_id = models.ForeignKey(User,on_delete=models.CASCADE)
     presence = models.BooleanField()
+    #przeslane zadania do zajec
 
 
 class Message(models.Model):
