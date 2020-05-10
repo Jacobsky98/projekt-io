@@ -5,9 +5,11 @@ import {Provider} from 'react-redux';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import ReduxThunk from 'redux-thunk';
 import authReducer from './store/reducers/auth';
+import {adminReducer} from "./store/reducers/admin";
 
 const rootReducer = combineReducers({
-  auth: authReducer
+  auth: authReducer,
+  admin: adminReducer,
 });
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));

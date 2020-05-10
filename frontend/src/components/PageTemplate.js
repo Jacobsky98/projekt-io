@@ -1,7 +1,7 @@
 import React from 'react';
 import Grid from "@material-ui/core/Grid";
 import {useSelector} from "react-redux";
-import {ROLES} from "../constants/Constants";
+import './PageTemplate.scss'
 
 const PageTemplate = ({NavbarComponent = undefined, ...props}) => {
     const loginAsStyles = {
@@ -16,7 +16,7 @@ const PageTemplate = ({NavbarComponent = undefined, ...props}) => {
     } = useSelector(mapState);
 
     return (
-        <div>
+        <div className='page'>
             <Grid container direction='column'>
                 <Grid container alignItems='flex-end'>
                     <Grid item xs={12} style={loginAsStyles}>

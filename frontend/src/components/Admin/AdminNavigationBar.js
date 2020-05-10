@@ -26,7 +26,7 @@ let AdminNavigationBar = ({history, ...props}) => {
         <BottomNavigationAction label="Courses" onClick={() => history.push('/admin/courses')} icon={<MenuBookIcon fontSize='large'/>} />
         <BottomNavigationAction label="Messages" onClick={() => history.push('/admin/messages')} icon={<MailOutlineIcon fontSize='large'/>} />
         <BottomNavigationAction label="Opinions" onClick={() => history.push('/admin/opinions')} icon={<ChatBubbleRoundedIcon fontSize='large'/>} />
-        <BottomNavigationAction label="Messages" onClick={() => dispatch(authActions.logout())} icon={<ExitToAppRoundedIcon fontSize='large'/>} />
+        <BottomNavigationAction label="Log Out" onClick={() => dispatch(authActions.logout())} icon={<ExitToAppRoundedIcon fontSize='large'/>} />
       </BottomNavigation>
   );
 };

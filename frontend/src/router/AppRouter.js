@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {Switch, Route, Redirect, Router} from 'react-router-dom';
+import React from 'react';
+import {Switch, Route, Redirect} from 'react-router-dom';
 import {useSelector} from 'react-redux';
 import LoginPage from '../pages/commons/LoginPage';
 import RegisterPage from '../pages/commons/RegisterPage';
@@ -7,10 +7,10 @@ import StudentCourses from '../pages/student/StudentCourses';
 import {ROLES} from "../constants/Constants";
 import {PageTemplate} from "../components/PageTemplate";
 import {AdminNavigationBar} from "../components/Admin/AdminNavigationBar";
-import {AdminCoursesPage} from "../pages/admin/AdminCourserPage";
-import {AdminMessagesPage} from "../pages/admin/AdminMessagesPage";
-import {AdminOpinionsPage} from "../pages/admin/AdminOpinionsPage";
-import {AdminUsersPage} from "../pages/admin/AdminUsersPage";
+import {AdminCoursesPage} from "../pages/admin/AdminCoursesPage/AdminCoursesPage";
+import {AdminMessagesPage} from "../pages/admin/AdminMessagesPage/AdminMessagesPage";
+import {AdminOpinionsPage} from "../pages/admin/AdminOpinionsPage/AdminOpinionsPage";
+import {AdminUsersPage} from "../pages/admin/AdminUsersPage/AdminUsersPage";
 
 const AppRouter = () => {
   const mapState = (state) => ({
@@ -21,7 +21,6 @@ const AppRouter = () => {
 
   let {
     userData,
-    token,
     isLogged,
   } = useSelector(mapState);
 
@@ -43,7 +42,7 @@ const AppRouter = () => {
               <Route path='/admin/messages' render={() => <AdminMessagesPage/>}/>
               <Route path='/admin/opinions' render={() => <AdminOpinionsPage/>}/>
               <Route path='/admin/users' render={() => <AdminUsersPage/>}/>
-              <Redirect from='/' to='/admin'/>
+              <Redirect from='/' to='/admin/users'/>
             </Switch>
           </PageTemplate>
       )
