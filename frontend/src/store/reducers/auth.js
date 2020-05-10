@@ -2,14 +2,16 @@ import { LOGIN, LOGOUT } from '../actions/auth';
 
 const initalState = {
     token: null,
-    userData: null
-}
+    userData: null,
+    isLogged: false,
+};
 
 export default (state = initalState, action) => {
     switch(action.type){
-        case LOGIN:            
+        case LOGIN:
             return {
                 ...state,
+                isLogged: true,
                 token: action.token,
                 userData: {
                     ...action.userData
@@ -17,7 +19,10 @@ export default (state = initalState, action) => {
             };
 
         case LOGOUT:
-            return initalState;
+            return {
+                ...initalState,
+                isLogged: false,
+            };
 
         default:
             return state;
