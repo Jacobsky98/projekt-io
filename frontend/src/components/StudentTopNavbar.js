@@ -27,7 +27,7 @@ const StudentTopNavbar = () => {
         alignItems="center"
         xs={2}
       >
-        <Link to="/">
+        <Link to="/student/courses">
           <IconButton>
             <MenuBookIcon fontSize={"large"} />
           </IconButton>
@@ -41,9 +41,11 @@ const StudentTopNavbar = () => {
         alignItems="center"
         xs={2}
       >
-        <IconButton>
-          <EqualizerIcon fontSize={"large"} />
-        </IconButton>
+        <Link to="/student/presence">
+          <IconButton>
+            <EqualizerIcon fontSize={"large"} />
+          </IconButton>
+        </Link>
         <div>Obecność</div>
       </Grid>
       <Grid
@@ -53,9 +55,11 @@ const StudentTopNavbar = () => {
         alignItems="center"
         xs={2}
       >
-        <IconButton>
-          <SchoolIcon fontSize={"large"} />
-        </IconButton>
+        <Link to="/student/grades">
+          <IconButton>
+            <SchoolIcon fontSize={"large"} />
+          </IconButton>
+        </Link>
         <div>Oceny</div>
       </Grid>
       <Grid
@@ -65,9 +69,11 @@ const StudentTopNavbar = () => {
         alignItems="center"
         xs={2}
       >
-        <IconButton>
-          <MailOutlineIcon fontSize={"large"} />
-        </IconButton>
+        <Link to="/student/messages">
+          <IconButton>
+            <MailOutlineIcon fontSize={"large"} />
+          </IconButton>
+        </Link>
         <div>Wiadomości</div>
       </Grid>
       <Grid
@@ -77,7 +83,7 @@ const StudentTopNavbar = () => {
         alignItems="center"
         xs={2}
       >
-        <Link to="/opinion">
+        <Link to="/student/opinions">
           <IconButton>
             <ChatBubbleRoundedIcon fontSize={"large"} />
           </IconButton>

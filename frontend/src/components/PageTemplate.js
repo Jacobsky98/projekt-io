@@ -20,7 +20,7 @@ const PageTemplate = ({NavbarComponent = undefined, ...props}) => {
             <Grid container direction='column'>
                 <Grid container alignItems='flex-end'>
                     <Grid item xs={12} style={loginAsStyles}>
-                        {/* ZALOGOWANO JAKO: {`${userData.name} ${userData.surname} (${userData.role})`} */}
+                        ZALOGOWANO JAKO: {`${userData.name} ${userData.surname} (${userData.role})`}
                     </Grid>
                 </Grid>
                 <Grid container direction='row'>
