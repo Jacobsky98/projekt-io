@@ -14,7 +14,7 @@ class Group(models.Model):
 
 
 class Course(models.Model):
-    name  = models.CharField(max_length=50)
+    name = models.CharField(max_length=50)
     lecturer = models.ForeignKey(User, on_delete=models.CASCADE)
     group_id = models.IntegerField()
     
