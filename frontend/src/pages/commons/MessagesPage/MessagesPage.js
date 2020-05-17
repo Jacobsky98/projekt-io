@@ -15,7 +15,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Select } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 
-import "./AdminMessagesPage.scss";
+import "./MessagesPage.scss";
 
 const chatPeople = [
   { name: "Adam Kowalski", subject: "Matma" },
@@ -116,7 +116,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AdminMessagesPage = () => {
+const MessagesPage = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [person, setPerson] = useState();
   const [message, setMessage] = useState("");
@@ -278,4 +278,4 @@ const AdminMessagesPage = () => {
   );
 };
 
-export { AdminMessagesPage };
+export { MessagesPage };
