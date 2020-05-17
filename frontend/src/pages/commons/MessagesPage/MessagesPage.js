@@ -9,7 +9,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import PersonIcon from '@material-ui/icons/Person';
 
-import './AdminMessagesPage.scss';
+import './MessagesPage.scss';
 
 const chatPeople = [
   {name: 'Adam Kowalski', subject: 'Matma' },
@@ -49,7 +49,7 @@ const messages = [
 ]
 
 
-const AdminMessagesPage = () => {
+const MessagesPage = () => {
   return (
       <div>
         <Grid container spacing={3} justify="space-between" direction="row" style={{width: '100%'}}>
@@ -95,5 +95,5 @@ const AdminMessagesPage = () => {
 };
 
 export {
-  AdminMessagesPage
+  MessagesPage
 }
