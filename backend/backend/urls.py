@@ -23,6 +23,7 @@ schema_view = get_swagger_view(title='API WD2020')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('users.urls')),
+    path('', include('api.urls')),
     path('api_documentation/', schema_view),
     path('token-auth/', obtain_jwt_token)
 ]
