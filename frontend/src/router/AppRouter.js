@@ -21,6 +21,25 @@ const AppRouter = () => {
 
   let { userData, isLogged } = useSelector(mapState);
 
+
+  return (
+    <PageTemplate NavbarComponent={AdminNavigationBar}>
+      <Switch>
+        <Route path="/admin/courses" render={() => <AdminCoursesPage />} />
+        <Route
+          path="/admin/messages"
+          render={() => <AdminMessagesPage />}
+        />
+        <Route
+          path="/admin/opinions"
+          render={() => <AdminOpinionsPage />}
+        />
+        <Route path="/admin/users" render={() => <AdminUsersPage />} />
+        <Redirect from="/" to="/admin/users" />
+      </Switch>
+    </PageTemplate>
+  );
+
   if (isLogged) {
     if (userData.role === ROLES.STUDENT) {
       return (
