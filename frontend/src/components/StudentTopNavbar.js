@@ -30,12 +30,12 @@ let StudentTopNavbar = ({ history, ...props }) => {
         icon={<MenuBookIcon fontSize="large" />}
       />
       <BottomNavigationAction
-        label="Messages"
+        label="Grades"
         onClick={() => history.push("/student/grades")}
         icon={<SchoolIcon fontSize="large" />}
       />
       <BottomNavigationAction
-        label="Courses"
+        label="Presence"
         onClick={() => history.push("/student/presence")}
         icon={<EqualizerIcon fontSize="large" />}
       />

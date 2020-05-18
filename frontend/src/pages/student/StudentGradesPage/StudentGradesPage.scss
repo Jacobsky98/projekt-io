@@ -1,0 +1,16 @@
+.grades-list {
+  height: 500px;
+  overflow-y: scroll;
+  margin-top: 10px;
+}
+
+.grades-list-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.grades-list-summary {
+  display: block;
+  margin-left: 20px;
+}
