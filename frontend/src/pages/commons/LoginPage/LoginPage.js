@@ -9,7 +9,7 @@ import {
   Button,
 } from "@material-ui/core";
 
-import * as authActions from "../../store/actions/auth";
+import * as authActions from "../../../store/actions/auth";
 import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({

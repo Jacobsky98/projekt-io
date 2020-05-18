@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, withRouter } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import * as authActions from "../store/actions/auth";
+import * as authActions from "../../store/actions/auth";
 import { Grid, IconButton } from "@material-ui/core";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
