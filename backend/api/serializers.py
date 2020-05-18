@@ -10,4 +10,4 @@ class MessageSerializer(serializers.ModelSerializer):
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
-        fields = ['name', 'lecturer', 'group_id']
+        fields = ['info', 'id_teacher']
