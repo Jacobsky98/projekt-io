@@ -11,8 +11,8 @@ import { AdminCoursesPage } from "../pages/admin/AdminCoursesPage/AdminCoursesPa
 import { AdminOpinionsPage } from "../pages/admin/AdminOpinionsPage/AdminOpinionsPage";
 import { AdminUsersPage } from "../pages/admin/AdminUsersPage/AdminUsersPage";
 import StudentCoursesPage from "../pages/student/StudentCoursesPage/StudentCoursesPage";
-import { StudentPresencePage } from "../pages/student/StudentPresencePage/StudentPresencePage";
-import { StudentGradesPage } from "../pages/student/StudentGradesPage/StudentGradesPage";
+import StudentPresencePage from "../pages/student/StudentPresencePage/StudentPresencePage";
+import StudentGradesPage from "../pages/student/StudentGradesPage/StudentGradesPage";
 import StudentOpinionsPage from "../pages/student/StudentOpinionsPage/StudentOpinionsPage";
 import { MessagesPage } from "../pages/commons/MessagesPage/MessagesPage";
 
@@ -29,35 +29,32 @@ const AppRouter = () => {
     if (userData.role === ROLES.STUDENT) {
       return (
         <PageTemplate NavbarComponent={StudentTopNavbar}>
-        <Switch>
-          <Route path="/student/courses">
-            <StudentCoursesPage />
-          </Route>
-          <Route path="/student/presence">
-            <StudentPresencePage />
-          </Route>
-          <Route path="/student/opinions">
-            <StudentOpinionsPage />
-          </Route>
-          <Route path="/student/grades">
-            <StudentGradesPage />
-          </Route>
-          <Route path="/student/messages">
-            <MessagesPage />
-          </Route>
-          <Redirect from="/" to="/student/courses" />
-        </Switch>
-      </PageTemplate>
+          <Switch>
+            <Route path="/student/courses">
+              <StudentCoursesPage />
+            </Route>
+            <Route path="/student/presence">
+              <StudentPresencePage />
+            </Route>
+            <Route path="/student/opinions">
+              <StudentOpinionsPage />
+            </Route>
+            <Route path="/student/grades">
+              <StudentGradesPage />
+            </Route>
+            <Route path="/student/messages">
+              <MessagesPage />
+            </Route>
+            <Redirect from="/" to="/student/courses" />
+          </Switch>
+        </PageTemplate>
       );
     } else if (userData.role === ROLES.ADMIN) {
       return (
         <PageTemplate NavbarComponent={AdminNavigationBar}>
           <Switch>
             <Route path="/admin/courses" render={() => <AdminCoursesPage />} />
-            <Route
-              path="/admin/messages"
-              render={() => <MessagesPage />}
-            />
+            <Route path="/admin/messages" render={() => <MessagesPage />} />
             <Route
               path="/admin/opinions"
               render={() => <AdminOpinionsPage />}

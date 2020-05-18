@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   width: {
-    width: "400px",
+    width: "800px",
     marginBottom: "20px",
   },
 }));
