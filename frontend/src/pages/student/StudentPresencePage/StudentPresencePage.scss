@@ -1,0 +1,16 @@
+.presence-list {
+  height: 500px;
+  overflow-y: scroll;
+  margin-top: 10px;
+}
+
+.presence-list-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.presence-list-summary {
+  display: block;
+  margin-left: 20px;
+}
