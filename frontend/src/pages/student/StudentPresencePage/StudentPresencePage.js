@@ -1,106 +1,82 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import { Grid, List, Paper } from "@material-ui/core";
+import { Grid, List, ListItem, Paper } from "@material-ui/core";
 import MenuBookIcon from "@material-ui/icons/MenuBook";
-import StudentTopNavbar from "../../../components/StudentTopNavbar";
-import { PageTemplate } from "../../../components/PageTemplate";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import "./StudentPresencePage.scss";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-}));
+const subjectData = [
+  { name: "Adam Kowalski", subject: "Matma" },
+  { name: "Jan Kowalski", subject: "Infa" },
+  { name: "Michał Nowak", subject: "Angielski" },
+  { name: "Andrzej Kozak", subject: "Fizyka" },
+  { name: "Michał Nowak", subject: "Angielski" },
+  { name: "Andrzej Kozak", subject: "Fizyka" },
+  { name: "Michał Nowak", subject: "Angielski" },
+  { name: "Andrzej Kozak", subject: "Fizyka" },
+  { name: "Michał Nowak", subject: "Angielski" },
+  { name: "Andrzej Kozak", subject: "Fizyka" },
+  { name: "Adam Kowalski", subject: "Matma" },
+  { name: "Jan Kowalski", subject: "Infa" },
+  { name: "Michał Nowak", subject: "Angielski" },
+  { name: "Andrzej Kozak", subject: "Fizyka" },
+  { name: "Michał Nowak", subject: "Angielski" },
+  { name: "Andrzej Kozak", subject: "Fizyka" },
+  { name: "Michał Nowak", subject: "Angielski" },
+  { name: "Andrzej Kozak", subject: "Fizyka" },
+  { name: "Michał Nowak", subject: "Angielski" },
+  { name: "Andrzej Kozak", subject: "Fizyka" },
+];
 
-const StudentPresencePage = (props) => {
-  const classes = useStyles();
-
+const StudentPresencePage = () => {
   return (
-    <Grid container spacing={3}>
-      <Grid item xs={4}>
-        <div>Lista obecności:</div>
-        <Paper style={{ height: 600, overflow: "auto" }}>
-          <List>
-            <Paper>
-              <Grid container direction="row">
-                <Grid
-                  item
-                  xs={2}
-                  container
-                  justify="center"
-                  alignItems="center"
-                >
-                  <MenuBookIcon fontSize={"large"} />
-                </Grid>
-                <Grid item xs={10}>
-                  <div>Fizyka I</div>
-                  <div>Prowadzący: Jan Kowalski</div>
-                </Grid>
-              </Grid>
-            </Paper>
-          </List>
-          <List>
-            <Paper>
-              <Grid container direction="row">
-                <Grid
-                  item
-                  xs={2}
-                  container
-                  justify="center"
-                  alignItems="center"
-                >
-                  <MenuBookIcon fontSize={"large"} />
-                </Grid>
-                <Grid item xs={10}>
-                  <div>Fizyka I</div>
-                  <div>Prowadzący: Jan Kowalski</div>
-                </Grid>
-              </Grid>
-            </Paper>
-          </List>
-          <List>
-            <Paper>
-              <Grid container direction="row">
-                <Grid
-                  item
-                  xs={2}
-                  container
-                  justify="center"
-                  alignItems="center"
-                >
-                  <MenuBookIcon fontSize={"large"} />
-                </Grid>
-                <Grid item xs={10}>
-                  <div>Fizyka I</div>
-                  <div>Prowadzący: Jan Kowalski</div>
-                </Grid>
-              </Grid>
-            </Paper>
-          </List>
-        </Paper>
-      </Grid>
-      <Grid item xs={8}>
-        <div>Wybrany kurs: Fizyka I</div>
-        <Paper
-          style={{
-            height: 600,
-            flexDirection: "column",
-            display: "flex",
-            justifyContent: "space-between",
-          }}
-        >
+    <div>
+      <Grid container direction="row" justify="space-around">
+        <Grid item xs={3} direction="column">
+          <Grid item>Lista przedmiotów</Grid>
           <Grid item>
-            <ul>
-              <li>26.02.20 - OBECNOŚĆ</li>
-              <li>03.03.20 - OBECNOŚĆ</li>
-              <li>10.03.20 - BRAK OBECNOŚCI</li>
-            </ul>
+            <Paper className="presence-list" elevation={3}>
+              <List>
+                {subjectData &&
+                  subjectData.map((data) => (
+                    <ListItem button>
+                      <ListItemIcon>
+                        <MenuBookIcon style={{ color: "#4267B2" }} />
+                      </ListItemIcon>
+                      <ListItemText
+                        primary={data.subject}
+                        secondary={`Prowadzący: ${data.name}`}
+                      />
+                    </ListItem>
+                  ))}
+              </List>
+            </Paper>
           </Grid>
+        </Grid>
+        <Grid item xs={8} direction="column">
+          <Grid item>Lista obecności na poszczególnych przedmiotach</Grid>
           <Grid item>
-            <p>ŁĄCZNIE: obecność(2), nieobecność(1)</p>
+            <Paper
+              className="presence-list presence-list-content"
+              elevation={3}
+            >
+              <Grid item>
+                <ul>
+                  <li>26.02.20 - OBECNOŚĆ</li>
+                  <li>03.03.20 - OBECNOŚĆ</li>
+                  <li>10.03.20 - BRAK OBECNOŚCI</li>
+                </ul>
+              </Grid>
+              <Grid item>
+                <p className="presence-list-summary">
+                  ŁĄCZNIE: obecność(2), nieobecność(1)
+                </p>
+              </Grid>
+            </Paper>
           </Grid>
-        </Paper>
+        </Grid>
       </Grid>
-    </Grid>
+    </div>
   );
 };
 

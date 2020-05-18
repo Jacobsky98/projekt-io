@@ -5,7 +5,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import "./StudentGradesPage.scss";
 
-const opinionsPeople = [
+const subjectData = [
   { name: "Adam Kowalski", subject: "Matma" },
   { name: "Jan Kowalski", subject: "Infa" },
   { name: "Michał Nowak", subject: "Angielski" },
@@ -37,15 +37,15 @@ const StudentGradesPage = () => {
           <Grid item>
             <Paper className="grades-list" elevation={3}>
               <List>
-                {opinionsPeople &&
-                  opinionsPeople.map((person) => (
+                {subjectData &&
+                  subjectData.map((data) => (
                     <ListItem button>
                       <ListItemIcon>
                         <MenuBookIcon style={{ color: "#4267B2" }} />
                       </ListItemIcon>
                       <ListItemText
-                        primary={person.subject}
-                        secondary={`Prowadzący: ${person.name}`}
+                        primary={data.subject}
+                        secondary={`Prowadzący: ${data.name}`}
                       />
                     </ListItem>
                   ))}
@@ -73,97 +73,5 @@ const StudentGradesPage = () => {
     </div>
   );
 };
-/*
-const StudentGradesPage = (props) => {
-  const classes = useStyles();
-
-  return (
-    <Grid container spacing={3}>
-      <Grid item xs={4}>
-        <div>Lista ocen:</div>
-        <Paper style={{ height: 600, overflow: "auto" }}>
-          <List>
-            <Paper>
-              <Grid container direction="row">
-                <Grid
-                  item
-                  xs={2}
-                  container
-                  justify="center"
-                  alignItems="center"
-                >
-                  <MenuBookIcon fontSize={"large"} />
-                </Grid>
-                <Grid item xs={10}>
-                  <div>Fizyka I</div>
-                  <div>Prowadzący: Jan Kowalski</div>
-                </Grid>
-              </Grid>
-            </Paper>
-          </List>
-          <List>
-            <Paper>
-              <Grid container direction="row">
-                <Grid
-                  item
-                  xs={2}
-                  container
-                  justify="center"
-                  alignItems="center"
-                >
-                  <MenuBookIcon fontSize={"large"} />
-                </Grid>
-                <Grid item xs={10}>
-                  <div>Fizyka I</div>
-                  <div>Prowadzący: Jan Kowalski</div>
-                </Grid>
-              </Grid>
-            </Paper>
-          </List>
-          <List>
-            <Paper>
-              <Grid container direction="row">
-                <Grid
-                  item
-                  xs={2}
-                  container
-                  justify="center"
-                  alignItems="center"
-                >
-                  <MenuBookIcon fontSize={"large"} />
-                </Grid>
-                <Grid item xs={10}>
-                  <div>Fizyka I</div>
-                  <div>Prowadzący: Jan Kowalski</div>
-                </Grid>
-              </Grid>
-            </Paper>
-          </List>
-        </Paper>
-      </Grid>
-      <Grid item xs={8}>
-        <div>Wybrany kurs: Fizyka I</div>
-        <Paper
-          style={{
-            height: 600,
-            flexDirection: "column",
-            display: "flex",
-            justifyContent: "space-between",
-          }}
-        >
-          <Grid item>
-            <ul>
-              <li>14.04.20 - 3.5 - Zestaw zadań</li>
-              <li>14.05.20 - 4.5 - Odpowiedź ustna</li>
-            </ul>
-          </Grid>
-          <Grid item>
-            <p>ŚREDNIA OCEN: 4.25</p>
-          </Grid>
-        </Paper>
-      </Grid>
-    </Grid>
-  );
-};*/
 
 export default StudentGradesPage;

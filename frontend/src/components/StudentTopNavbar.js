@@ -25,32 +25,32 @@ let StudentTopNavbar = ({ history, ...props }) => {
       showLabels
     >
       <BottomNavigationAction
-        label="Courses"
+        label="Kursy"
         onClick={() => history.push("/student/courses")}
         icon={<MenuBookIcon fontSize="large" />}
       />
       <BottomNavigationAction
-        label="Grades"
+        label="Oceny"
         onClick={() => history.push("/student/grades")}
         icon={<SchoolIcon fontSize="large" />}
       />
       <BottomNavigationAction
-        label="Presence"
+        label="Obecność"
         onClick={() => history.push("/student/presence")}
         icon={<EqualizerIcon fontSize="large" />}
       />
       <BottomNavigationAction
-        label="Messages"
+        label="Wiadomości"
         onClick={() => history.push("/student/messages")}
         icon={<MailOutlineIcon fontSize="large" />}
       />
       <BottomNavigationAction
-        label="Opinions"
+        label="Opinie"
         onClick={() => history.push("/student/opinions")}
         icon={<ChatBubbleRoundedIcon fontSize="large" />}
       />
       <BottomNavigationAction
-        label="Log Out"
+        label="Wyloguj się"
         onClick={() => dispatch(authActions.logout())}
         icon={<ExitToAppRoundedIcon fontSize="large" />}
       />
