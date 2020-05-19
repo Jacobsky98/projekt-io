@@ -1,19 +1,18 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Select, TextField, Button } from "@material-ui/core";
-import StudentTopNavbar from "../../components/StudentTopNavbar";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
   width: {
-    width: "400px",
+    width: "800px",
     marginBottom: "20px",
   },
 }));
 
-const OpinionPage = (props) => {
+const StudentOpinionsPage = (props) => {
   const [opinion, setOpinion] = useState("");
   const [selectedPerson, setSelectedPerson] = useState("");
   const [wasSent, setWasSent] = useState(false);
@@ -37,12 +36,6 @@ const OpinionPage = (props) => {
   return (
     <div>
       <Grid container>
-        <Grid item xs={6} alignItems="center">
-          <h1>DZIENNIK ELEKTRONICZNY</h1>
-        </Grid>
-        <Grid item xs={6}>
-          <StudentTopNavbar />
-        </Grid>
         <Grid item xs={6}>
           <p>Wyraź swoją opinię o prowadzącym:</p>
           <Select
@@ -94,4 +87,4 @@ const OpinionPage = (props) => {
   );
 };
 
-export default OpinionPage;
+export default StudentOpinionsPage;

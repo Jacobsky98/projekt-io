@@ -1,4 +1,3 @@
-
 """backend URL Configuration
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.0/topics/http/urls/
@@ -18,6 +17,7 @@ from django.urls import path
 from .views import UserAPIView, UserDetails, current_user, UserCreate, HelloWorldView
 from rest_framework_simplejwt import views as jwt_views
 from .views import ObtainTokenPairWithRoleView
+from .views import UserAPIView, UserDetails, current_user, TeacherDetails
 from django.contrib.auth import views as auth_views
 
 
@@ -29,4 +29,5 @@ urlpatterns = [
     path('token/obtain/', ObtainTokenPairWithRoleView.as_view(), name='token_create'),
     path('token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
     path('hello/', HelloWorldView.as_view(), name='hello_world')
+
 ]
