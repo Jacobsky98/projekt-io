@@ -5,15 +5,15 @@ from django import forms
 
 # Create your models here.
 # ----------Modele wedlug ERD---------#
-class Annoucement(models.Model):
-    id_course = models.ForeignKey(User,on_delete=models.CASCADE)
-    date = models.DateTimeField()
-    title = models.CharField(max_length=50)
-    content = models.CharField(max_length=200)
-
 class Course(models.Model):
     id_teacher = models.ForeignKey(User, on_delete=models.CASCADE)
     info = models.CharField(max_length=50)
+
+class Annoucement(models.Model):
+    id_course = models.ForeignKey(Course, related_name='annoucements', on_delete=models.CASCADE)
+    date = models.DateTimeField()
+    title = models.CharField(max_length=50)
+    content = models.CharField(max_length=200)
 
 class Presence(models.Model):
     id_student = models.ForeignKey(User,on_delete=models.CASCADE)

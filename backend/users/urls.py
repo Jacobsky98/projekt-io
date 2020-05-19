@@ -1,4 +1,3 @@
-
 """backend URL Configuration
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.0/topics/http/urls/
@@ -15,12 +14,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from .views import UserAPIView, UserDetails, current_user
+from .views import UserAPIView, UserDetails, current_user, TeacherDetails
 from django.contrib.auth import views as auth_views
 
 
 urlpatterns = [
     path('current_user/', current_user),
     path('users/', UserAPIView.as_view()),
-    path('user/<int:id>/', UserDetails.as_view())
+    path('user/<int:id>/', UserDetails.as_view()),
+    path('teachers/', TeacherDetails.as_view())
 ]
