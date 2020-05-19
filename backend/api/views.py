@@ -9,20 +9,6 @@ from rest_framework.response import Response
 # Create your views here.
 
 
-# @csrf_exempt
-# def messages(request):
-#     if request.method == 'GET':
-#         messages = Message.objects.all()
-#         serializer = MessageSerializer(messages, many=True)
-#         return JsonResponse(serializer.data, safe=False)
-#     elif request.method == 'POST':
-#         data = JSONParser().parse(request)
-#         serializer = MessageSerializer(data=data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return JsonResponse(serializer.data, status=201)
-#         return JsonResponse(serializer.errors, status=400)
-
 class MessageAPIView(APIView):
     def get(self, request):
         articles = Message.objects.all()
