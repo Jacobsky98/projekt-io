@@ -1,7 +1,7 @@
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
-from .models import User
+from .serializers import User
 from .serializers import UserSerializer
 from rest_framework.response import Response
 from rest_framework import status
@@ -14,15 +14,40 @@ from rest_framework import mixins
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
-
 # Create your views here.
+
+from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework import permissions
+from .serializers import MyTokenObtainPairSerializer, UserSerializer
+
+
+class ObtainTokenPairWithRoleView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
+
+
+class UserCreate(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def post(self, request, format='json'):
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.save()
+            if user:
+                json = serializer.data
+                return Response(json, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class HelloWorldView(APIView):
+
+    def get(self, request):
+        return Response(data={"hello":"world"}, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
 def current_user(request):
     """
     Determine the current user by their token, and return their data
     """
-
     serializer = UserSerializer(request.user)
     return Response(serializer.data)
 

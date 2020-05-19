@@ -16,7 +16,6 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework_swagger.views import get_swagger_view
-from rest_framework_jwt.views import obtain_jwt_token
 
 schema_view = get_swagger_view(title='API WD2020')
 
@@ -25,5 +24,4 @@ urlpatterns = [
     path('', include('users.urls')),
     path('', include('api.urls')),
     path('api_documentation/', schema_view),
-    path('token-auth/', obtain_jwt_token)
 ]
