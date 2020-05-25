@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -9,6 +9,8 @@ import CardContent from '@material-ui/core/CardContent';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { Grid, Button } from '@material-ui/core';
+import axios from 'axios';
+
 
 import './AdminCoursesPage.scss';
 
@@ -47,6 +49,18 @@ const instructors = [
 
 
 const AdminCoursesPage = () => {
+  const [courses, setCourses] = useState([]);
+  
+  useEffect(() => {
+    axios
+        .get('http://127.0.0.1:8000/courses/')
+        .then(res => {
+          setCourses(res.data)
+        })
+  }, [])
+  
+
+  
   return (
       <Grid container>
         <Grid container xs={6} spacing={2} justify="center">
@@ -55,13 +69,13 @@ const AdminCoursesPage = () => {
           </Grid>
           <Grid item xs={8}>
             <List className='courses-list'>
-              {coursesData && coursesData.map((course, index) => 
+              {courses && courses.map((course, index) => 
                 <div className='course-item'>
                   <ListItem key={index} >
                     <ListItemIcon><MenuBookIcon fontSize={'large'}/> </ListItemIcon>
                     <ListItemText 
-                      primary={course.subject} 
-                      secondary={`PROWADZĄCY: ${course.instructor}`}>
+                      primary={course.info} 
+                      secondary={`PROWADZĄCY: NIEMA`}>
                     </ListItemText>
                   </ListItem>
                 </div>

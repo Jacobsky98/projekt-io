@@ -19,7 +19,6 @@ import { MessagesPage } from "../pages/commons/MessagesPage/MessagesPage";
 const AppRouter = () => {
   const mapState = (state) => ({
     userData: state.auth.userData,
-    token: state.auth.token,
     isLogged: state.auth.isLogged,
   });
 
