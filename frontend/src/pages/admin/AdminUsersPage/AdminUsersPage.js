@@ -16,16 +16,6 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Button from '@material-ui/core/Button';
 
-// {
-//   "username": "aaa",
-//   "password": "Andrzejsiema",
-//   "email": "aaa@aaa.pl",
-//   "first_name": "AAA",
-//   "last_name": "BBB",
-//   "role": "STUDENT"
-//   }
-
-
 const AdminUsersPage = () => {
   const [users, setUsers] = useState([])
   const [username, setUsername] = useState('')

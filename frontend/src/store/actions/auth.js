@@ -27,6 +27,7 @@ export const login = (login, password) => {
       .post('http://127.0.0.1:8000/token/obtain/', {username: login, password: password})
       .then(res => {
         if (res.data) {
+          console.log(res.data.access)
           setAccessToken(res.data.access);
           setRefreshToken(res.data.refresh);
           axios.defaults.headers.common['Authorization'] = `JWT ${res.data.access}`;
