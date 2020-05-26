@@ -10,56 +10,34 @@ import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { Grid, Button } from '@material-ui/core';
 import axios from 'axios';
-
-
 import './AdminCoursesPage.scss';
-
-const coursesData = [
-  {subject: 'Fizyka I', instructor: 'Prowadzacy 1'},
-  {subject: 'Fizyka II', instructor: 'Prowadzacy 2'},
-  {subject: 'Analiza', instructor: 'Prowadzacy 3'},
-  {subject: 'Algebra', instructor: 'Prowadzacy 4'},
-  {subject: 'Podstawy Informatyki]', instructor: 'Prowadzacy 5'},
-  {subject: 'Angielski', instructor: 'Prowadzacy 6'},
-  {subject: 'Fizyka I', instructor: 'Prowadzacy 1'},
-  {subject: 'Fizyka II', instructor: 'Prowadzacy 2'},
-  {subject: 'Analiza', instructor: 'Prowadzacy 3'},
-  {subject: 'Algebra', instructor: 'Prowadzacy 4'},
-  {subject: 'Podstawy Informatyki]', instructor: 'Prowadzacy 5'},
-  {subject: 'Angielski', instructor: 'Prowadzacy 6'},
-  {subject: 'Fizyka I', instructor: 'Prowadzacy 1'},
-  {subject: 'Fizyka II', instructor: 'Prowadzacy 2'},
-  {subject: 'Analiza', instructor: 'Prowadzacy 3'},
-  {subject: 'Algebra', instructor: 'Prowadzacy 4'},
-  {subject: 'Podstawy Informatyki]', instructor: 'Prowadzacy 5'},
-  {subject: 'Angielski', instructor: 'Prowadzacy 6'},
-]
-
-const instructors = [
-  {name: 'Andrzej Nowak', degree: 'mgr'},
-  {name: 'Marian Taki', degree: 'dr'},
-  {name: 'Super prowadzacy', degree: 'mgr'},
-  {name: 'Andrzej Nowak', degree: 'mgr'},
-  {name: 'Marian Taki', degree: 'dr'},
-  {name: 'Super prowadzacy', degree: 'mgr'},
-  {name: 'Andrzej Nowak', degree: 'mgr'},
-  {name: 'Marian Taki', degree: 'dr'},
-  {name: 'Super prowadzacy', degree: 'mgr'},
-]
-
 
 const AdminCoursesPage = () => {
   const [courses, setCourses] = useState([]);
-  
+  const [instructors, setInstructors] = useState([])
+
   useEffect(() => {
+    fetchData();
+  }, [])
+  
+  
+  const fetchData = () => {
     axios
         .get('http://127.0.0.1:8000/courses/')
         .then(res => {
           setCourses(res.data)
         })
-  }, [])
-  
+    axios
+      .get('http://127.0.0.1:8000/users/')
+      .then(res => {
+        const instructors = res.data 
+        ? res.data.filter(instructor => instructor.role === 'INSTRUCTOR')
+        : [];
+        setInstructors(instructors)
+      })
 
+  }
+  console.log(instructors)
   
   return (
       <Grid container>
@@ -98,7 +76,7 @@ const AdminCoursesPage = () => {
                     <Autocomplete
                       id="combo-box-demo"
                       options={instructors}
-                      getOptionLabel={(instructor) => instructor.name}
+                      getOptionLabel={(instructor) => instructor.username}
                       renderInput={(params) => <TextField {...params} label="Przypisz prowadzącego" variant="outlined" />}
                       style={{width: '100%'}}
                     />
