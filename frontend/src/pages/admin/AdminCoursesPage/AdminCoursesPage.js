@@ -10,57 +10,47 @@ import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { Grid, Button } from '@material-ui/core';
 import axios from 'axios';
-
-
 import './AdminCoursesPage.scss';
-
-const coursesData = [
-  {subject: 'Fizyka I', instructor: 'Prowadzacy 1'},
-  {subject: 'Fizyka II', instructor: 'Prowadzacy 2'},
-  {subject: 'Analiza', instructor: 'Prowadzacy 3'},
-  {subject: 'Algebra', instructor: 'Prowadzacy 4'},
-  {subject: 'Podstawy Informatyki]', instructor: 'Prowadzacy 5'},
-  {subject: 'Angielski', instructor: 'Prowadzacy 6'},
-  {subject: 'Fizyka I', instructor: 'Prowadzacy 1'},
-  {subject: 'Fizyka II', instructor: 'Prowadzacy 2'},
-  {subject: 'Analiza', instructor: 'Prowadzacy 3'},
-  {subject: 'Algebra', instructor: 'Prowadzacy 4'},
-  {subject: 'Podstawy Informatyki]', instructor: 'Prowadzacy 5'},
-  {subject: 'Angielski', instructor: 'Prowadzacy 6'},
-  {subject: 'Fizyka I', instructor: 'Prowadzacy 1'},
-  {subject: 'Fizyka II', instructor: 'Prowadzacy 2'},
-  {subject: 'Analiza', instructor: 'Prowadzacy 3'},
-  {subject: 'Algebra', instructor: 'Prowadzacy 4'},
-  {subject: 'Podstawy Informatyki]', instructor: 'Prowadzacy 5'},
-  {subject: 'Angielski', instructor: 'Prowadzacy 6'},
-]
-
-const instructors = [
-  {name: 'Andrzej Nowak', degree: 'mgr'},
-  {name: 'Marian Taki', degree: 'dr'},
-  {name: 'Super prowadzacy', degree: 'mgr'},
-  {name: 'Andrzej Nowak', degree: 'mgr'},
-  {name: 'Marian Taki', degree: 'dr'},
-  {name: 'Super prowadzacy', degree: 'mgr'},
-  {name: 'Andrzej Nowak', degree: 'mgr'},
-  {name: 'Marian Taki', degree: 'dr'},
-  {name: 'Super prowadzacy', degree: 'mgr'},
-]
-
 
 const AdminCoursesPage = () => {
   const [courses, setCourses] = useState([]);
-  
+  const [instructors, setInstructors] = useState([])
+  const [selectedInstructor, setSelectedInstructor] = useState(null)
+  const [courseName, setCourseName] = useState('')
+
   useEffect(() => {
+    fetchData();
+  }, [])
+  
+  
+  const fetchData = () => {
     axios
         .get('http://127.0.0.1:8000/courses/')
         .then(res => {
           setCourses(res.data)
         })
-  }, [])
-  
+    axios
+      .get('http://127.0.0.1:8000/users/')
+      .then(res => {
+        const instructors = res.data 
+        ? res.data.filter(instructor => instructor.role === 'INSTRUCTOR')
+        : [];
+        setInstructors(instructors)
+      })
+  }
 
-  
+  const addCourse = () => {
+    if (courseName && selectedInstructor) {
+      const courseData = {
+        "info": courseName,
+        "id_teacher": selectedInstructor.id
+      }
+      axios
+        .post('http://127.0.0.1:8000/courses/', courseData)
+        .then(() => fetchData())
+    }
+  }
+
   return (
       <Grid container>
         <Grid container xs={6} spacing={2} justify="center">
@@ -92,13 +82,18 @@ const AdminCoursesPage = () => {
               <CardContent>
                 <Grid container spacing={3} direction="column">
                   <Grid item xs={12}>
-                    <TextField style={{width: '100%'}} id="outlined-basic" label="Nazwa kursu" variant="outlined" />
+                    <TextField 
+                      style={{width: '100%'}} 
+                      onChange={e => setCourseName(e.target.value)}
+                      label="Nazwa kursu" 
+                      variant="outlined" 
+                    />
                   </Grid>
                   <Grid item xs={12}>
                     <Autocomplete
-                      id="combo-box-demo"
+                      onChange={(e, value) => setSelectedInstructor(value)}
                       options={instructors}
-                      getOptionLabel={(instructor) => instructor.name}
+                      getOptionLabel={(instructor) => instructor.username}
                       renderInput={(params) => <TextField {...params} label="Przypisz prowadzącego" variant="outlined" />}
                       style={{width: '100%'}}
                     />
@@ -106,6 +101,7 @@ const AdminCoursesPage = () => {
                   <Grid item xs={12}>
                     <Button 
                       variant="outlined" 
+                      onClick={addCourse}
                       color="primary"
                       style={{width: '100%'}}
                     >
