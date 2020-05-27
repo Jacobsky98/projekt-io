@@ -4,7 +4,7 @@ from .models import Message, Course, Opinions, Annoucement
 class MessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Message
-        fields = ['id', 'sender', 'receiver', 'title', 'content', 'date_send']
+        fields = ['id', 'id_sender', 'id_receiver', 'title', 'content', 'date_send']
 
 class AnnoucementSerializer(serializers.ModelSerializer):
     class Meta:
@@ -20,4 +20,5 @@ class CourseSerializer(serializers.ModelSerializer):
 class OpinionsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Opinions
-        fields = ['id_sender', 'id_receiver', 'title', 'content']
+        title = serializers.CharField(max_length=100)
+        fields = ['title']
