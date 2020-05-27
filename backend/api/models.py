@@ -6,8 +6,8 @@ from django import forms
 # Create your models here.
 # ----------Modele wedlug ERD---------#
 class Annoucement(models.Model):
-    id_course = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    date = models.DateTimeField()
+    id_course = models.ForeignKey(settings.AUTH_COURSE_MODEL, on_delete=models.CASCADE)
+    date = models.DateTimeField(default=timezone.now)
     title = models.CharField(max_length=50)
     content = models.CharField(max_length=200)
 
@@ -15,6 +15,7 @@ class Annoucement(models.Model):
 class Course(models.Model):
     id_teacher = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     info = models.CharField(max_length=50)
+
 
 
 class Presence(models.Model):
@@ -30,12 +31,12 @@ class UserCourse(models.Model):
 
 class Task(models.Model):
     id_course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    deadline = models.DateTimeField(auto_now_add=True)
+    deadline = models.DateTimeField(default=timezone.now)
 
 
 class File(models.Model):
     title = forms.CharField(max_length=50)
-    file = forms.FileField()
+    file = models.FileField(upload_to='files', default='files/tmp')
     date_sent = models.DateTimeField(auto_now_add=True)
 
 
