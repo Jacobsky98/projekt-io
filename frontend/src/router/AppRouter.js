@@ -16,10 +16,10 @@ import StudentGradesPage from "../pages/student/StudentGradesPage/StudentGradesP
 import StudentOpinionsPage from "../pages/student/StudentOpinionsPage/StudentOpinionsPage";
 import { MessagesPage } from "../pages/commons/MessagesPage/MessagesPage";
 
-const AppRouter = () => {  
+const AppRouter = () => {
   const mapState = (state) => ({
-    userData: state.auth.userData,
-    isLogged: state.auth.isLogged,
+    userData: state.auth?.userData,
+    isLogged: state.auth?.isLogged,
   });
 
   let { userData, isLogged } = useSelector(mapState);

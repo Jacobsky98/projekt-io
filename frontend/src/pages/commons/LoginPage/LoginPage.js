@@ -47,7 +47,6 @@ const LoginPage = (props) => {
   const handleLogin = () => {
     if (login.length > 0 && password.length > 0) {
       dispatch(authActions.login(login, password));
-    } else {
     }
   };
 
