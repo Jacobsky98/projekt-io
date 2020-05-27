@@ -23,8 +23,8 @@ class Presence(models.Model):
     was_present = models.BooleanField()
 
 
-class User_Courses(models.Model):
-    id_users = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+class UserCourse(models.Model):
+    id_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     id_course = models.ForeignKey(Course, on_delete=models.CASCADE)
 
 
