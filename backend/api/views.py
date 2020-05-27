@@ -17,8 +17,6 @@ class AnnoucementAPIView(APIView):
         return Response(serializer.data)
 
 class AnnoucementCreate(APIView):
-    #TODO
-    permission_classes = (permissions.AllowAny,) # to trzeba zmienic
 
     def post(self, request):
         serializer = AnnoucementSerializer(data=request.data)
@@ -34,8 +32,6 @@ class MessageAPIView(APIView):
         return Response(serializer.data)
 
 class MessageCreate(APIView):
-    #TODO
-    permission_classes = (permissions.AllowAny,) # to trzeba zmienic
 
     def post(self, request):
         serializer = MessageSerializer(data=request.data)
@@ -52,8 +48,6 @@ class CourseAPIView(APIView):
         return Response(serializer.data)
 
 class CourseCreate(APIView):
-    #TODO
-    permission_classes = (permissions.AllowAny,) # to trzeba zmienic
 
     def post(self, request, format='json'):
         serializer = CourseSerializer(data=request.data)
@@ -115,8 +109,6 @@ class OpinionsDetails(APIView):
         return HttpResponse(status=status.HTTP_204_NO_CONTENT)
 
 class OpinionsCreate(APIView):
-    #TODO
-    permission_classes = (permissions.AllowAny,) # to trzeba zmienic
 
     def post(self, request, format='json'):
         serializer = OpinionsSerializer(data=request.data)
@@ -153,8 +145,6 @@ class GradeAPIView(APIView):
         return Response(serializer.data)
 
 class GradeCreate(APIView):
-    #TODO
-    permission_classes = (permissions.AllowAny,) # to trzeba zmienic
 
     def post(self, request, format='json'):
         serializer = GradeSerializer(data=request.data)
@@ -173,8 +163,6 @@ class TaskAPIView(APIView):
         return Response(serializer.data)
 
 class TaskCreate(APIView):
-    #TODO
-    permission_classes = (permissions.AllowAny,) # to trzeba zmienic
 
     def post(self, request, format='json'):
         serializer = TaskSerializer(data=request.data)
@@ -194,8 +182,6 @@ class PresenceAPIView(APIView):
         return Response(serializer.data)
 
 class PresenceCreate(APIView):
-    #TODO
-    permission_classes = (permissions.AllowAny,) # to trzeba zmienic
 
     def post(self, request, format='json'):
         serializer = PresenceSerializer(data=request.data)
