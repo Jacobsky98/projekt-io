@@ -24,7 +24,6 @@ const AppRouter = () => {
 
   let { userData, isLogged } = useSelector(mapState);
 
-  
   if (isLogged) {
     if (userData.role === ROLES.STUDENT) {
       return (

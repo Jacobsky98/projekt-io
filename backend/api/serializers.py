@@ -12,12 +12,11 @@ class MessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Message
         fields = ['id', 'id_sender', 'id_receiver', 'title', 'content', 'date_send']
-
+        
     def create(self, validated_data):
         instance = self.Meta.model(**validated_data)
         instance.save()
         return instance
-
 
 class AnnoucementSerializer(serializers.ModelSerializer):
     date = serializers.DateTimeField(default=timezone.now)
@@ -122,4 +121,3 @@ class PresenceSerializer(serializers.ModelSerializer):
         instance = self.Meta.model(**validated_data)
         instance.save()
         return instance
-
