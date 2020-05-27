@@ -54,7 +54,8 @@ export const login = (login, password) => {
           const userData = {
             name: "Jan",
             surname: "Kowalski",
-            role: res.data ? res.data.role : "",
+            role: res.data ? res.data.role : '',
+            id: res.data ? res.data.id : null
           };
 
           dispatch({

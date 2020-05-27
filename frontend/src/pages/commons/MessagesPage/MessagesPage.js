@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
@@ -16,79 +17,7 @@ import { Select } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 
 import "./MessagesPage.scss";
-
-const chatPeople = [
-  { name: "Adam Kowalski", subject: "Matma" },
-  { name: "Jan Kowalski", subject: "Infa" },
-  { name: "Michał Nowak", subject: "Angielski" },
-  { name: "Andrzej Kozak", subject: "Fizyka" },
-  { name: "Michał Nowak", subject: "Angielski" },
-  { name: "Andrzej Kozak", subject: "Fizyka" },
-  { name: "Michał Nowak", subject: "Angielski" },
-  { name: "Andrzej Kozak", subject: "Fizyka" },
-  { name: "Michał Nowak", subject: "Angielski" },
-  { name: "Andrzej Kozak", subject: "Fizyka" },
-];
-
-const messages = [
-  {
-    senderId: 8,
-    content:
-      "Dzień dobry. Chcę zapytać jak będzie wyglądać zaliczenie z przedmiotu Elektromagnetyzm i optyka? Zdaję sobie sprawę, że przedmito jest trudny i chciałbym zdać to w terminie.",
-  },
-  {
-    senderId: 12,
-    content:
-      "Witam pana serdecznie. Oczywiście bywa różnie. Studenci zwykle nie zdają, a moim życiowym celem jest niezaliczenie im tego przedmiotu.",
-  },
-  { senderId: 8, content: "Co w takim razie mogę zrobić?" },
-  { senderId: 8, content: "Muszę przyznać, że jestem zdesperowany zupelnie." },
-  {
-    senderId: 12,
-    content:
-      "Proszę postarać się zdać. W połowie semestru prześlę panu wskazówki.",
-  },
-  { senderId: 8, content: "Dziękuję bardzo. Do widzenia." },
-  { senderId: 12, content: "Do widzenia." },
-  {
-    senderId: 8,
-    content:
-      "Dzień dobry. Chcę zapytać jak będzie wyglądać zaliczenie z przedmiotu Elektromagnetyzm i optyka? Zdaję sobie sprawę, że przedmito jest trudny i chciałbym zdać to w terminie.",
-  },
-  {
-    senderId: 12,
-    content:
-      "Witam pana serdecznie. Oczywiście bywa różnie. Studenci zwykle nie zdają, a moim życiowym celem jest niezaliczenie im tego przedmiotu.",
-  },
-  { senderId: 8, content: "Co w takim razie mogę zrobić?" },
-  { senderId: 8, content: "Muszę przyznać, że jestem zdesperowany zupelnie." },
-  {
-    senderId: 12,
-    content:
-      "Proszę postarać się zdać. W połowie semestru prześlę panu wskazówki.",
-  },
-  { senderId: 8, content: "Dziękuję bardzo. Do widzenia." },
-  { senderId: 12, content: "Do widzenia." },
-  {
-    senderId: 8,
-    content:
-      "Dzień dobry. Chcę zapytać jak będzie wyglądać zaliczenie z przedmiotu Elektromagnetyzm i optyka? Zdaję sobie sprawę, że przedmito jest trudny i chciałbym zdać to w terminie.",
-  },
-  {
-    senderId: 12,
-    content:
-      "Witam pana serdecznie. Oczywiście bywa różnie. Studenci zwykle nie zdają, a moim życiowym celem jest niezaliczenie im tego przedmiotu.",
-  },
-  { senderId: 8, content: "Co w takim razie mogę zrobić?" },
-  { senderId: 8, content: "Muszę przyznać, że jestem zdesperowany zupelnie." },
-  {
-    senderId: 12,
-    content:
-      "Proszę postarać się zdać. W połowie semestru prześlę panu wskazówki.",
-  },
-  { senderId: 8, content: "Dziękuję bardzo. Do widzenia." },
-  { senderId: 12, content: "Do widzenia." },
-];
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -116,16 +45,48 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
+function useForceUpdate(){
+  const [value, setValue] = useState(0); // integer state
+  return () => setValue(value => ++value); // update the state to force render
+}
+
 const MessagesPage = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [person, setPerson] = useState();
   const [message, setMessage] = useState("");
+  const [chatPeople, setChatPeople] = useState([])
+  const [allMessages, setAllMessages] = useState([])
+  const [messages, setMessages] = useState([])
+  const [selectedUserId, setSelectedUserId] = useState(null)
+  const [content, setContent] = useState('')
+
   const classes = useStyles();
+
+  const forceUpdate = useForceUpdate();
+
+  const mapState = (state) => ({
+    userData: state.auth.userData,
+  });
+  let { userData } = useSelector(mapState);
+
+  useEffect(() => {
+    axios
+      .get('http://127.0.0.1:8000/users/')
+      .then((res) => setChatPeople(res.data))
+
+      getMessages();
+    }, [])
+    
+    const getMessages = () => {
+      axios
+        .get('http://127.0.0.1:8000/messages/')
+        .then((res) => setAllMessages(res.data))
+    }
 
   const handleSendMessage = () => {
     if (person.length > 0 && message.length > 0) {
       setIsModalVisible(false);
-      console.log(person, message);
     }
   };
 
@@ -136,6 +97,40 @@ const MessagesPage = () => {
   const handleEnterPerson = (event) => {
     setPerson(event.target.value);
   };
+  
+  const handleChangePerson = (personId) => {    
+    setSelectedUserId(personId)
+    const filteredMessages = allMessages.filter((m) =>  (m.id_sender === personId && m.id_receiver === userData.id) || 
+                                                        (m.id_sender === userData.id && m.id_receiver === personId));
+    setMessages(filteredMessages)
+    console.log(filteredMessages)
+  }
+
+  const sendMessage = (e) => {
+    if (e.key === "Enter" && content && selectedUserId) {
+      const messageData = {
+        id_sender: userData.id,
+        id_receiver: selectedUserId,
+        content: content,
+        title: 'default'
+      }
+      
+      axios
+        .post('http://127.0.0.1:8000/messages/', messageData)
+        .then(() => {
+          setContent('')
+          const newAllMessages = allMessages;
+          const newFilteredMessages = messages;
+          newAllMessages.push(messageData);
+          newFilteredMessages.push(messageData);
+          console.log(newAllMessages)
+          setMessages(newFilteredMessages);
+          setAllMessages(newAllMessages);
+        })
+        .then(() => forceUpdate())
+    }
+    
+  }
 
   return (
     <div>
@@ -218,15 +213,17 @@ const MessagesPage = () => {
               <List>
                 {chatPeople &&
                   chatPeople.map((person) => (
-                    <ListItem button>
-                      <ListItemIcon>
-                        <PersonIcon style={{ color: "#4267B2" }} />
-                      </ListItemIcon>
-                      <ListItemText
-                        primary={person.name}
-                        secondary={`Przedmiot: ${person.subject}`}
-                      />
-                    </ListItem>
+                    <div onClick={() => handleChangePerson(person.id)}>
+                      <ListItem button>
+                        <ListItemIcon>
+                          <PersonIcon style={{ color: "#4267B2" }} />
+                        </ListItemIcon>
+                        <ListItemText
+                          primary={person.username}
+                          secondary={`Rola: ${person.role}`}
+                        />
+                      </ListItem>
+                    </div>
                   ))}
               </List>
             </Paper>
@@ -243,12 +240,12 @@ const MessagesPage = () => {
           </Grid>
         </Grid>
         <Grid xs={9} spacing={3} container direction="column">
-          <Grid item>Adam Kowalski</Grid>
+          <Grid item>{selectedUserId}</Grid>
           <Grid item>
             <Paper style={{ overflowY: "scroll", height: "400px" }}>
               {messages &&
                 messages.map((message) => {
-                  return message.senderId == 8 ? (
+                  return message.id_sender !== userData.id ? (
                     <div className="others-message-container">
                       {" "}
                       <div className="others-message">
@@ -267,6 +264,9 @@ const MessagesPage = () => {
           <Grid item>
             <TextField
               rows={3}
+              value={content}
+              onChange={e => setContent(e.target.value)}
+              onKeyPress={sendMessage}
               multiline={true}
               style={{ width: "100%" }}
               variant="outlined"
