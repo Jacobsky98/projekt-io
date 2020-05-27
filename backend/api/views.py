@@ -1,7 +1,6 @@
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
-from rest_framework import permissions
 from .models import Message, Course, Opinions, File, Annoucement, Grade, Task, Presence
 from .serializers import MessageSerializer, CourseSerializer, OpinionsSerializer, FileSerializer, AnnoucementSerializer, GradeSerializer, TaskSerializer, PresenceSerializer
 from rest_framework import status
@@ -126,8 +125,6 @@ class FileAPIView(APIView):
         return Response(serializer.data)
 
 class FileCreate(APIView):
-    #TODO
-    permission_classes = (permissions.AllowAny,) # to trzeba zmienic
 
     def post(self, request, format=None):
         serializer = FileSerializer(data=request.data)
