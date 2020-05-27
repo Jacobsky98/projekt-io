@@ -5,14 +5,24 @@ import { Provider } from "react-redux";
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import ReduxThunk from "redux-thunk";
 import authReducer from "./store/reducers/auth";
-import { adminReducer } from "./store/reducers/admin";
+import adminReducer from "./store/reducers/admin";
+
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
+
+const persistConfig = {
+  key: "root",
+  storage,
+};
 
 const rootReducer = combineReducers({
   auth: authReducer,
   admin: adminReducer,
 });
 
-const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+const store = createStore(persistedReducer, applyMiddleware(ReduxThunk));
+const persistor = persistStore(store);
 
 const App = () => {
   return (
