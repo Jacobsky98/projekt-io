@@ -6,8 +6,8 @@ from django import forms
 # Create your models here.
 # ----------Modele wedlug ERD---------#
 class Annoucement(models.Model):
-    id_course = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    date = models.DateTimeField()
+    id_course = models.ForeignKey(settings.AUTH_COURSE_MODEL, on_delete=models.CASCADE)
+    date = models.DateTimeField(default=timezone.now)
     title = models.CharField(max_length=50)
     content = models.CharField(max_length=200)
 
@@ -17,25 +17,26 @@ class Course(models.Model):
     info = models.CharField(max_length=50)
 
 
+
 class Presence(models.Model):
     id_student = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     id_course = models.ForeignKey(Course, on_delete=models.CASCADE)
     was_present = models.BooleanField()
 
 
-class User_Courses(models.Model):
-    id_users = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+class UserCourse(models.Model):
+    id_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     id_course = models.ForeignKey(Course, on_delete=models.CASCADE)
 
 
 class Task(models.Model):
     id_course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    deadline = models.DateTimeField(auto_now_add=True)
+    deadline = models.DateTimeField(default=timezone.now)
 
 
 class File(models.Model):
     title = forms.CharField(max_length=50)
-    file = forms.FileField()
+    file = models.FileField(upload_to='files', default='files/tmp')
     date_sent = models.DateTimeField(auto_now_add=True)
 
 

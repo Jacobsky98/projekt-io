@@ -3,7 +3,8 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from .serializers import User
 from .serializers import UserSerializer
-
+from api.models import Course, UserCourse
+from api.serializers import UserCourseSerializer, CourseSerializer
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
@@ -43,6 +44,22 @@ class HelloWorldView(APIView):
 
     def get(self, request):
         return Response(data={"hello":"world"}, status=status.HTTP_200_OK)
+
+
+class UserCoursesAPIView(APIView):
+    def get(self, request):
+        user_courses = UserCourse.objects.filter(id_user=request.user.id)
+        # serializer_user_courses = UserCourseSerializer(user_courses, many=True)
+        # course_for_curr_usr = UserCourse.objects.get(id_user=request.user.id)
+        # val = getattr(UserCourse.objects.first(), 'id_user')
+        courses = Course.objects.filter(id=UserCourse.objects.filter(id_user=request.user.id).values().first().get('id_user_id'))
+        # serializes_course = CourseSerializer(course, many=True)
+        return Response(
+            {
+                'user_courses': UserCourseSerializer(user_courses, many=True).data,
+                'courses': CourseSerializer(courses, many=True).data
+            }
+        )
 
 @api_view(['GET'])
 def current_user(request):
