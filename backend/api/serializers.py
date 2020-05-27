@@ -1,8 +1,6 @@
 from rest_framework import serializers
-
 from .models import Message, Course, Opinions, Annoucement, File, Grade, Task, Presence, UserCourse
 from django.utils import timezone
-
 
 class MessageSerializer(serializers.ModelSerializer):
     title = serializers.CharField(max_length=100)
@@ -12,7 +10,7 @@ class MessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Message
         fields = ['id', 'id_sender', 'id_receiver', 'title', 'content', 'date_send']
-        
+
     def create(self, validated_data):
         instance = self.Meta.model(**validated_data)
         instance.save()
@@ -27,12 +25,10 @@ class AnnoucementSerializer(serializers.ModelSerializer):
         model = Annoucement
         fields = ['id_course', 'date', 'title', 'content']
 
-
     def create(self, validated_data):
         instance = self.Meta.model(**validated_data)
         instance.save()
         return instance
-
 
 class CourseSerializer(serializers.ModelSerializer):
     annoucements = AnnoucementSerializer(many=True, read_only=True)
@@ -41,7 +37,6 @@ class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
         fields = ['id', 'info', 'id_teacher', 'annoucements']
-
 
     def create(self, validated_data):
         instance = self.Meta.model(**validated_data)
@@ -57,14 +52,6 @@ class OpinionsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Opinions
         fields = ['id_sender', 'id_receiver', 'title', 'content']
-
-
-
-class UserCourseSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = UserCourse
-        fields = "__all__"
-
 
     def create(self, validated_data):
         instance = self.Meta.model(**validated_data)
@@ -121,3 +108,11 @@ class PresenceSerializer(serializers.ModelSerializer):
         instance = self.Meta.model(**validated_data)
         instance.save()
         return instance
+
+
+class UserCourseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserCourse
+        fields = "__all__"
+
+
