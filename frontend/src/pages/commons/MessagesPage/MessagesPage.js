@@ -45,21 +45,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
-function useForceUpdate(){
+function useForceUpdate() {
   const [value, setValue] = useState(0); // integer state
-  return () => setValue(value => ++value); // update the state to force render
+  return () => setValue((value) => ++value); // update the state to force render
 }
 
 const MessagesPage = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [person, setPerson] = useState();
   const [message, setMessage] = useState("");
-  const [chatPeople, setChatPeople] = useState([])
-  const [allMessages, setAllMessages] = useState([])
-  const [messages, setMessages] = useState([])
-  const [selectedUserId, setSelectedUserId] = useState(null)
-  const [content, setContent] = useState('')
+  const [chatPeople, setChatPeople] = useState([]);
+  const [allMessages, setAllMessages] = useState([]);
+  const [messages, setMessages] = useState([]);
+  const [selectedUserId, setSelectedUserId] = useState(null);
+  const [content, setContent] = useState("");
 
   const classes = useStyles();
 
@@ -72,17 +71,17 @@ const MessagesPage = () => {
 
   useEffect(() => {
     axios
-      .get('http://127.0.0.1:8000/users/')
-      .then((res) => setChatPeople(res.data))
+      .get("http://127.0.0.1:8000/users/")
+      .then((res) => setChatPeople(res.data));
 
-      getMessages();
-    }, [])
-    
-    const getMessages = () => {
-      axios
-        .get('http://127.0.0.1:8000/messages/')
-        .then((res) => setAllMessages(res.data))
-    }
+    getMessages();
+  }, []);
+
+  const getMessages = () => {
+    axios
+      .get("http://127.0.0.1:8000/messages/")
+      .then((res) => setAllMessages(res.data));
+  };
 
   const handleSendMessage = () => {
     if (person.length > 0 && message.length > 0) {
@@ -97,14 +96,17 @@ const MessagesPage = () => {
   const handleEnterPerson = (event) => {
     setPerson(event.target.value);
   };
-  
-  const handleChangePerson = (personId) => {    
-    setSelectedUserId(personId)
-    const filteredMessages = allMessages.filter((m) =>  (m.id_sender === personId && m.id_receiver === userData.id) || 
-                                                        (m.id_sender === userData.id && m.id_receiver === personId));
-    setMessages(filteredMessages)
-    console.log(filteredMessages)
-  }
+
+  const handleChangePerson = (personId) => {
+    setSelectedUserId(personId);
+    const filteredMessages = allMessages.filter(
+      (m) =>
+        (m.id_sender === personId && m.id_receiver === userData.id) ||
+        (m.id_sender === userData.id && m.id_receiver === personId)
+    );
+    setMessages(filteredMessages);
+    console.log(filteredMessages);
+  };
 
   const sendMessage = (e) => {
     if (e.key === "Enter" && content && selectedUserId) {
@@ -112,25 +114,24 @@ const MessagesPage = () => {
         id_sender: userData.id,
         id_receiver: selectedUserId,
         content: content,
-        title: 'default'
-      }
-      
+        title: "default",
+      };
+
       axios
-        .post('http://127.0.0.1:8000/messages/', messageData)
+        .post("http://127.0.0.1:8000/messages/", messageData)
         .then(() => {
-          setContent('')
+          setContent("");
           const newAllMessages = allMessages;
           const newFilteredMessages = messages;
           newAllMessages.push(messageData);
           newFilteredMessages.push(messageData);
-          console.log(newAllMessages)
+          console.log(newAllMessages);
           setMessages(newFilteredMessages);
           setAllMessages(newAllMessages);
         })
-        .then(() => forceUpdate())
+        .then(() => forceUpdate());
     }
-    
-  }
+  };
 
   return (
     <div>
@@ -265,7 +266,7 @@ const MessagesPage = () => {
             <TextField
               rows={3}
               value={content}
-              onChange={e => setContent(e.target.value)}
+              onChange={(e) => setContent(e.target.value)}
               onKeyPress={sendMessage}
               multiline={true}
               style={{ width: "100%" }}

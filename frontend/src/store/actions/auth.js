@@ -1,6 +1,5 @@
 import { ROLES } from "../../constants/Constants";
 import axios from "axios";
-import { HttpService } from "../../services/HttpService";
 import ReduxThunk from "redux-thunk";
 
 export const LOGIN = "LOGIN";

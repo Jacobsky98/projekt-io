@@ -1,8 +1,8 @@
 api/__pycache__/
-api/migrations/0001_initial.py
+api/migrations/000*.py
 api/migrations/__pycache__/
 backend/__pycache__/
 npm-debug.log
 users/__pycache__/
-users/migrations/0001_initial.py
+users/migrations/000*.py
 users/migrations/__pycache__/
