@@ -1,4 +1,7 @@
+
+const api = 'http://localhost:8000';
+
 export const endpoint = {
-  getCourses: 'http://localhost:8000/courses',
+  getCourses: `${api}/`,
 
 };
