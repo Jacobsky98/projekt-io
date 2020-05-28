@@ -6,3 +6,4 @@ npm-debug.log
 users/__pycache__/
 users/migrations/000*.py
 users/migrations/__pycache__/
+db.sqlite3
