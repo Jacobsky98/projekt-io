@@ -15,6 +15,9 @@ import StudentPresencePage from "../pages/student/StudentPresencePage/StudentPre
 import StudentGradesPage from "../pages/student/StudentGradesPage/StudentGradesPage";
 import StudentOpinionsPage from "../pages/student/StudentOpinionsPage/StudentOpinionsPage";
 import { MessagesPage } from "../pages/commons/MessagesPage/MessagesPage";
+import {InstructorNavigationBar} from "../components/InstructorNavigationBar/InstructorNavigationBar";
+import {InstructorCoursesPage} from "../pages/instructor/Courses/InstructorCoursesPage";
+import {InstructorGradesPage} from "../pages/instructor/Grades/InstructorGradesPage";
 
 const AppRouter = () => {
   const mapState = (state) => ({
@@ -29,23 +32,10 @@ const AppRouter = () => {
       return (
         <PageTemplate NavbarComponent={StudentTopNavbar}>
           <Switch>
-            <Route
-              path="/student/courses"
-              render={() => <StudentCoursesPage />}
-            />
-            <Route
-              path="/student/presence"
-              render={() => <StudentPresencePage />}
-            />
-            <Route
-              path="/student/opinions"
-              render={() => <StudentOpinionsPage />}
-            />
-
-            <Route
-              path="/student/grades"
-              render={() => <StudentGradesPage />}
-            />
+            <Route path="/student/courses" render={() => <StudentCoursesPage />}/>
+            <Route path="/student/presence" render={() => <StudentPresencePage />}/>
+            <Route path="/student/opinions" render={() => <StudentOpinionsPage />}/>
+            <Route path="/student/grades" render={() => <StudentGradesPage />}/>
             <Route path="/student/messages" render={() => <MessagesPage />} />
             <Redirect from="/" to="/student/courses" />
           </Switch>
@@ -57,10 +47,7 @@ const AppRouter = () => {
           <Switch>
             <Route path="/admin/courses" render={() => <AdminCoursesPage />} />
             <Route path="/admin/messages" render={() => <MessagesPage />} />
-            <Route
-              path="/admin/opinions"
-              render={() => <AdminOpinionsPage />}
-            />
+            <Route path="/admin/opinions" render={() => <AdminOpinionsPage />}/>
             <Route path="/admin/users" render={() => <AdminUsersPage />} />
             <Redirect from="/" to="/admin/users" />
           </Switch>
@@ -68,10 +55,14 @@ const AppRouter = () => {
       );
     } else if (userData.role === ROLES.INSTRUCTOR) {
       return (
-        <Switch>
-          <Route path="/instructor" render={() => <StudentCoursesPage />} />
-          <Redirect from="/" to="/instructor" />
-        </Switch>
+          <PageTemplate NavbarComponent={InstructorNavigationBar}>
+            <Switch>
+              <Route path="/instructor/courses" render={() => <InstructorCoursesPage />} />
+              <Route path="/instructor/messages" render={() => <MessagesPage />} />
+              <Route path="/instructor/grades" render={() => <InstructorGradesPage />} />
+              <Redirect from="/" to="/instructor/courses" />
+            </Switch>
+          </PageTemplate>
       );
     }
   } else {

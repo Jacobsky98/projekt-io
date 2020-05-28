@@ -126,8 +126,8 @@ export default function StudentCoursesPage() {
         <Paper className="scrollable-list">
           <List>
             {subjects &&
-              subjects.map((subject) => (
-                <ListItem button>
+              subjects.map((subject, index) => (
+                <ListItem button key={index}>
                   <ListItemIcon>
                     <MenuBookIcon style={{ color: "#4267B2" }} />
                   </ListItemIcon>
@@ -154,8 +154,8 @@ export default function StudentCoursesPage() {
           <TabPanel value={value} index={1}>
             <div className="notice-list">
               {notices &&
-                notices.map((notice) => (
-                  <div className="notice">
+                notices.map((notice, index) => (
+                  <div className="notice" key={index}>
                     <div className="notice-date">{notice.date}</div>
                     <div className="notice-content">{notice.content}</div>
                   </div>
@@ -168,8 +168,8 @@ export default function StudentCoursesPage() {
                 <div className="tasks-list">
                   <List>
                     {tasks &&
-                      tasks.map((task) => (
-                        <ListItem button>
+                      tasks.map((task, index) => (
+                        <ListItem button key={index}>
                           <Grid container direction="column">
                             <Grid item>{task.name}</Grid>
                             <Grid item>Termin: {task.deadline}</Grid>
@@ -194,8 +194,8 @@ export default function StudentCoursesPage() {
                     <Grid item xs={8}>
                       <div className="sent-files-area">
                         {sentFiles &&
-                          sentFiles.map((file) => (
-                            <div className="added-file">
+                          sentFiles.map((file, index) => (
+                            <div className="added-file" key={index}>
                               <div>{file.name}</div>
                               <div>
                                 <IconButton style={{ padding: 0 }}>
@@ -208,7 +208,6 @@ export default function StudentCoursesPage() {
                     </Grid>
                     <Grid
                       container
-                      xs={4}
                       direction="column"
                       justify="space-around"
                       alignItems="center"

@@ -25,7 +25,7 @@ export const login = (login, password) => {
     const userData = {
       name: "Jan",
       surname: "Kowalski",
-      role: ROLES.STUDENT,
+      role: ROLES.INSTRUCTOR,
     };
 
     dispatch({
