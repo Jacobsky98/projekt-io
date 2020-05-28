@@ -8,7 +8,7 @@ export const endpoint = {
   getUser: (userId) => `${api}/user/${userId}/`,
   createUser: `${api}/user/create/`,
   coursesForUser: `${api}/user/courses/`,
-  messages: `${api}/messages/`
+  messages: `${api}/messages/`,
 };
 
 // urlpatterns = [

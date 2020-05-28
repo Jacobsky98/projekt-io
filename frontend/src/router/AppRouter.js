@@ -20,7 +20,9 @@ import { InstructorCoursesPage } from '../pages/instructor/Courses/InstructorCou
 import { InstructorGradesPage } from '../pages/instructor/Grades/InstructorGradesPage';
 import axios from 'axios';
 
-axios.defaults.headers.common['Authorization'] = `JWT ${localStorage.getItem('accessToken')}`;
+axios.defaults.headers.common['Authorization'] = `JWT ${localStorage.getItem(
+  'accessToken'
+)}`;
 
 const AppRouter = () => {
   const mapState = (state) => ({

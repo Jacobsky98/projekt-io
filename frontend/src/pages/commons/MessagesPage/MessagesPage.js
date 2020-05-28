@@ -18,7 +18,7 @@ import CloseIcon from '@material-ui/icons/Close';
 
 import './MessagesPage.scss';
 import axios from 'axios';
-import {endpoint} from "../../../constants/endpoints";
+import { endpoint } from '../../../constants/endpoints';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -71,17 +71,13 @@ const MessagesPage = () => {
   let { userData } = useSelector(mapState);
 
   useEffect(() => {
-    axios
-      .get(endpoint.users)
-      .then((res) => setChatPeople(res.data));
+    axios.get(endpoint.users).then((res) => setChatPeople(res.data));
 
     getMessages();
   }, []);
 
   const getMessages = () => {
-    axios
-      .get(endpoint.messages)
-      .then((res) => setAllMessages(res.data));
+    axios.get(endpoint.messages).then((res) => setAllMessages(res.data));
   };
 
   const handleSendMessage = () => {

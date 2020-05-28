@@ -3,34 +3,38 @@ import { useDispatch, useSelector } from 'react-redux';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import { getCourses } from '../../../../store/actions/instructor';
+import {
+  getCourses,
+  setSelectedCourse,
+} from '../../../../store/actions/instructor';
 import './CoursesList.scss';
-
-const mockedCourses = [];
-for (let i = 0 ; i < 10 ; i++ ){
-  mockedCourses.push({name: `kurs ${i}`});
-}
 
 const CoursesList = () => {
   const dispatch = useDispatch();
   const mapState = (state) => ({
     courses: state.instructor.courses,
+    selected: state.instructor.selected,
   });
 
-  let { courses } = useSelector(mapState);
+  let { courses, selected } = useSelector(mapState);
 
   useEffect(() => {
     dispatch(getCourses());
   }, []);
 
   return (
-    <div className='list'>
+    <div className="instructor-courses-list">
+      <span>List przedmiotów</span>
       <List>
-        {mockedCourses.map((course, index) => (
-          <ListItem>
+        {courses.map((course, index) => (
+          <ListItem
+            button
+            key={index}
+            onClick={() => dispatch(setSelectedCourse(index))}
+          >
             <ListItemText
               primary={'tutaj trzeba wrzucić coś w stylu {course.name}'}
-              secondary={'ale nie wiem co z backendu przyjdzie xd'}
+              secondary={'ale nie wiem co z backendu przyjdzie'}
             />
           </ListItem>
         ))}

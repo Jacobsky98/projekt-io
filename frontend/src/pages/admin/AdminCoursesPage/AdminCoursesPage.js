@@ -11,7 +11,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import { Grid, Button } from '@material-ui/core';
 import axios from 'axios';
 import './AdminCoursesPage.scss';
-import {endpoint} from "../../../constants/endpoints";
+import { endpoint } from '../../../constants/endpoints';
 
 const AdminCoursesPage = () => {
   const [courses, setCourses] = useState([]);
@@ -41,9 +41,7 @@ const AdminCoursesPage = () => {
         info: courseName,
         id_teacher: selectedInstructor.id,
       };
-      axios
-        .post(endpoint.courses, courseData)
-        .then(() => fetchData());
+      axios.post(endpoint.courses, courseData).then(() => fetchData());
     }
   };
 

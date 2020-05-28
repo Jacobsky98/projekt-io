@@ -10,13 +10,13 @@ const PageTemplate = ({ NavbarComponent = undefined, ...props }) => {
   let { userData } = useSelector(mapState);
 
   return (
-    <div className='page-template'>
-      <div className='page-template__info'>
+    <div className="page-template">
+      <div className="page-template__info">
         <span>{`ZALOGOWANO JAKO: ${userData.name} ${userData.surname} (${userData.role})`}</span>
       </div>
-      <div className='page-template__header'>
+      <div className="page-template__header">
         <h1>DZIENNIK ELEKTRONICZNY</h1>
-        <div className='navigation-bar'>
+        <div className="navigation-bar">
           {NavbarComponent && <NavbarComponent />}
         </div>
       </div>
