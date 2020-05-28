@@ -1,34 +1,35 @@
-import React, { useState, useEffect } from "react";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import MenuBookIcon from "@material-ui/icons/MenuBook";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import TextField from "@material-ui/core/TextField";
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import { Grid, Button } from "@material-ui/core";
-import axios from "axios";
-import "./AdminCoursesPage.scss";
+import React, { useState, useEffect } from 'react';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import MenuBookIcon from '@material-ui/icons/MenuBook';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import { Grid, Button } from '@material-ui/core';
+import axios from 'axios';
+import './AdminCoursesPage.scss';
+import {endpoint} from "../../../constants/endpoints";
 
 const AdminCoursesPage = () => {
   const [courses, setCourses] = useState([]);
   const [instructors, setInstructors] = useState([]);
   const [selectedInstructor, setSelectedInstructor] = useState(null);
-  const [courseName, setCourseName] = useState("");
+  const [courseName, setCourseName] = useState('');
 
   useEffect(() => {
     fetchData();
   }, []);
 
   const fetchData = () => {
-    axios.get("http://127.0.0.1:8000/courses/").then((res) => {
+    axios.get(endpoint.courses).then((res) => {
       setCourses(res.data);
     });
-    axios.get("http://127.0.0.1:8000/users/").then((res) => {
+    axios.get(endpoint.users).then((res) => {
       const instructors = res.data
-        ? res.data.filter((instructor) => instructor.role === "INSTRUCTOR")
+        ? res.data.filter((instructor) => instructor.role === 'INSTRUCTOR')
         : [];
       setInstructors(instructors);
     });
@@ -41,7 +42,7 @@ const AdminCoursesPage = () => {
         id_teacher: selectedInstructor.id,
       };
       axios
-        .post("http://127.0.0.1:8000/courses/", courseData)
+        .post(endpoint.courses, courseData)
         .then(() => fetchData());
     }
   };
@@ -59,7 +60,7 @@ const AdminCoursesPage = () => {
                 <div className="course-item">
                   <ListItem key={index}>
                     <ListItemIcon>
-                      <MenuBookIcon fontSize={"large"} />{" "}
+                      <MenuBookIcon fontSize={'large'} />{' '}
                     </ListItemIcon>
                     <ListItemText
                       primary={course.info}
@@ -79,7 +80,7 @@ const AdminCoursesPage = () => {
               <Grid container spacing={3} direction="column">
                 <Grid item xs={12}>
                   <TextField
-                    style={{ width: "100%" }}
+                    style={{ width: '100%' }}
                     onChange={(e) => setCourseName(e.target.value)}
                     label="Nazwa kursu"
                     variant="outlined"
@@ -97,7 +98,7 @@ const AdminCoursesPage = () => {
                         variant="outlined"
                       />
                     )}
-                    style={{ width: "100%" }}
+                    style={{ width: '100%' }}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -105,7 +106,7 @@ const AdminCoursesPage = () => {
                     variant="outlined"
                     onClick={addCourse}
                     color="primary"
-                    style={{ width: "100%" }}
+                    style={{ width: '100%' }}
                   >
                     Dodaj kurs
                   </Button>

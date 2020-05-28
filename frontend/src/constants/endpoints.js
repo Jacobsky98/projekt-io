@@ -1,18 +1,14 @@
-const api = "http://localhost:8000";
+const api = 'http://localhost:8000';
 
-export const coursesEndpoint = {
-  getCourses: `${api}/`,
-};
-
-export const authEndpoint = {
+export const endpoint = {
+  courses: `${api}/courses/`,
   authorize: `${api}/token/obtain/`,
-};
-
-export const usersEndpoint = {
   currentUser: `${api}/current_user/`,
-  getUsers: `${api}/users/`,
+  users: `${api}/users/`,
   getUser: (userId) => `${api}/user/${userId}/`,
   createUser: `${api}/user/create/`,
+  coursesForUser: `${api}/user/courses/`,
+  messages: `${api}/messages/`
 };
 
 // urlpatterns = [

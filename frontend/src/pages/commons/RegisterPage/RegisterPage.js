@@ -1,46 +1,46 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/styles";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core/styles';
 import {
   FormControl,
   Input,
   InputLabel,
   Grid,
   Button,
-} from "@material-ui/core";
+} from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   titleText: {
-    fontFamily: "Roboto",
-    fontSize: "50px",
+    fontFamily: 'Roboto',
+    fontSize: '50px',
   },
   linkText: {
-    fontFamily: "Roboto",
-    color: "#1976D2",
+    fontFamily: 'Roboto',
+    color: '#1976D2',
   },
   input: {
-    width: "300px",
-    marginTop: "15px",
+    width: '300px',
+    marginTop: '15px',
   },
   button: {
-    width: "300px",
-    marginTop: "15px",
+    width: '300px',
+    marginTop: '15px',
   },
   link: {
-    display: "block",
-    color: "#3f51b5",
-    fontFamily: "Roboto",
-    textDecoration: "none",
-    marginTop: "15px",
+    display: 'block',
+    color: '#3f51b5',
+    fontFamily: 'Roboto',
+    textDecoration: 'none',
+    marginTop: '15px',
   },
 }));
 
 const RegisterPage = (props) => {
-  const [login, setLogin] = useState("");
-  const [name, setName] = useState("");
-  const [surname, setSurname] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmedPassword, setConfirmedPassword] = useState("");
+  const [login, setLogin] = useState('');
+  const [name, setName] = useState('');
+  const [surname, setSurname] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmedPassword, setConfirmedPassword] = useState('');
   const classes = useStyles();
 
   const handleRegister = () => {

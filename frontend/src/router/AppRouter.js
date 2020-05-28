@@ -1,23 +1,26 @@
-import React from "react";
-import { Switch, Route, Redirect } from "react-router-dom";
-import { useSelector } from "react-redux";
-import LoginPage from "../pages/commons/LoginPage/LoginPage";
-import RegisterPage from "../pages/commons/RegisterPage/RegisterPage";
-import { ROLES } from "../constants/Constants";
-import { PageTemplate } from "../components/PageTemplate/PageTemplate";
-import { AdminNavigationBar } from "../components/AdminNavigationBar/AdminNavigationBar";
-import StudentTopNavbar from "../components/StudentTopNavbar/StudentTopNavbar";
-import { AdminCoursesPage } from "../pages/admin/AdminCoursesPage/AdminCoursesPage";
-import { AdminOpinionsPage } from "../pages/admin/AdminOpinionsPage/AdminOpinionsPage";
-import { AdminUsersPage } from "../pages/admin/AdminUsersPage/AdminUsersPage";
-import StudentCoursesPage from "../pages/student/StudentCoursesPage/StudentCoursesPage";
-import StudentPresencePage from "../pages/student/StudentPresencePage/StudentPresencePage";
-import StudentGradesPage from "../pages/student/StudentGradesPage/StudentGradesPage";
-import StudentOpinionsPage from "../pages/student/StudentOpinionsPage/StudentOpinionsPage";
-import { MessagesPage } from "../pages/commons/MessagesPage/MessagesPage";
-import { InstructorNavigationBar } from "../components/InstructorNavigationBar/InstructorNavigationBar";
-import { InstructorCoursesPage } from "../pages/instructor/Courses/InstructorCoursesPage";
-import { InstructorGradesPage } from "../pages/instructor/Grades/InstructorGradesPage";
+import React from 'react';
+import { Switch, Route, Redirect } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import LoginPage from '../pages/commons/LoginPage/LoginPage';
+import RegisterPage from '../pages/commons/RegisterPage/RegisterPage';
+import { ROLES } from '../constants/Constants';
+import { PageTemplate } from '../components/PageTemplate/PageTemplate';
+import { AdminNavigationBar } from '../components/AdminNavigationBar/AdminNavigationBar';
+import StudentTopNavbar from '../components/StudentTopNavbar/StudentTopNavbar';
+import { AdminCoursesPage } from '../pages/admin/AdminCoursesPage/AdminCoursesPage';
+import { AdminOpinionsPage } from '../pages/admin/AdminOpinionsPage/AdminOpinionsPage';
+import { AdminUsersPage } from '../pages/admin/AdminUsersPage/AdminUsersPage';
+import StudentCoursesPage from '../pages/student/StudentCoursesPage/StudentCoursesPage';
+import StudentPresencePage from '../pages/student/StudentPresencePage/StudentPresencePage';
+import StudentGradesPage from '../pages/student/StudentGradesPage/StudentGradesPage';
+import StudentOpinionsPage from '../pages/student/StudentOpinionsPage/StudentOpinionsPage';
+import { MessagesPage } from '../pages/commons/MessagesPage/MessagesPage';
+import { InstructorNavigationBar } from '../components/InstructorNavigationBar/InstructorNavigationBar';
+import { InstructorCoursesPage } from '../pages/instructor/Courses/InstructorCoursesPage';
+import { InstructorGradesPage } from '../pages/instructor/Grades/InstructorGradesPage';
+import axios from 'axios';
+
+axios.defaults.headers.common['Authorization'] = `JWT ${localStorage.getItem('accessToken')}`;
 
 const AppRouter = () => {
   const mapState = (state) => ({

@@ -1,20 +1,20 @@
-import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import { Grid, Select, TextField, Button } from "@material-ui/core";
+import React, { useState } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import { Grid, Select, TextField, Button } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
   width: {
-    width: "800px",
-    marginBottom: "20px",
+    width: '800px',
+    marginBottom: '20px',
   },
 }));
 
 const StudentOpinionsPage = (props) => {
-  const [opinion, setOpinion] = useState("");
-  const [selectedPerson, setSelectedPerson] = useState("");
+  const [opinion, setOpinion] = useState('');
+  const [selectedPerson, setSelectedPerson] = useState('');
   const [wasSent, setWasSent] = useState(false);
   const classes = useStyles();
 
@@ -45,8 +45,8 @@ const StudentOpinionsPage = (props) => {
             value={selectedPerson}
             onChange={handleEnterPerson}
             inputProps={{
-              name: "age",
-              id: "age-native-simple",
+              name: 'age',
+              id: 'age-native-simple',
             }}
           >
             <option aria-label="None" value="" />

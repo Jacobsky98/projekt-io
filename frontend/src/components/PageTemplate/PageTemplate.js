@@ -1,11 +1,11 @@
-import React from "react";
-import Grid from "@material-ui/core/Grid";
-import { useSelector } from "react-redux";
-import "./PageTemplate.scss";
+import React from 'react';
+import Grid from '@material-ui/core/Grid';
+import { useSelector } from 'react-redux';
+import './PageTemplate.scss';
 
 const PageTemplate = ({ NavbarComponent = undefined, ...props }) => {
   const loginAsStyles = {
-    textAlign: "right",
+    textAlign: 'right',
   };
   const mapState = (state) => ({
     userData: state.auth.userData,
@@ -19,7 +19,7 @@ const PageTemplate = ({ NavbarComponent = undefined, ...props }) => {
         <Grid container alignItems="flex-end">
           {userData && (
             <Grid item xs={12} style={loginAsStyles}>
-              ZALOGOWANO JAKO:{" "}
+              ZALOGOWANO JAKO:{' '}
               {`${userData.name} ${userData.surname} (${userData.role})`}
             </Grid>
           )}

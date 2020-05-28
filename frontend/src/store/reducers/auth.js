@@ -1,9 +1,4 @@
-import {
-  GET_USER_DATA,
-  LOGIN,
-  LOGOUT,
-  SET_TOKENS,
-} from "../actions/auth";
+import { GET_USER_DATA, LOGIN, LOGOUT, SET_TOKENS } from '../actions/auth';
 
 const initalState = {
   accessToken: null,

@@ -1,31 +1,31 @@
-import React from "react";
-import { Grid, List, ListItem, Paper } from "@material-ui/core";
-import MenuBookIcon from "@material-ui/icons/MenuBook";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import "./StudentPresencePage.scss";
+import React from 'react';
+import { Grid, List, ListItem, Paper } from '@material-ui/core';
+import MenuBookIcon from '@material-ui/icons/MenuBook';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import './StudentPresencePage.scss';
 
 const subjectData = [
-  { name: "Adam Kowalski", subject: "Matma" },
-  { name: "Jan Kowalski", subject: "Infa" },
-  { name: "Michał Nowak", subject: "Angielski" },
-  { name: "Andrzej Kozak", subject: "Fizyka" },
-  { name: "Michał Nowak", subject: "Angielski" },
-  { name: "Andrzej Kozak", subject: "Fizyka" },
-  { name: "Michał Nowak", subject: "Angielski" },
-  { name: "Andrzej Kozak", subject: "Fizyka" },
-  { name: "Michał Nowak", subject: "Angielski" },
-  { name: "Andrzej Kozak", subject: "Fizyka" },
-  { name: "Adam Kowalski", subject: "Matma" },
-  { name: "Jan Kowalski", subject: "Infa" },
-  { name: "Michał Nowak", subject: "Angielski" },
-  { name: "Andrzej Kozak", subject: "Fizyka" },
-  { name: "Michał Nowak", subject: "Angielski" },
-  { name: "Andrzej Kozak", subject: "Fizyka" },
-  { name: "Michał Nowak", subject: "Angielski" },
-  { name: "Andrzej Kozak", subject: "Fizyka" },
-  { name: "Michał Nowak", subject: "Angielski" },
-  { name: "Andrzej Kozak", subject: "Fizyka" },
+  { name: 'Adam Kowalski', subject: 'Matma' },
+  { name: 'Jan Kowalski', subject: 'Infa' },
+  { name: 'Michał Nowak', subject: 'Angielski' },
+  { name: 'Andrzej Kozak', subject: 'Fizyka' },
+  { name: 'Michał Nowak', subject: 'Angielski' },
+  { name: 'Andrzej Kozak', subject: 'Fizyka' },
+  { name: 'Michał Nowak', subject: 'Angielski' },
+  { name: 'Andrzej Kozak', subject: 'Fizyka' },
+  { name: 'Michał Nowak', subject: 'Angielski' },
+  { name: 'Andrzej Kozak', subject: 'Fizyka' },
+  { name: 'Adam Kowalski', subject: 'Matma' },
+  { name: 'Jan Kowalski', subject: 'Infa' },
+  { name: 'Michał Nowak', subject: 'Angielski' },
+  { name: 'Andrzej Kozak', subject: 'Fizyka' },
+  { name: 'Michał Nowak', subject: 'Angielski' },
+  { name: 'Andrzej Kozak', subject: 'Fizyka' },
+  { name: 'Michał Nowak', subject: 'Angielski' },
+  { name: 'Andrzej Kozak', subject: 'Fizyka' },
+  { name: 'Michał Nowak', subject: 'Angielski' },
+  { name: 'Andrzej Kozak', subject: 'Fizyka' },
 ];
 
 const StudentPresencePage = () => {
@@ -41,7 +41,7 @@ const StudentPresencePage = () => {
                   subjectData.map((data) => (
                     <ListItem button>
                       <ListItemIcon>
-                        <MenuBookIcon style={{ color: "#4267B2" }} />
+                        <MenuBookIcon style={{ color: '#4267B2' }} />
                       </ListItemIcon>
                       <ListItemText
                         primary={data.subject}

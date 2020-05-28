@@ -1,47 +1,48 @@
-import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import PersonIcon from "@material-ui/icons/Person";
-import Modal from "@material-ui/core/Modal";
-import Backdrop from "@material-ui/core/Backdrop";
-import Fade from "@material-ui/core/Fade";
-import { makeStyles } from "@material-ui/core/styles";
-import { Select } from "@material-ui/core";
-import CloseIcon from "@material-ui/icons/Close";
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import PersonIcon from '@material-ui/icons/Person';
+import Modal from '@material-ui/core/Modal';
+import Backdrop from '@material-ui/core/Backdrop';
+import Fade from '@material-ui/core/Fade';
+import { makeStyles } from '@material-ui/core/styles';
+import { Select } from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close';
 
-import "./MessagesPage.scss";
-import axios from "axios";
+import './MessagesPage.scss';
+import axios from 'axios';
+import {endpoint} from "../../../constants/endpoints";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   modalContent: {
     backgroundColor: theme.palette.background.paper,
-    border: "2px solid white",
+    border: '2px solid white',
     padding: theme.spacing(2, 4, 3),
-    width: "60%",
+    width: '60%',
   },
   width: {
-    width: "100%",
-    marginBottom: "20px",
+    width: '100%',
+    marginBottom: '20px',
   },
   modalHeader: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   icon: {
-    cursor: "pointer",
+    cursor: 'pointer',
   },
 }));
 
@@ -53,12 +54,12 @@ function useForceUpdate() {
 const MessagesPage = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [person, setPerson] = useState();
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
   const [chatPeople, setChatPeople] = useState([]);
   const [allMessages, setAllMessages] = useState([]);
   const [messages, setMessages] = useState([]);
   const [selectedUserId, setSelectedUserId] = useState(null);
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState('');
 
   const classes = useStyles();
 
@@ -71,7 +72,7 @@ const MessagesPage = () => {
 
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:8000/users/")
+      .get(endpoint.users)
       .then((res) => setChatPeople(res.data));
 
     getMessages();
@@ -79,7 +80,7 @@ const MessagesPage = () => {
 
   const getMessages = () => {
     axios
-      .get("http://127.0.0.1:8000/messages/")
+      .get(endpoint.messages)
       .then((res) => setAllMessages(res.data));
   };
 
@@ -109,18 +110,18 @@ const MessagesPage = () => {
   };
 
   const sendMessage = (e) => {
-    if (e.key === "Enter" && content && selectedUserId) {
+    if (e.key === 'Enter' && content && selectedUserId) {
       const messageData = {
         id_sender: userData.id,
         id_receiver: selectedUserId,
         content: content,
-        title: "default",
+        title: 'default',
       };
 
       axios
-        .post("http://127.0.0.1:8000/messages/", messageData)
+        .post(endpoint.messages, messageData)
         .then(() => {
-          setContent("");
+          setContent('');
           const newAllMessages = allMessages;
           const newFilteredMessages = messages;
           newAllMessages.push(messageData);
@@ -154,7 +155,7 @@ const MessagesPage = () => {
               <CloseIcon
                 className={classes.icon}
                 onClick={() => setIsModalVisible(false)}
-                fontSize={"large"}
+                fontSize={'large'}
               />
             </Grid>
             <Grid item>
@@ -165,8 +166,8 @@ const MessagesPage = () => {
                 value={person}
                 onChange={handleEnterPerson}
                 inputProps={{
-                  name: "age",
-                  id: "age-native-simple",
+                  name: 'age',
+                  id: 'age-native-simple',
                 }}
               >
                 <option aria-label="None" value="" />
@@ -206,18 +207,18 @@ const MessagesPage = () => {
         spacing={3}
         justify="space-between"
         direction="row"
-        style={{ width: "100%" }}
+        style={{ width: '100%' }}
       >
         <Grid xs={3} spacing={3} container direction="column">
           <Grid item>
-            <Paper style={{ overflowY: "scroll", height: "500px" }}>
+            <Paper style={{ overflowY: 'scroll', height: '500px' }}>
               <List>
                 {chatPeople &&
                   chatPeople.map((person) => (
                     <div onClick={() => handleChangePerson(person.id)}>
                       <ListItem button>
                         <ListItemIcon>
-                          <PersonIcon style={{ color: "#4267B2" }} />
+                          <PersonIcon style={{ color: '#4267B2' }} />
                         </ListItemIcon>
                         <ListItemText
                           primary={person.username}
@@ -231,7 +232,7 @@ const MessagesPage = () => {
           </Grid>
           <Grid item>
             <Button
-              style={{ width: "100%" }}
+              style={{ width: '100%' }}
               variant="outlined"
               color="primary"
               onClick={() => setIsModalVisible(true)}
@@ -243,20 +244,20 @@ const MessagesPage = () => {
         <Grid xs={9} spacing={3} container direction="column">
           <Grid item>{selectedUserId}</Grid>
           <Grid item>
-            <Paper style={{ overflowY: "scroll", height: "400px" }}>
+            <Paper style={{ overflowY: 'scroll', height: '400px' }}>
               {messages &&
                 messages.map((message) => {
                   return message.id_sender !== userData.id ? (
                     <div className="others-message-container">
-                      {" "}
+                      {' '}
                       <div className="others-message">
                         {message.content}
-                      </div>{" "}
+                      </div>{' '}
                     </div>
                   ) : (
                     <div className="my-message-container">
-                      {" "}
-                      <div className="my-message">{message.content}</div>{" "}
+                      {' '}
+                      <div className="my-message">{message.content}</div>{' '}
                     </div>
                   );
                 })}
@@ -269,7 +270,7 @@ const MessagesPage = () => {
               onChange={(e) => setContent(e.target.value)}
               onKeyPress={sendMessage}
               multiline={true}
-              style={{ width: "100%" }}
+              style={{ width: '100%' }}
               variant="outlined"
             />
           </Grid>

@@ -1,7 +1,8 @@
-import {GET_COURSES} from "../actions/instructor";
+import { GET_COURSES } from '../actions/instructor';
 
 const initalState = {
   courses: [],
+  selectedCourse: 0,
 };
 
 export default (state = initalState, action) => {

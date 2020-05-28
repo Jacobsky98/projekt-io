@@ -1,4 +1,4 @@
-import { SET_SHOW_USER_FORM } from "../actions/admin";
+import { SET_SHOW_USER_FORM } from '../actions/admin';
 
 const initalState = {
   showUserForm: false,

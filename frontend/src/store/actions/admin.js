@@ -1,4 +1,4 @@
-const SET_SHOW_USER_FORM = "SET_SHOW_USER_FORM";
+const SET_SHOW_USER_FORM = 'SET_SHOW_USER_FORM';
 
 const setShowUserForm = (showUserForm) => {
   return {
