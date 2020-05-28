@@ -9,6 +9,7 @@ import adminReducer from "./store/reducers/admin";
 
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import {composeWithDevTools} from "redux-devtools-extension";
 
 const persistConfig = {
   key: "root",
@@ -21,7 +22,7 @@ const rootReducer = combineReducers({
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
-const store = createStore(persistedReducer, applyMiddleware(ReduxThunk));
+const store = createStore(persistedReducer, composeWithDevTools(applyMiddleware(ReduxThunk)));
 const persistor = persistStore(store);
 
 const App = () => {

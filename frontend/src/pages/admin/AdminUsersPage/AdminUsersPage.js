@@ -15,6 +15,7 @@ import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Button from "@material-ui/core/Button";
+import {usersEndpoint} from "../../../constants/endpoints";
 
 const AdminUsersPage = () => {
   const [users, setUsers] = useState([]);
@@ -30,7 +31,7 @@ const AdminUsersPage = () => {
   }, []);
 
   const fetchData = () => {
-    axios.get("http://127.0.0.1:8000/users/").then((res) => {
+    axios.get(usersEndpoint.getUsers).then((res) => {
       setUsers(res.data);
     });
   };
@@ -57,7 +58,7 @@ const AdminUsersPage = () => {
         role: role,
       };
 
-      axios.post("http://127.0.0.1:8000/user/create/", userData).then((res) => {
+      axios.post(usersEndpoint.createUser, userData).then((res) => {
         fetchData();
       });
     }
@@ -104,31 +105,26 @@ const AdminUsersPage = () => {
           onChange={(e) => setFirstName(e.target.value)}
           label="Imię"
         />{" "}
-        <br />
         <TextField
           value={lastName}
           onChange={(e) => setLastName(e.target.value)}
           label="Nazwisko"
         />{" "}
-        <br />
         <TextField
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          label="Username"
+          label="Nazwa użytkownika"
         />{" "}
-        <br />
         <TextField
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           label="Hasło"
         />{" "}
-        <br />
         <TextField
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           label="Email"
         />{" "}
-        <br />
         <FormControl>
           <InputLabel htmlFor="age-native-simple">Rola</InputLabel>
           <Select native value={role} onChange={(e) => setRole(e.target.value)}>
@@ -138,7 +134,6 @@ const AdminUsersPage = () => {
             <option value="STUDENT">Student</option>
           </Select>
         </FormControl>{" "}
-        <br /> <br />
         <Button onClick={createUser} variant="contained" color="primary">
           Utwórz użytkownika
         </Button>

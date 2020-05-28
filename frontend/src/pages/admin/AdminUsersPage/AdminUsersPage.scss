@@ -40,6 +40,15 @@ $padding: 64px;
     @include box;
     z-index: 100;
 
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: space-between;
+
+    .MuiFormControl-root {
+      margin: 0 32px;
+    }
+
     &--active {
       transform: translate(23.33vw);
     }

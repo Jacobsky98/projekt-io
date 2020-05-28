@@ -21,8 +21,8 @@ import { InstructorGradesPage } from "../pages/instructor/Grades/InstructorGrade
 
 const AppRouter = () => {
   const mapState = (state) => ({
-    userData: state.auth?.userData,
-    isLogged: state.auth?.isLogged,
+    userData: state.auth.userData,
+    isLogged: state.auth.isLogged,
   });
 
   let { userData, isLogged } = useSelector(mapState);

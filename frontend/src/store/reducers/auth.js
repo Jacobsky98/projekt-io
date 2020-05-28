@@ -1,8 +1,8 @@
 import {
+  GET_USER_DATA,
   LOGIN,
   LOGOUT,
-  SET_ACCESS_TOKEN,
-  SET_REFRESH_TOKEN,
+  SET_TOKENS,
 } from "../actions/auth";
 
 const initalState = {
@@ -18,9 +18,6 @@ export default (state = initalState, action) => {
       return {
         ...state,
         isLogged: true,
-        userData: {
-          ...action.userData,
-        },
       };
 
     case LOGOUT:
@@ -29,15 +26,19 @@ export default (state = initalState, action) => {
         isLogged: false,
       };
 
-    case SET_ACCESS_TOKEN:
+    case SET_TOKENS:
       return {
         ...state,
         accessToken: action.accessToken,
+        refreshToken: action.refreshToken,
       };
-    case SET_REFRESH_TOKEN:
+
+    case GET_USER_DATA:
       return {
         ...state,
-        refreshToken: action.refreshToken,
+        userData: {
+          ...action.userData,
+        },
       };
 
     default:
