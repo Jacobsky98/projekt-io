@@ -19,6 +19,8 @@ export const setTokens = (accessToken, refreshToken) => {
 export const getUserData = () => {
   return (dispatch) => {
     return axios.get(usersEndpoint.currentUser).then(({ data }) => {
+      // jeżeli nie mamy użytkownika z żadną rolą, to najlepiej zmienić tu na 'role: ROLES.ADMIN,'
+      // zalogować się, dodać użytkowników z odpowiednimi rolami i zmienic spowrotem
       const userData = {
         name: "Jan",
         surname: "Kowalski",
