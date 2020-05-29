@@ -1,131 +1,88 @@
-import React, { useState } from "react";
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import PersonIcon from "@material-ui/icons/Person";
-import Modal from "@material-ui/core/Modal";
-import Backdrop from "@material-ui/core/Backdrop";
-import Fade from "@material-ui/core/Fade";
-import { makeStyles } from "@material-ui/core/styles";
-import { Select } from "@material-ui/core";
-import CloseIcon from "@material-ui/icons/Close";
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import PersonIcon from '@material-ui/icons/Person';
+import Modal from '@material-ui/core/Modal';
+import Backdrop from '@material-ui/core/Backdrop';
+import Fade from '@material-ui/core/Fade';
+import { makeStyles } from '@material-ui/core/styles';
+import { Select } from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close';
 
-import "./MessagesPage.scss";
-
-const chatPeople = [
-  { name: "Adam Kowalski", subject: "Matma" },
-  { name: "Jan Kowalski", subject: "Infa" },
-  { name: "Michał Nowak", subject: "Angielski" },
-  { name: "Andrzej Kozak", subject: "Fizyka" },
-  { name: "Michał Nowak", subject: "Angielski" },
-  { name: "Andrzej Kozak", subject: "Fizyka" },
-  { name: "Michał Nowak", subject: "Angielski" },
-  { name: "Andrzej Kozak", subject: "Fizyka" },
-  { name: "Michał Nowak", subject: "Angielski" },
-  { name: "Andrzej Kozak", subject: "Fizyka" },
-];
-
-const messages = [
-  {
-    senderId: 8,
-    content:
-      "Dzień dobry. Chcę zapytać jak będzie wyglądać zaliczenie z przedmiotu Elektromagnetyzm i optyka? Zdaję sobie sprawę, że przedmito jest trudny i chciałbym zdać to w terminie.",
-  },
-  {
-    senderId: 12,
-    content:
-      "Witam pana serdecznie. Oczywiście bywa różnie. Studenci zwykle nie zdają, a moim życiowym celem jest niezaliczenie im tego przedmiotu.",
-  },
-  { senderId: 8, content: "Co w takim razie mogę zrobić?" },
-  { senderId: 8, content: "Muszę przyznać, że jestem zdesperowany zupelnie." },
-  {
-    senderId: 12,
-    content:
-      "Proszę postarać się zdać. W połowie semestru prześlę panu wskazówki.",
-  },
-  { senderId: 8, content: "Dziękuję bardzo. Do widzenia." },
-  { senderId: 12, content: "Do widzenia." },
-  {
-    senderId: 8,
-    content:
-      "Dzień dobry. Chcę zapytać jak będzie wyglądać zaliczenie z przedmiotu Elektromagnetyzm i optyka? Zdaję sobie sprawę, że przedmito jest trudny i chciałbym zdać to w terminie.",
-  },
-  {
-    senderId: 12,
-    content:
-      "Witam pana serdecznie. Oczywiście bywa różnie. Studenci zwykle nie zdają, a moim życiowym celem jest niezaliczenie im tego przedmiotu.",
-  },
-  { senderId: 8, content: "Co w takim razie mogę zrobić?" },
-  { senderId: 8, content: "Muszę przyznać, że jestem zdesperowany zupelnie." },
-  {
-    senderId: 12,
-    content:
-      "Proszę postarać się zdać. W połowie semestru prześlę panu wskazówki.",
-  },
-  { senderId: 8, content: "Dziękuję bardzo. Do widzenia." },
-  { senderId: 12, content: "Do widzenia." },
-  {
-    senderId: 8,
-    content:
-      "Dzień dobry. Chcę zapytać jak będzie wyglądać zaliczenie z przedmiotu Elektromagnetyzm i optyka? Zdaję sobie sprawę, że przedmito jest trudny i chciałbym zdać to w terminie.",
-  },
-  {
-    senderId: 12,
-    content:
-      "Witam pana serdecznie. Oczywiście bywa różnie. Studenci zwykle nie zdają, a moim życiowym celem jest niezaliczenie im tego przedmiotu.",
-  },
-  { senderId: 8, content: "Co w takim razie mogę zrobić?" },
-  { senderId: 8, content: "Muszę przyznać, że jestem zdesperowany zupelnie." },
-  {
-    senderId: 12,
-    content:
-      "Proszę postarać się zdać. W połowie semestru prześlę panu wskazówki.",
-  },
-  { senderId: 8, content: "Dziękuję bardzo. Do widzenia." },
-  { senderId: 12, content: "Do widzenia." },
-];
+import './MessagesPage.scss';
+import axios from 'axios';
+import { endpoint } from '../../../constants/endpoints';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   modalContent: {
     backgroundColor: theme.palette.background.paper,
-    border: "2px solid white",
+    border: '2px solid white',
     padding: theme.spacing(2, 4, 3),
-    width: "60%",
+    width: '60%',
   },
   width: {
-    width: "100%",
-    marginBottom: "20px",
+    width: '100%',
+    marginBottom: '20px',
   },
   modalHeader: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   icon: {
-    cursor: "pointer",
+    cursor: 'pointer',
   },
 }));
+
+function useForceUpdate() {
+  const [value, setValue] = useState(0); // integer state
+  return () => setValue((value) => ++value); // update the state to force render
+}
 
 const MessagesPage = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [person, setPerson] = useState();
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
+  const [chatPeople, setChatPeople] = useState([]);
+  const [allMessages, setAllMessages] = useState([]);
+  const [messages, setMessages] = useState([]);
+  const [selectedUserId, setSelectedUserId] = useState(null);
+  const [content, setContent] = useState('');
+
   const classes = useStyles();
+
+  const forceUpdate = useForceUpdate();
+
+  const mapState = (state) => ({
+    userData: state.auth.userData,
+  });
+  let { userData } = useSelector(mapState);
+
+  useEffect(() => {
+    axios.get(endpoint.users).then((res) => setChatPeople(res.data));
+
+    getMessages();
+  }, []);
+
+  const getMessages = () => {
+    axios.get(endpoint.messages).then((res) => setAllMessages(res.data));
+  };
 
   const handleSendMessage = () => {
     if (person.length > 0 && message.length > 0) {
       setIsModalVisible(false);
-      console.log(person, message);
     }
   };
 
@@ -135,6 +92,42 @@ const MessagesPage = () => {
 
   const handleEnterPerson = (event) => {
     setPerson(event.target.value);
+  };
+
+  const handleChangePerson = (personId) => {
+    setSelectedUserId(personId);
+    const filteredMessages = allMessages.filter(
+      (m) =>
+        (m.id_sender === personId && m.id_receiver === userData.id) ||
+        (m.id_sender === userData.id && m.id_receiver === personId)
+    );
+    setMessages(filteredMessages);
+    console.log(filteredMessages);
+  };
+
+  const sendMessage = (e) => {
+    if (e.key === 'Enter' && content && selectedUserId) {
+      const messageData = {
+        id_sender: userData.id,
+        id_receiver: selectedUserId,
+        content: content,
+        title: 'default',
+      };
+
+      axios
+        .post(endpoint.messages, messageData)
+        .then(() => {
+          setContent('');
+          const newAllMessages = allMessages;
+          const newFilteredMessages = messages;
+          newAllMessages.push(messageData);
+          newFilteredMessages.push(messageData);
+          console.log(newAllMessages);
+          setMessages(newFilteredMessages);
+          setAllMessages(newAllMessages);
+        })
+        .then(() => forceUpdate());
+    }
   };
 
   return (
@@ -158,7 +151,7 @@ const MessagesPage = () => {
               <CloseIcon
                 className={classes.icon}
                 onClick={() => setIsModalVisible(false)}
-                fontSize={"large"}
+                fontSize={'large'}
               />
             </Grid>
             <Grid item>
@@ -169,8 +162,8 @@ const MessagesPage = () => {
                 value={person}
                 onChange={handleEnterPerson}
                 inputProps={{
-                  name: "age",
-                  id: "age-native-simple",
+                  name: 'age',
+                  id: 'age-native-simple',
                 }}
               >
                 <option aria-label="None" value="" />
@@ -210,30 +203,32 @@ const MessagesPage = () => {
         spacing={3}
         justify="space-between"
         direction="row"
-        style={{ width: "100%" }}
+        style={{ width: '100%' }}
       >
         <Grid xs={3} spacing={3} container direction="column">
           <Grid item>
-            <Paper style={{ overflowY: "scroll", height: "500px" }}>
+            <Paper style={{ overflowY: 'scroll', height: '500px' }}>
               <List>
                 {chatPeople &&
                   chatPeople.map((person) => (
-                    <ListItem button>
-                      <ListItemIcon>
-                        <PersonIcon style={{ color: "#4267B2" }} />
-                      </ListItemIcon>
-                      <ListItemText
-                        primary={person.name}
-                        secondary={`Przedmiot: ${person.subject}`}
-                      />
-                    </ListItem>
+                    <div onClick={() => handleChangePerson(person.id)}>
+                      <ListItem button>
+                        <ListItemIcon>
+                          <PersonIcon style={{ color: '#4267B2' }} />
+                        </ListItemIcon>
+                        <ListItemText
+                          primary={person.username}
+                          secondary={`Rola: ${person.role}`}
+                        />
+                      </ListItem>
+                    </div>
                   ))}
               </List>
             </Paper>
           </Grid>
           <Grid item>
             <Button
-              style={{ width: "100%" }}
+              style={{ width: '100%' }}
               variant="outlined"
               color="primary"
               onClick={() => setIsModalVisible(true)}
@@ -243,22 +238,22 @@ const MessagesPage = () => {
           </Grid>
         </Grid>
         <Grid xs={9} spacing={3} container direction="column">
-          <Grid item>Adam Kowalski</Grid>
+          <Grid item>{selectedUserId}</Grid>
           <Grid item>
-            <Paper style={{ overflowY: "scroll", height: "400px" }}>
+            <Paper style={{ overflowY: 'scroll', height: '400px' }}>
               {messages &&
                 messages.map((message) => {
-                  return message.senderId == 8 ? (
+                  return message.id_sender !== userData.id ? (
                     <div className="others-message-container">
-                      {" "}
+                      {' '}
                       <div className="others-message">
                         {message.content}
-                      </div>{" "}
+                      </div>{' '}
                     </div>
                   ) : (
                     <div className="my-message-container">
-                      {" "}
-                      <div className="my-message">{message.content}</div>{" "}
+                      {' '}
+                      <div className="my-message">{message.content}</div>{' '}
                     </div>
                   );
                 })}
@@ -267,8 +262,11 @@ const MessagesPage = () => {
           <Grid item>
             <TextField
               rows={3}
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              onKeyPress={sendMessage}
               multiline={true}
-              style={{ width: "100%" }}
+              style={{ width: '100%' }}
               variant="outlined"
             />
           </Grid>

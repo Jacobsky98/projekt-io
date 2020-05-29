@@ -1,32 +1,32 @@
-import React from "react";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
-import { Grid, Paper } from "@material-ui/core";
-import MenuBookIcon from "@material-ui/icons/MenuBook";
-import CloseIcon from "@material-ui/icons/Close";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import { IconButton } from "@material-ui/core";
-import Button from "@material-ui/core/Button";
-import "./StudentCoursesPage.scss";
+import React from 'react';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
+import { Grid, Paper } from '@material-ui/core';
+import MenuBookIcon from '@material-ui/icons/MenuBook';
+import CloseIcon from '@material-ui/icons/Close';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import { IconButton } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+import './StudentCoursesPage.scss';
 
 const subjects = [
-  { name: "Fizyka I", tutor: "Adam Kowalski" },
-  { name: "Fizyka II", tutor: "Adam Kowalski" },
-  { name: "Matma I", tutor: "Adam Kowalski" },
-  { name: "Angielski", tutor: "Inny Kowalski" },
-  { name: "Algorytmy", tutor: "Taki Kowalski" },
-  { name: "WF", tutor: "Jan Kowalski" },
-  { name: "Fizyka I", tutor: "Adam Kowalski" },
-  { name: "Fizyka II", tutor: "Adam Kowalski" },
-  { name: "Matma I", tutor: "Adam Kowalski" },
-  { name: "Angielski", tutor: "Inny Kowalski" },
-  { name: "Algorytmy", tutor: "Taki Kowalski" },
-  { name: "WF", tutor: "Jan Kowalski" },
+  { name: 'Fizyka I', tutor: 'Adam Kowalski' },
+  { name: 'Fizyka II', tutor: 'Adam Kowalski' },
+  { name: 'Matma I', tutor: 'Adam Kowalski' },
+  { name: 'Angielski', tutor: 'Inny Kowalski' },
+  { name: 'Algorytmy', tutor: 'Taki Kowalski' },
+  { name: 'WF', tutor: 'Jan Kowalski' },
+  { name: 'Fizyka I', tutor: 'Adam Kowalski' },
+  { name: 'Fizyka II', tutor: 'Adam Kowalski' },
+  { name: 'Matma I', tutor: 'Adam Kowalski' },
+  { name: 'Angielski', tutor: 'Inny Kowalski' },
+  { name: 'Algorytmy', tutor: 'Taki Kowalski' },
+  { name: 'WF', tutor: 'Jan Kowalski' },
 ];
 
 const information = `Contrary to popular belief, Lorem Ipsum is not simply random text.
@@ -46,50 +46,50 @@ from the 1914 translation by H. Rackham.`;
 
 const notices = [
   {
-    date: "11-05-2020",
+    date: '11-05-2020',
     content: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.`,
   },
   {
-    date: "10-05-2020",
+    date: '10-05-2020',
     content: `It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. `,
   },
   {
-    date: "09-05-2020",
+    date: '09-05-2020',
     content: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.`,
   },
   {
-    date: "08-05-2020",
+    date: '08-05-2020',
     content: `It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. `,
   },
   {
-    date: "07-05-2020",
+    date: '07-05-2020',
     content: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.`,
   },
   {
-    date: "06-05-2020",
+    date: '06-05-2020',
     content: `It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. `,
   },
 ];
 
 const tasks = [
-  { name: "Zadanie #1", deadline: "14.05.2020 23.59", isSent: false },
-  { name: "Zadanie #2", deadline: "12.05.2020 23.59", isSent: false },
-  { name: "Zadanie #3", deadline: "10.05.2020 23.59", isSent: true },
-  { name: "Zadanie #1", deadline: "14.05.2020 23.59", isSent: false },
-  { name: "Zadanie #2", deadline: "12.05.2020 23.59", isSent: false },
-  { name: "Zadanie #3", deadline: "10.05.2020 23.59", isSent: true },
-  { name: "Zadanie #1", deadline: "14.05.2020 23.59", isSent: false },
-  { name: "Zadanie #2", deadline: "12.05.2020 23.59", isSent: false },
-  { name: "Zadanie #3", deadline: "10.05.2020 23.59", isSent: true },
+  { name: 'Zadanie #1', deadline: '14.05.2020 23.59', isSent: false },
+  { name: 'Zadanie #2', deadline: '12.05.2020 23.59', isSent: false },
+  { name: 'Zadanie #3', deadline: '10.05.2020 23.59', isSent: true },
+  { name: 'Zadanie #1', deadline: '14.05.2020 23.59', isSent: false },
+  { name: 'Zadanie #2', deadline: '12.05.2020 23.59', isSent: false },
+  { name: 'Zadanie #3', deadline: '10.05.2020 23.59', isSent: true },
+  { name: 'Zadanie #1', deadline: '14.05.2020 23.59', isSent: false },
+  { name: 'Zadanie #2', deadline: '12.05.2020 23.59', isSent: false },
+  { name: 'Zadanie #3', deadline: '10.05.2020 23.59', isSent: true },
 ];
 
 const sentFiles = [
-  { name: "zdjecie.jpg" },
-  { name: "main.cpp" },
-  { name: "zdjecie.jpg" },
-  { name: "main.cpp" },
-  { name: "zdjecie.jpg" },
-  { name: "main.cpp" },
+  { name: 'zdjecie.jpg' },
+  { name: 'main.cpp' },
+  { name: 'zdjecie.jpg' },
+  { name: 'main.cpp' },
+  { name: 'zdjecie.jpg' },
+  { name: 'main.cpp' },
 ];
 
 function TabPanel(props) {
@@ -126,10 +126,10 @@ export default function StudentCoursesPage() {
         <Paper className="scrollable-list">
           <List>
             {subjects &&
-              subjects.map((subject) => (
-                <ListItem button>
+              subjects.map((subject, index) => (
+                <ListItem button key={index}>
                   <ListItemIcon>
-                    <MenuBookIcon style={{ color: "#4267B2" }} />
+                    <MenuBookIcon style={{ color: '#4267B2' }} />
                   </ListItemIcon>
                   <ListItemText
                     primary={subject.name}
@@ -154,8 +154,8 @@ export default function StudentCoursesPage() {
           <TabPanel value={value} index={1}>
             <div className="notice-list">
               {notices &&
-                notices.map((notice) => (
-                  <div className="notice">
+                notices.map((notice, index) => (
+                  <div className="notice" key={index}>
                     <div className="notice-date">{notice.date}</div>
                     <div className="notice-content">{notice.content}</div>
                   </div>
@@ -168,13 +168,13 @@ export default function StudentCoursesPage() {
                 <div className="tasks-list">
                   <List>
                     {tasks &&
-                      tasks.map((task) => (
-                        <ListItem button>
+                      tasks.map((task, index) => (
+                        <ListItem button key={index}>
                           <Grid container direction="column">
                             <Grid item>{task.name}</Grid>
                             <Grid item>Termin: {task.deadline}</Grid>
                             <Grid item>
-                              STATUS: {task.isSent ? "WYSŁANE" : "NIE WYSŁANO"}
+                              STATUS: {task.isSent ? 'WYSŁANE' : 'NIE WYSŁANO'}
                             </Grid>
                           </Grid>
                         </ListItem>
@@ -194,8 +194,8 @@ export default function StudentCoursesPage() {
                     <Grid item xs={8}>
                       <div className="sent-files-area">
                         {sentFiles &&
-                          sentFiles.map((file) => (
-                            <div className="added-file">
+                          sentFiles.map((file, index) => (
+                            <div className="added-file" key={index}>
                               <div>{file.name}</div>
                               <div>
                                 <IconButton style={{ padding: 0 }}>
@@ -208,7 +208,6 @@ export default function StudentCoursesPage() {
                     </Grid>
                     <Grid
                       container
-                      xs={4}
                       direction="column"
                       justify="space-around"
                       alignItems="center"
@@ -220,7 +219,7 @@ export default function StudentCoursesPage() {
                           component="label"
                         >
                           Dodaj pliki
-                          <input type="file" style={{ display: "none" }} />
+                          <input type="file" style={{ display: 'none' }} />
                         </Button>
                       </Grid>
                       <Grid item>

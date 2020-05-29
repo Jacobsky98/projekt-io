@@ -1,4 +1,7 @@
 from django.http import HttpResponse, JsonResponse
+from django.views.generic import UpdateView
+from rest_framework import permissions
+
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from .models import Message, Course, Opinions, File, Annoucement, Grade, Task, Presence
@@ -10,9 +13,14 @@ from rest_framework.response import Response
 
 
 class AnnoucementAPIView(APIView):
-    def get(self, request):
-        articles = Annoucement.objects.all()
-        serializer = AnnoucementSerializer(articles, many=True)
+    def get(self, request, id=None):
+        serializer = AnnoucementSerializer()
+        if id:
+            articles = Annoucement.objects.get(id=id)
+            serializer = AnnoucementSerializer(articles)
+        else:
+            articles = Annoucement.objects.all()
+            serializer = AnnoucementSerializer(articles, many=True)
         return Response(serializer.data)
 
 class AnnoucementCreate(APIView):
@@ -25,15 +33,23 @@ class AnnoucementCreate(APIView):
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class MessageAPIView(APIView):
-    def get(self, request):
-        articles = Message.objects.all()
-        serializer = MessageSerializer(articles, many=True)
+    model = Message
+    def get(self, request, id=None):
+        serializer = MessageSerializer()
+        if id:
+            articles = Message.objects.get(id=id)
+            serializer = MessageSerializer(articles)
+        else:
+            articles = Message.objects.all()
+            serializer = MessageSerializer(articles, many=True)
         return Response(serializer.data)
+
 
 class MessageCreate(APIView):
 
     def post(self, request):
         serializer = MessageSerializer(data=request.data)
+        # if Token.objects.filter(user = request.data['id_sender']).exist():
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -41,9 +57,14 @@ class MessageCreate(APIView):
 
 class CourseAPIView(APIView):
 
-    def get(self, request):
-        articles = Course.objects.all()
-        serializer = CourseSerializer(articles, many=True)
+    def get(self, request, id=None):
+        serializer = CourseSerializer()
+        if id:
+            articles = Course.objects.get(id=id)
+            serializer = CourseSerializer(articles)
+        else:
+            articles = Course.objects.all()
+            serializer = CourseSerializer(articles, many=True)
         return Response(serializer.data)
 
 class CourseCreate(APIView):
@@ -107,6 +128,17 @@ class OpinionsDetails(APIView):
         article.delete()
         return HttpResponse(status=status.HTTP_204_NO_CONTENT)
 
+class OpinionsAPIView(APIView):
+    def get(self, request, id=None):
+        serializer = OpinionsSerializer()
+        if id:
+            articles = Opinions.objects.get(id=id)
+            serializer = OpinionsSerializer(articles)
+        else:
+            articles = Opinions.objects.all()
+            serializer = OpinionsSerializer(articles, many=True)
+        return Response(serializer.data)
+
 class OpinionsCreate(APIView):
 
     def post(self, request, format='json'):
@@ -119,9 +151,14 @@ class OpinionsCreate(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class FileAPIView(APIView):
-    def get(self, request):
-        articles = File.objects.all()
-        serializer = FileSerializer(articles, many=True)
+    def get(self, request, id=None):
+        serializer = FileSerializer()
+        if id:
+            articles = File.objects.get(id=id)
+            serializer = FileSerializer(articles)
+        else:
+            articles = File.objects.all()
+            serializer = FileSerializer(articles, many=True)
         return Response(serializer.data)
 
 class FileCreate(APIView):
@@ -136,9 +173,14 @@ class FileCreate(APIView):
 
 class GradeAPIView(APIView):
 
-    def get(self, request):
-        articles = Grade.objects.all()
-        serializer = GradeSerializer(articles, many=True)
+    def get(self, request, id=None):
+        serializer = GradeSerializer()
+        if id:
+            articles = Grade.objects.get(id=id)
+            serializer = GradeSerializer(articles)
+        else:
+            articles = Grade.objects.all()
+            serializer = GradeSerializer(articles, many=True)
         return Response(serializer.data)
 
 class GradeCreate(APIView):
@@ -154,9 +196,14 @@ class GradeCreate(APIView):
 
 class TaskAPIView(APIView):
 
-    def get(self, request):
-        articles = Task.objects.all()
-        serializer = TaskSerializer(articles, many=True)
+    def get(self, request, id=None):
+        serializer = TaskSerializer()
+        if id:
+            articles = Task.objects.get(id=id)
+            serializer = TaskSerializer(articles)
+        else:
+            articles = Task.objects.all()
+            serializer = TaskSerializer(articles, many=True)
         return Response(serializer.data)
 
 class TaskCreate(APIView):
@@ -173,9 +220,14 @@ class TaskCreate(APIView):
 
 class PresenceAPIView(APIView):
 
-    def get(self, request):
-        articles = Presence.objects.all()
-        serializer = PresenceSerializer(articles, many=True)
+    def get(self, request, id=None):
+        serializer = PresenceSerializer()
+        if id:
+            articles = Presence.objects.get(id=id)
+            serializer = PresenceSerializer(articles)
+        else:
+            articles = Presence.objects.all()
+            serializer = PresenceSerializer(articles, many=True)
         return Response(serializer.data)
 
 class PresenceCreate(APIView):

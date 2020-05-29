@@ -1,58 +1,54 @@
-import { ROLES } from "../../constants/Constants";
+import { ROLES } from '../../constants/Constants';
 import axios from 'axios';
-import { HttpService } from '../../services/HttpService';
 import ReduxThunk from 'redux-thunk';
+import { endpoint } from '../../constants/endpoints';
 
-export const LOGIN = "LOGIN";
-export const LOGOUT = "LOGOUT";
+export const LOGIN = 'LOGIN';
+export const LOGOUT = 'LOGOUT';
+export const SET_TOKENS = 'SET_TOKENS';
+export const GET_USER_DATA = 'GET_USER_DATA';
 
-export const SET_ACCESS_TOKEN = "SET_ACCESS_TOKEN"; 
-export const SET_REFRESH_TOKEN = "SET_REFRESH_TOKEN"; 
+export const setTokens = (accessToken, refreshToken) => {
+  return {
+    type: SET_TOKENS,
+    accessToken,
+    refreshToken,
+  };
+};
 
-export const setAccessToken = (accessToken) => {
+export const getUserData = () => {
   return (dispatch) => {
-    dispatch({ type: SET_ACCESS_TOKEN, accessToken })
-  }
-}
-export const setRefreshToken = (refreshToken) => {
-  return (dispatch) => {
-    dispatch({ type: SET_REFRESH_TOKEN, refreshToken })
-  }
-}
+    return axios.get(endpoint.currentUser).then(({ data }) => {
+      // jeżeli nie mamy użytkownika z żadną rolą, to najlepiej zmienić tu na 'role: ROLES.ADMIN,'
+      // zalogować się, dodać użytkowników z odpowiednimi rolami i zmienic spowrotem
+      const userData = {
+        name: 'Jan',
+        surname: 'Kowalski',
+        role: data ? data.role : null,
+        id: data ? data.id : null,
+      };
 
+      dispatch({ type: GET_USER_DATA, userData });
+      return Promise.resolve();
+    });
+  };
+};
 
-export const login = (login, password) => {
+export const login = (username, password) => {
   return (dispatch) => {
-    axios
-      .post('http://127.0.0.1:8000/token/obtain/', {username: login, password: password})
-      .then(res => {
-        if (res.data) {
-          console.log(res.data.access)
-          setAccessToken(res.data.access);
-          setRefreshToken(res.data.refresh);
-          axios.defaults.headers.common['Authorization'] = `JWT ${res.data.access}`;
-        }
+    return axios
+      .post(endpoint.authorize, { username, password })
+      .then(({ data }) => {
+        localStorage.setItem('accessToken', data.access);
+        axios.defaults.headers.common['Authorization'] = `JWT ${data.access}`;
+
+        dispatch(setTokens(data.access, data.refresh));
+        return dispatch(getUserData());
       })
       .then(() => {
-        axios
-        .get('http://127.0.0.1:8000/current_user/')
-        .then(res => {
-          console.log(res)
-          const userData = {
-            name: "Jan",
-            surname: "Kowalski",
-            role: res.data ? res.data.role : ''
-          };
-    
-          dispatch({
-            type: LOGIN,
-            userData: userData,
-          });
-        })
-      })
-  }
-  
-  
+        dispatch({ type: LOGIN });
+      });
+  };
 };
 
 export const logout = () => {

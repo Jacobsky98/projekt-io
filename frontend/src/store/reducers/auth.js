@@ -1,41 +1,42 @@
-import { LOGIN, LOGOUT, SET_ACCESS_TOKEN, SET_REFRESH_TOKEN } from '../actions/auth';
+import { GET_USER_DATA, LOGIN, LOGOUT, SET_TOKENS } from '../actions/auth';
 
 const initalState = {
-    accessToken: null,
-    refreshToken: null,
-    userData: null,
-    isLogged: false,
+  accessToken: null,
+  refreshToken: null,
+  userData: null,
+  isLogged: false,
 };
 
 export default (state = initalState, action) => {
-    switch(action.type){
-        case LOGIN:
-            return {
-                ...state,
-                isLogged: true,
-                userData: {
-                    ...action.userData
-                }
-            };
+  switch (action.type) {
+    case LOGIN:
+      return {
+        ...state,
+        isLogged: true,
+      };
 
-        case LOGOUT:
-            return {
-                ...initalState,
-                isLogged: false,
-            };
+    case LOGOUT:
+      return {
+        ...initalState,
+        isLogged: false,
+      };
 
-        case SET_ACCESS_TOKEN:
-            return {
-                ...state,
-                accessToken: action.accessToken
-            };
-        case SET_REFRESH_TOKEN:
-            return {
-                ...state,
-                refreshToken: action.refreshToken
-            };
+    case SET_TOKENS:
+      return {
+        ...state,
+        accessToken: action.accessToken,
+        refreshToken: action.refreshToken,
+      };
 
-        default:
-            return state;
-    }
-}
+    case GET_USER_DATA:
+      return {
+        ...state,
+        userData: {
+          ...action.userData,
+        },
+      };
+
+    default:
+      return state;
+  }
+};

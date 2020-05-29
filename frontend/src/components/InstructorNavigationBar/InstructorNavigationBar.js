@@ -1,7 +1,7 @@
 import React from 'react';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-import GroupIcon from '@material-ui/icons/Group';
+import SchoolIcon from '@material-ui/icons/School';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import ChatBubbleRoundedIcon from '@material-ui/icons/ChatBubbleRounded';
@@ -10,7 +10,7 @@ import { useDispatch } from 'react-redux';
 import * as authActions from '../../store/actions/auth';
 import { withRouter } from 'react-router-dom';
 
-let AdminNavigationBar = ({ history, ...props }) => {
+let InstructorNavigationBar = ({ history, ...props }) => {
   const [value, setValue] = React.useState(0);
   const dispatch = useDispatch();
 
@@ -23,24 +23,19 @@ let AdminNavigationBar = ({ history, ...props }) => {
       showLabels
     >
       <BottomNavigationAction
-        label="Users"
-        onClick={() => history.push('/admin/users')}
-        icon={<GroupIcon fontSize="large" />}
-      />
-      <BottomNavigationAction
         label="Courses"
-        onClick={() => history.push('/admin/courses')}
+        onClick={() => history.push('/instructor/courses')}
         icon={<MenuBookIcon fontSize="large" />}
       />
       <BottomNavigationAction
         label="Messages"
-        onClick={() => history.push('/admin/messages')}
+        onClick={() => history.push('/instructor/messages')}
         icon={<MailOutlineIcon fontSize="large" />}
       />
       <BottomNavigationAction
-        label="Opinions"
-        onClick={() => history.push('/admin/opinions')}
-        icon={<ChatBubbleRoundedIcon fontSize="large" />}
+        label="Grades"
+        onClick={() => history.push('/instructor/grades')}
+        icon={<SchoolIcon fontSize="large" />}
       />
       <BottomNavigationAction
         label="Log Out"
@@ -51,6 +46,6 @@ let AdminNavigationBar = ({ history, ...props }) => {
   );
 };
 
-AdminNavigationBar = withRouter(AdminNavigationBar);
+InstructorNavigationBar = withRouter(InstructorNavigationBar);
 
-export { AdminNavigationBar };
+export { InstructorNavigationBar };

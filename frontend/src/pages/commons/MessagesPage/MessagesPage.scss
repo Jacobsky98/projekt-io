@@ -1,28 +1,28 @@
 .my-message-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: end;
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
 }
 
 .my-message {
-    max-width: 700px;
-    color: #FFFFFF;
-    background-color: #0099FF;
-    border-radius: 7px;
-    padding: 5px 10px;
-    margin: 10px 10px;
+  max-width: 700px;
+  color: #ffffff;
+  background-color: #0099ff;
+  border-radius: 7px;
+  padding: 5px 10px;
+  margin: 10px 10px;
 }
 
 .others-message-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: start;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
 }
 .others-message {
-    max-width: 700px;
-    background-color: #F1F0F0;
-    border-radius: 7px;
-    padding: 5px 10px;
-    margin: 10px 10px;
-    overflow-wrap: break-word;
+  max-width: 700px;
+  background-color: #f1f0f0;
+  border-radius: 7px;
+  padding: 5px 10px;
+  margin: 10px 10px;
+  overflow-wrap: break-word;
 }

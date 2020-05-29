@@ -1,58 +1,58 @@
 .scrollable-list {
-    height: 600px;
-    overflow-y: scroll;
+  height: 600px;
+  overflow-y: scroll;
 }
 
 .notice {
-    margin: 10px 10px;
+  margin: 10px 10px;
 }
 
 .notice-list {
-    overflow-y: scroll;
-    height: 500px;
+  overflow-y: scroll;
+  height: 500px;
 }
 
 .notice-date {
-    font-weight: 700;
+  font-weight: 700;
 }
 
 .tasks-list {
-    height: 500px;
-    overflow-y: scroll;
+  height: 500px;
+  overflow-y: scroll;
 }
 
 .task-information {
-    height: 400px;
-    overflow-y: scroll;
+  height: 400px;
+  overflow-y: scroll;
 }
 
 .task-info {
-    font-weight: 700;
+  font-weight: 700;
 }
 
 .task-actions {
-    height: 100px;
+  height: 100px;
 }
 
 .sent-files-area {
-    height: 60px;
-    margin: 10px;
-    padding: 10px;
-    overflow-y: scroll;
+  height: 60px;
+  margin: 10px;
+  padding: 10px;
+  overflow-y: scroll;
 }
 
 .added-file {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 
 .remove-file-icon {
-    margin-left: 5px;
-    font-size: 15px !important;
-    vertical-align: middle;
-    color: #ff1a1a;
+  margin-left: 5px;
+  font-size: 15px !important;
+  vertical-align: middle;
+  color: #ff1a1a;
 }
 
 .button-area {
-    margin-top: 20px !important;
+  margin-top: 20px !important;
 }
