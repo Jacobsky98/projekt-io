@@ -1,7 +1,8 @@
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpRequest
+from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
-from .serializers import User
+from .serializers import User, CourseWithTeacherSerializer
 from .serializers import UserSerializer
 
 from rest_framework.response import Response
@@ -43,7 +44,16 @@ class UserCreate(APIView):
 class HelloWorldView(APIView):
 
     def get(self, request):
-        return Response(data={"hello":"world"}, status=status.HTTP_200_OK)
+        return Response(data={"hello": "world"}, status=status.HTTP_200_OK)
+
+      
+class UserCoursesAPIView(APIView):
+    def get(self, request):
+        courses = Course.objects.filter(usercourse__id_user=request.user.id)
+        serializer = CourseWithTeacherSerializer(courses, many=True)
+        return Response(serializer.data)
+
+
 
 @api_view(['GET'])
 def current_user(request):
@@ -66,21 +76,6 @@ class UserAPIView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-class UserCoursesAPIView(APIView):
-    def get(self, request):
-        user_courses = UserCourse.objects.filter(id_user=request.user.id)
-        # serializer_user_courses = UserCourseSerializer(user_courses, many=True)
-        # course_for_curr_usr = UserCourse.objects.get(id_user=request.user.id)
-        # val = getattr(UserCourse.objects.first(), 'id_user')
-        courses = Course.objects.filter(id=UserCourse.objects.filter(id_user=request.user.id).values().first().get('id_user_id'))
-        # serializes_course = CourseSerializer(course, many=True)
-        return Response(
-            {
-                'user_courses': UserCourseSerializer(user_courses, many=True).data,
-                'courses': CourseSerializer(courses, many=True).data
-            }
-        )
 
 
 class UserDetails(APIView):
@@ -107,6 +102,7 @@ class UserDetails(APIView):
         article = self.get_object(id)
         article.delete()
         return HttpResponse(status=status.HTTP_204_NO_CONTENT)
+
 
 class TeacherDetails(APIView):
     def get_object(self):

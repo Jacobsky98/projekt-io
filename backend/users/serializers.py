@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import User
+from api.models import Course
 
 from rest_framework_jwt.settings import api_settings
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -26,10 +27,12 @@ class UserSerializer(serializers.ModelSerializer):
     username = serializers.CharField()
     role = serializers.CharField()
     password = serializers.CharField(min_length=8, write_only=True)
+    first_name = serializers.CharField()
+    last_name = serializers.CharField()
 
     class Meta:
         model = User
-        fields = ('id', 'email', 'username', 'role', 'password')
+        fields = ('id', 'username', 'email', 'first_name', 'last_name',  'role', 'password')
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
@@ -39,4 +42,16 @@ class UserSerializer(serializers.ModelSerializer):
             instance.set_password(password)
         instance.save()
         return instance
+
+
+class CourseWithTeacherSerializer(serializers.ModelSerializer):
+    teacher_first_name = serializers.ReadOnlyField(source='id_teacher.first_name')
+    teacher_last_name = serializers.ReadOnlyField(source='id_teacher.last_name')
+
+    class Meta:
+        model = Course
+        fields = ('id', 'info', 'id_teacher', 'teacher_first_name', 'teacher_last_name')
+
+
+
 
