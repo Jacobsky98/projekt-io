@@ -17,7 +17,8 @@ from django.urls import path
 from .views import UserAPIView, UserDetails, current_user, UserCreate
 from rest_framework_simplejwt import views as jwt_views
 from .views import ObtainTokenPairWithRoleView
-from .views import UserAPIView, UserDetails, current_user, TeacherDetails, UserCoursesAPIView
+from .views import UserAPIView, UserDetails, current_user, UserCoursesAPIView, \
+    StudentsAPIView, InstructorsAPIView, AdminsApiView
 from django.contrib.auth import views as auth_views
 
 
@@ -26,6 +27,9 @@ urlpatterns = [
     path('users/', UserAPIView.as_view()),
     path('user/<int:id>/', UserDetails.as_view()),
     path('user/courses/', UserCoursesAPIView.as_view()),
+    path('users/students/', StudentsAPIView.as_view()),
+    path('users/instructors/', InstructorsAPIView.as_view()),
+    path('users/admins/', AdminsApiView.as_view()),
     path('user/create/', UserCreate.as_view(), name="create_user"),
     path('token/obtain/', ObtainTokenPairWithRoleView.as_view(), name='token_create'),
     path('token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh')
