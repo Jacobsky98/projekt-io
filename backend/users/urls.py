@@ -14,7 +14,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from .views import UserAPIView, UserDetails, current_user, UserCreate, HelloWorldView
+from .views import UserAPIView, UserDetails, current_user, UserCreate
 from rest_framework_simplejwt import views as jwt_views
 from .views import ObtainTokenPairWithRoleView
 from .views import UserAPIView, UserDetails, current_user, TeacherDetails, UserCoursesAPIView
@@ -28,7 +28,5 @@ urlpatterns = [
     path('user/courses/', UserCoursesAPIView.as_view()),
     path('user/create/', UserCreate.as_view(), name="create_user"),
     path('token/obtain/', ObtainTokenPairWithRoleView.as_view(), name='token_create'),
-    path('token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
-    path('hello/', HelloWorldView.as_view(), name='hello_world')
-
+    path('token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh')
 ]

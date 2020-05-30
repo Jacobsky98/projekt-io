@@ -1,11 +1,12 @@
 from django.http import HttpResponse, JsonResponse
+from django.db.models import Q
 from django.views.generic import UpdateView
 from rest_framework import permissions
-
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from .models import Message, Course, Opinions, File, Annoucement, Grade, Task, Presence
-from .serializers import MessageSerializer, CourseSerializer, OpinionsSerializer, FileSerializer, AnnoucementSerializer, GradeSerializer, TaskSerializer, PresenceSerializer
+from .serializers import MessageSerializer, CourseSerializer, OpinionsSerializer, FileSerializer, AnnoucementSerializer,\
+    GradeSerializer, TaskSerializer, PresenceSerializer, UserCourseSerializer
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -38,15 +39,9 @@ class AnnoucementCreate(APIView):
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class MessageAPIView(APIView):
-    model = Message
-    def get(self, request, id=None):
-        serializer = MessageSerializer()
-        if id:
-            articles = Message.objects.get(id=id)
-            serializer = MessageSerializer(articles)
-        else:
-            articles = Message.objects.all()
-            serializer = MessageSerializer(articles, many=True)
+    def get(self, request):
+        messages = Message.objects.filter(Q(id_sender=request.user.id) | Q(id_receiver=request.user.id))
+        serializer = MessageSerializer(messages, many=True)
         return Response(serializer.data)
 
 
@@ -73,7 +68,6 @@ class CourseAPIView(APIView):
         return Response(serializer.data)
 
 class CourseCreate(APIView):
-
     def post(self, request, format='json'):
         serializer = CourseSerializer(data=request.data)
         if serializer.is_valid():
@@ -267,6 +261,17 @@ class PresenceCreate(APIView):
 
     def post(self, request, format='json'):
         serializer = PresenceSerializer(data=request.data)
+        if serializer.is_valid():
+            presence = serializer.save()
+            if presence:
+                json = serializer.data
+                return Response(json, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+classCreate(APIView):
+    def post(self, request):
+        serializer = UserCourseSerializer(data=request.data)
         if serializer.is_valid():
             presence = serializer.save()
             if presence:
