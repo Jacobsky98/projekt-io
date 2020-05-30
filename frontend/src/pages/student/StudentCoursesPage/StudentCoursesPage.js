@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
@@ -12,22 +12,10 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import { IconButton } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
+import { useSelector } from 'react-redux';
+import { endpoint } from '../../../constants/endpoints';
+import axios from 'axios';
 import './StudentCoursesPage.scss';
-
-const subjects = [
-  { name: 'Fizyka I', tutor: 'Adam Kowalski' },
-  { name: 'Fizyka II', tutor: 'Adam Kowalski' },
-  { name: 'Matma I', tutor: 'Adam Kowalski' },
-  { name: 'Angielski', tutor: 'Inny Kowalski' },
-  { name: 'Algorytmy', tutor: 'Taki Kowalski' },
-  { name: 'WF', tutor: 'Jan Kowalski' },
-  { name: 'Fizyka I', tutor: 'Adam Kowalski' },
-  { name: 'Fizyka II', tutor: 'Adam Kowalski' },
-  { name: 'Matma I', tutor: 'Adam Kowalski' },
-  { name: 'Angielski', tutor: 'Inny Kowalski' },
-  { name: 'Algorytmy', tutor: 'Taki Kowalski' },
-  { name: 'WF', tutor: 'Jan Kowalski' },
-];
 
 const information = `Contrary to popular belief, Lorem Ipsum is not simply random text.
 It has roots in a piece of classical Latin literature from 45 BC,making it over 2000 years old. 
@@ -113,7 +101,24 @@ function TabPanel(props) {
 }
 
 export default function StudentCoursesPage() {
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
+  const [courses, setCourses] = useState([]);
+  const [selectedCourse, setSelectedCourse] = useState(null);
+  const currentUserData = useSelector((state) => state.auth.userData);
+
+  useEffect(() => {
+    (async () => {
+      const coursesForUser = await axios.get(endpoint.coursesForUser);
+      setCourses(coursesForUser.data);
+    })();
+  }, []);
+
+  useEffect(() => {
+    const currentCourse = courses.find(
+      (course) => course.id === selectedCourse
+    );
+    //set info about specific course
+  }, [selectedCourse]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -125,15 +130,19 @@ export default function StudentCoursesPage() {
         <div>Lista twoich kursów</div>
         <Paper className="scrollable-list">
           <List>
-            {subjects &&
-              subjects.map((subject, index) => (
-                <ListItem button key={index}>
+            {courses &&
+              courses.map((data, index) => (
+                <ListItem
+                  button
+                  key={index}
+                  onClick={() => setSelectedCourse(data.id)}
+                >
                   <ListItemIcon>
                     <MenuBookIcon style={{ color: '#4267B2' }} />
                   </ListItemIcon>
                   <ListItemText
-                    primary={subject.name}
-                    secondary={`Prowadzący: ${subject.tutor}`}
+                    primary={data.info}
+                    secondary={`Prowadzący: ${data.teacher_first_name} ${data.teacher_last_name}`}
                   />
                 </ListItem>
               ))}
@@ -141,9 +150,12 @@ export default function StudentCoursesPage() {
         </Paper>
       </Grid>
       <Grid item xs={8}>
-        <div>Wybrany kurs: Fizyka I</div>
         <Paper style={{ height: 600 }}>
-          <Tabs value={value} onChange={handleChange} indicatorColor="primary">
+          <Tabs
+            value={value}
+            onChange={(event, nevVal) => setValue(nevVal)}
+            indicatorColor="primary"
+          >
             <Tab label="Informacje" />
             <Tab label="Ogłoszenia" />
             <Tab label="Zadania" />

@@ -1,6 +1,5 @@
 import { ROLES } from '../../constants/Constants';
 import axios from 'axios';
-import ReduxThunk from 'redux-thunk';
 import { endpoint } from '../../constants/endpoints';
 
 export const LOGIN = 'LOGIN';
@@ -21,10 +20,11 @@ export const getUserData = () => {
     return axios.get(endpoint.currentUser).then(({ data }) => {
       // jeżeli nie mamy użytkownika z żadną rolą, to najlepiej zmienić tu na 'role: ROLES.ADMIN,'
       // zalogować się, dodać użytkowników z odpowiednimi rolami i zmienic spowrotem
+      console.log(data);
       const userData = {
         name: data ? data.first_name : null,
         surname: data ? data.last_name : null,
-        role: data ? data.role : null,
+        role: data.role ? data.role : ROLES.STUDENT, // zeby nie wywalalo apki przy logowaniu
         id: data ? data.id : null,
       };
 

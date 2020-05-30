@@ -1,6 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Select, TextField, Button } from '@material-ui/core';
+import { endpoint } from '../../../constants/endpoints';
+import { ROLES } from '../../../constants/Constants';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -15,13 +19,30 @@ const useStyles = makeStyles((theme) => ({
 const StudentOpinionsPage = (props) => {
   const [opinion, setOpinion] = useState('');
   const [selectedPerson, setSelectedPerson] = useState('');
+  const [instructors, setInstructors] = useState([]);
   const [wasSent, setWasSent] = useState(false);
   const classes = useStyles();
+  const currentUserData = useSelector((state) => state.auth.userData);
 
-  const handleSendOpinion = () => {
+  useEffect(() => {
+    (async () => {
+      const users = await axios.get(endpoint.users);
+      const instructors = users.data.filter(
+        (user) => user.role === ROLES.INSTRUCTOR
+      );
+      setInstructors(instructors);
+    })();
+  }, []);
+
+  const handleSendOpinion = async () => {
     if (selectedPerson.length > 0 && opinion.length > 0) {
+      await axios.post(endpoint.sendOpinion, {
+        id_sender: currentUserData.id,
+        id_receiver: selectedPerson,
+        title: 'TITLE IS ALWAYS EMPTY',
+        content: opinion,
+      });
       setWasSent(true);
-      console.log(selectedPerson, opinion);
     }
   };
 
@@ -50,9 +71,12 @@ const StudentOpinionsPage = (props) => {
             }}
           >
             <option aria-label="None" value="" />
-            <option value={1}>Imię i nazwisko #1</option>
-            <option value={2}>Imię i nazwisko #2</option>
-            <option value={3}>Imię i nazwisko #3</option>
+            {instructors &&
+              instructors.map((instructor) => (
+                <option value={instructor.id}>
+                  {instructor.first_name} {instructor.last_name}
+                </option>
+              ))}
           </Select>
           <Grid item xs={6}>
             <TextField

@@ -1,34 +1,40 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Grid, List, ListItem, Paper } from '@material-ui/core';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import { useSelector } from 'react-redux';
+import { endpoint } from '../../../constants/endpoints';
+import axios from 'axios';
 import './StudentGradesPage.scss';
 
-const subjectData = [
-  { name: 'Adam Kowalski', subject: 'Matma' },
-  { name: 'Jan Kowalski', subject: 'Infa' },
-  { name: 'Michał Nowak', subject: 'Angielski' },
-  { name: 'Andrzej Kozak', subject: 'Fizyka' },
-  { name: 'Michał Nowak', subject: 'Angielski' },
-  { name: 'Andrzej Kozak', subject: 'Fizyka' },
-  { name: 'Michał Nowak', subject: 'Angielski' },
-  { name: 'Andrzej Kozak', subject: 'Fizyka' },
-  { name: 'Michał Nowak', subject: 'Angielski' },
-  { name: 'Andrzej Kozak', subject: 'Fizyka' },
-  { name: 'Adam Kowalski', subject: 'Matma' },
-  { name: 'Jan Kowalski', subject: 'Infa' },
-  { name: 'Michał Nowak', subject: 'Angielski' },
-  { name: 'Andrzej Kozak', subject: 'Fizyka' },
-  { name: 'Michał Nowak', subject: 'Angielski' },
-  { name: 'Andrzej Kozak', subject: 'Fizyka' },
-  { name: 'Michał Nowak', subject: 'Angielski' },
-  { name: 'Andrzej Kozak', subject: 'Fizyka' },
-  { name: 'Michał Nowak', subject: 'Angielski' },
-  { name: 'Andrzej Kozak', subject: 'Fizyka' },
-];
-
 const StudentGradesPage = () => {
+  const [courses, setCourses] = useState([]);
+  const [grades, setGrades] = useState([]);
+  const [selectedCourse, setSelectedCourse] = useState(null);
+  const [average, setAverage] = useState(0);
+  const currentUserData = useSelector((state) => state.auth.userData);
+
+  useEffect(() => {
+    (async () => {
+      const coursesForUser = await axios.get(endpoint.coursesForUser);
+      setCourses(coursesForUser.data);
+    })();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      const grades = await axios.get(endpoint.grades);
+      setGrades(grades.data);
+      countAverage();
+    })();
+  }, [selectedCourse]);
+
+  const countAverage = () => {
+    const sum = grades.reduce((prev, curr) => curr.grade + prev, 0);
+    setAverage(sum);
+  };
+
   return (
     <div>
       <Grid container direction="row" justify="space-around">
@@ -37,15 +43,21 @@ const StudentGradesPage = () => {
           <Grid item>
             <Paper className="grades-list" elevation={3}>
               <List>
-                {subjectData &&
-                  subjectData.map((data) => (
-                    <ListItem button>
+                {courses &&
+                  courses.map((data, index) => (
+                    <ListItem
+                      key={index}
+                      button
+                      onClick={() => {
+                        setSelectedCourse(data.id);
+                      }}
+                    >
                       <ListItemIcon>
                         <MenuBookIcon style={{ color: '#4267B2' }} />
                       </ListItemIcon>
                       <ListItemText
-                        primary={data.subject}
-                        secondary={`Prowadzący: ${data.name}`}
+                        primary={data.info}
+                        secondary={`Prowadzący: ${data.teacher_first_name} ${data.teacher_last_name}`}
                       />
                     </ListItem>
                   ))}
@@ -58,13 +70,20 @@ const StudentGradesPage = () => {
           <Grid item>
             <Paper className="grades-list grades-list-content" elevation={3}>
               <Grid item>
-                <ul>
-                  <li>14.04.20 - 3.5 - Zestaw zadań</li>
-                  <li>14.05.20 - 4.5 - Odpowiedź ustna</li>
-                </ul>
+                {selectedCourse ? (
+                  <ul>
+                    {grades.map((grade) => (
+                      <li>??? - {grade.grade.toFixed(1)} - ???</li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p>Proszę wybrać kurs, aby sprawdzić ocenę!</p>
+                )}
               </Grid>
               <Grid item>
-                <p className="grades-list-summary">ŚREDNIA OCEN: 4.25</p>
+                <p className="grades-list-summary">
+                  <b>ŚREDNIA OCEN:</b> {average.toFixed(2)}
+                </p>
               </Grid>
             </Paper>
           </Grid>
