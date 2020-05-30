@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import './InstructorCoursesActionPanel.scss';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-import { Announcements } from './announcements/Announcements';
+import { InstructorAnnouncements } from './announcements/InstructorAnnouncements';
 
 export const InstructorCoursesActionPanel = () => {
   const [value, setValue] = React.useState(0);
@@ -33,7 +33,7 @@ export const InstructorCoursesActionPanel = () => {
         </BottomNavigation>
       </div>
       <div className="action-panel__content">
-        {value ? <Announcements /> : null}
+        {value ? <InstructorAnnouncements /> : null}
       </div>
     </div>
   );

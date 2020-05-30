@@ -8,12 +8,12 @@ import {
 import ListItemText from '@material-ui/core/ListItemText';
 import List from '@material-ui/core/List';
 import { useDispatch, useSelector } from 'react-redux';
-import './Announcements.scss';
+import './InstructorAnnouncements.scss';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import { AddAnnouncement } from './addAnnouncement/AddAnnouncement';
 
-export const Announcements = () => {
+export const InstructorAnnouncements = () => {
   const [openDialog, setOpenDialog] = useState(false);
   const dispatch = useDispatch();
   const mapState = (state) => ({
