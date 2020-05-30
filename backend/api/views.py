@@ -258,7 +258,6 @@ class PresenceAPIView(APIView):
         return Response(serializer.data)
 
 class PresenceCreate(APIView):
-
     def post(self, request, format='json'):
         serializer = PresenceSerializer(data=request.data)
         if serializer.is_valid():
