@@ -38,6 +38,27 @@ class UserCoursesAPIView(APIView):
         return Response(serializer.data)
 
 
+class StudentsAPIView(APIView):
+    def get(self, request):
+        students = User.objects.filter(role='STUDENT')
+        serializer = UserSerializer(students, many=True)
+        return Response(serializer.data)
+
+
+class InstructorsAPIView(APIView):
+    def get(self, request):
+        instructors = User.objects.filter(role='INSTRUCTOR')
+        serializer = UserSerializer(instructors, many=True)
+        return Response(serializer.data)
+
+
+class AdminsApiView(APIView):
+    def get(self, request):
+        admins = User.objects.filter(role='ADMIN')
+        serializer = UserSerializer(admins, many=True)
+        return Response(serializer.data)
+
+
 @api_view(['GET'])
 def current_user(request):
     """
@@ -85,30 +106,3 @@ class UserDetails(APIView):
         article = self.get_object(id)
         article.delete()
         return HttpResponse(status=status.HTTP_204_NO_CONTENT)
-
-
-class TeacherDetails(APIView):
-    def get_object(self):
-        try:
-            return User.objects.get(is_teacher=True)
-        except User.DoesNotExist:
-            return HttpResponse(status=status.HTTP_404_NOT_FOUND)
-
-    def get(self, request):
-        article = self.get_object()
-        serializer = UserSerializer(article)
-        return Response(serializer.data)
-
-    def put(self, request):
-        article = self.get_object()
-        serializer = UserSerializer(article, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def delete(self, request, id):
-        article = self.get_object(id)
-        article.delete()
-        return HttpResponse(status=status.HTTP_204_NO_CONTENT)
-
