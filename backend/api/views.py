@@ -269,7 +269,7 @@ class PresenceCreate(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-classCreate(APIView):
+class UserCourseCreate(APIView):
     def post(self, request):
         serializer = UserCourseSerializer(data=request.data)
         if serializer.is_valid():
