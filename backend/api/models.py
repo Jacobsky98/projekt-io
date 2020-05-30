@@ -31,6 +31,7 @@ class UserCourse(models.Model):
 
 class Task(models.Model):
     id_course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    description = models.TextField()
     deadline = models.DateTimeField(default=timezone.now)
 
 
@@ -41,7 +42,7 @@ class File(models.Model):
 
 
 class User_Tasks_Files(models.Model):
-    id_users = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    id_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     id_task = models.ForeignKey(Task, on_delete=models.CASCADE)
     if_file = models.ForeignKey(File, on_delete=models.CASCADE)
 

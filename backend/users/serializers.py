@@ -11,7 +11,6 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     def get_token(cls, user):
         token = super(MyTokenObtainPairSerializer, cls).get_token(user)
 
-
         # Add custom claims
         token['role'] = user.role
         return token
@@ -32,7 +31,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'username', 'email', 'first_name', 'last_name',  'role', 'password')
+        fields = ('id', 'username', 'email', 'first_name', 'last_name', 'role', 'password')
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
@@ -51,7 +50,3 @@ class CourseWithTeacherSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
         fields = ('id', 'info', 'id_teacher', 'teacher_first_name', 'teacher_last_name')
-
-
-
-

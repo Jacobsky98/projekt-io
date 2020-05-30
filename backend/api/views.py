@@ -1,14 +1,20 @@
 from django.http import HttpResponse, JsonResponse
+from django.db.models import Q
 from django.views.generic import UpdateView
 from rest_framework import permissions
-
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from .models import Message, Course, Opinions, File, Annoucement, Grade, Task, Presence
-from .serializers import MessageSerializer, CourseSerializer, OpinionsSerializer, FileSerializer, AnnoucementSerializer, GradeSerializer, TaskSerializer, PresenceSerializer
+from .serializers import MessageSerializer, CourseSerializer, OpinionsSerializer, FileSerializer, AnnoucementSerializer,\
+    GradeSerializer, TaskSerializer, PresenceSerializer, UserCourseSerializer
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.parsers import MultiPartParser, FormParser
+
+from rest_framework.renderers import BaseRenderer
+from wsgiref.util import FileWrapper
+
 # Create your views here.
 
 
@@ -33,15 +39,9 @@ class AnnoucementCreate(APIView):
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class MessageAPIView(APIView):
-    model = Message
-    def get(self, request, id=None):
-        serializer = MessageSerializer()
-        if id:
-            articles = Message.objects.get(id=id)
-            serializer = MessageSerializer(articles)
-        else:
-            articles = Message.objects.all()
-            serializer = MessageSerializer(articles, many=True)
+    def get(self, request):
+        messages = Message.objects.filter(Q(id_sender=request.user.id) | Q(id_receiver=request.user.id))
+        serializer = MessageSerializer(messages, many=True)
         return Response(serializer.data)
 
 
@@ -68,7 +68,6 @@ class CourseAPIView(APIView):
         return Response(serializer.data)
 
 class CourseCreate(APIView):
-
     def post(self, request, format='json'):
         serializer = CourseSerializer(data=request.data)
         if serializer.is_valid():
@@ -150,20 +149,48 @@ class OpinionsCreate(APIView):
                 return Response(json, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 class FileAPIView(APIView):
-    def get(self, request, id=None):
-        serializer = FileSerializer()
-        if id:
-            articles = File.objects.get(id=id)
-            serializer = FileSerializer(articles)
-        else:
-            articles = File.objects.all()
-            serializer = FileSerializer(articles, many=True)
+    # permission_classes = (permissions.AllowAny,) ### to trzeba odkomentowac jak chce sie miec dostep bez tokena
+
+    def get(self, request, id=None, format=None):
+        articles = File.objects.all()
+        serializer = FileSerializer(articles, many=True)
         return Response(serializer.data)
 
-class FileCreate(APIView):
+class FileDownload(APIView):
+    class BinaryFileRenderer(BaseRenderer):
+        media_type = 'application/octet-stream'
+        format = None
+        charset = None
+        render_style = 'binary'
 
-    def post(self, request, format=None):
+        def render(self, data, media_type=None, renderer_context=None):
+            return data
+
+    renderer_classes = (BinaryFileRenderer,)
+    # permission_classes = (permissions.AllowAny,) ### to trzeba odkomentowac jak chce sie miec dostep bez tokena
+
+    def get(self, request, id=None, format=None):
+        obj = File.objects.get(id=id)
+        field_object = File._meta.get_field('file')
+        path =  str(field_object.value_from_object(obj))
+        file_name = path[path.index('files/')+1:]
+        with open(path, 'rb') as report:
+            return Response(
+                report.read(),
+                headers={'Content-Disposition': 'attachment; filename='+file_name},
+                content_type='application/octet-stream')
+
+
+
+class FileCreate(APIView):
+    # permission_classes = (permissions.AllowAny,) ### to trzeba odkomentowac jak chce sie miec dostep bez tokena
+    queryset = File.objects.all()
+    parser_classes = (FormParser, MultiPartParser)
+    serializer_class = FileSerializer
+
+    def post(self, request, filename=None, format=None):
         serializer = FileSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -234,6 +261,17 @@ class PresenceCreate(APIView):
 
     def post(self, request, format='json'):
         serializer = PresenceSerializer(data=request.data)
+        if serializer.is_valid():
+            presence = serializer.save()
+            if presence:
+                json = serializer.data
+                return Response(json, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class UserCourseCreate(APIView):
+    def post(self, request):
+        serializer = UserCourseSerializer(data=request.data)
         if serializer.is_valid():
             presence = serializer.save()
             if presence:

@@ -1,22 +1,11 @@
 from django.http import HttpResponse, JsonResponse, HttpRequest
 from django.db.models import Q
-from django.views.decorators.csrf import csrf_exempt
-from rest_framework.parsers import JSONParser
 from .serializers import User, CourseWithTeacherSerializer
-from .serializers import UserSerializer
-
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view
-from rest_framework import viewsets
-from django.shortcuts import get_object_or_404
-from rest_framework import generics
-from rest_framework import mixins
-from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import IsAuthenticated
 from api.models import Course, UserCourse
-from api.serializers import UserCourseSerializer, CourseSerializer
 # Create your views here.
 
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -41,18 +30,12 @@ class UserCreate(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class HelloWorldView(APIView):
 
-    def get(self, request):
-        return Response(data={"hello": "world"}, status=status.HTTP_200_OK)
-
-      
 class UserCoursesAPIView(APIView):
     def get(self, request):
         courses = Course.objects.filter(usercourse__id_user=request.user.id)
         serializer = CourseWithTeacherSerializer(courses, many=True)
         return Response(serializer.data)
-
 
 
 @api_view(['GET'])
