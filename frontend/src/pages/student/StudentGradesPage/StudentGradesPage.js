@@ -70,15 +70,21 @@ const StudentGradesPage = () => {
           <Grid item>
             <Paper className="grades-list grades-list-content" elevation={3}>
               <Grid item>
-                {selectedCourse ? (
-                  <ul>
-                    {grades.map((grade) => (
-                      <li>??? - {grade.grade.toFixed(1)} - ???</li>
-                    ))}
-                  </ul>
-                ) : (
-                  <p>Proszę wybrać kurs, aby sprawdzić ocenę!</p>
-                )}
+                <ul>
+                  {selectedCourse ? (
+                    <>
+                      {grades && grades.length > 0 ? (
+                        grades.map((grade) => (
+                          <li>??? - {grade.grade.toFixed(1)} - ???</li>
+                        ))
+                      ) : (
+                        <p>Brak odnotowanych ocen na tym przedmiocie!</p>
+                      )}
+                    </>
+                  ) : (
+                    <p>Proszę wybrać kurs, aby sprawdzić ocenę!</p>
+                  )}
+                </ul>
               </Grid>
               <Grid item>
                 <p className="grades-list-summary">
