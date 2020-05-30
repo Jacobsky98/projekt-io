@@ -59,16 +59,18 @@ class OpinionsSerializer(serializers.ModelSerializer):
         return instance
 
 
+
 class FileSerializer(serializers.ModelSerializer):
-    title = serializers.CharField(max_length=50)
+    # filename = serializers.CharField(max_length=50)
     file = serializers.FileField(default='files/tmp')
-    date_sent = serializers.DateTimeField()
+    date_sent = serializers.DateTimeField(default=timezone.now)
 
     class Meta:
         model = File
-        fields = ['title', 'file', 'date_sent']
+        # fields = ['filename', 'file', 'date_sent']
+        fields = '__all__'
 
-    def create(self, validated_data):
+    def create(self, validated_data, filename=None):
         instance = self.Meta.model(**validated_data)
         instance.save()
         return instance

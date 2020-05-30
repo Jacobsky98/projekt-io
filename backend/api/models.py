@@ -35,9 +35,9 @@ class Task(models.Model):
 
 
 class File(models.Model):
-    title = forms.CharField(max_length=50)
+    # filename = forms.CharField(max_length=50)
     file = models.FileField(upload_to='files', default='files/tmp')
-    date_sent = models.DateTimeField(auto_now_add=True)
+    date_sent = models.DateTimeField(default=timezone.now)
 
 
 class User_Tasks_Files(models.Model):
