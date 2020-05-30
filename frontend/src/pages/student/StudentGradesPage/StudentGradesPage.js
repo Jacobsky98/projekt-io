@@ -44,9 +44,9 @@ const StudentGradesPage = () => {
             <Paper className="grades-list" elevation={3}>
               <List>
                 {courses &&
-                  courses.map((data) => (
+                  courses.map((data, index) => (
                     <ListItem
-                      key={new Date() + data.info}
+                      key={index}
                       button
                       onClick={() => {
                         setSelectedCourse(data.id);
