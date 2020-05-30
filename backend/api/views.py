@@ -4,6 +4,7 @@ from django.views.generic import UpdateView
 from rest_framework import permissions
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
+from users.models import User
 from .models import Message, Course, Opinions, File, Annoucement, Grade, Task, Presence
 from .serializers import MessageSerializer, CourseSerializer, OpinionsSerializer, FileSerializer, AnnoucementSerializer,\
     GradeSerializer, TaskSerializer, PresenceSerializer, UserCourseSerializer
@@ -137,8 +138,7 @@ class OpinionsAPIView(APIView):
             serializer = OpinionsSerializer(articles, many=True)
         return Response(serializer.data)
 
-class OpinionsCreate(APIView):
-
+class OpinionCreate(APIView):
     def post(self, request, format='json'):
         serializer = OpinionsSerializer(data=request.data)
         if serializer.is_valid():

@@ -32,11 +32,12 @@ class AnnoucementSerializer(serializers.ModelSerializer):
 
 class CourseSerializer(serializers.ModelSerializer):
     annoucements = AnnoucementSerializer(many=True, read_only=True)
-    info = serializers.CharField(max_length=50)
+    name = serializers.CharField(max_length=50)
+    info = serializers.CharField()
 
     class Meta:
         model = Course
-        fields = ['id', 'info', 'id_teacher', 'annoucements']
+        fields = ['id', 'name', 'id_teacher', 'info', 'annoucements']
 
     def create(self, validated_data):
         instance = self.Meta.model(**validated_data)
