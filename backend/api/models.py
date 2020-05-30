@@ -14,7 +14,8 @@ class Annoucement(models.Model):
 
 class Course(models.Model):
     id_teacher = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    info = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, null=False)
+    info = models.TextField()
 
 
 
