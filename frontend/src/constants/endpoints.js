@@ -2,6 +2,7 @@ const api = 'http://localhost:8000';
 
 export const endpoint = {
   courses: `${api}/courses/`,
+  addCourse: `${api}/courses/add/`,
   authorize: `${api}/token/obtain/`,
   currentUser: `${api}/current_user/`,
   users: `${api}/users/`,
@@ -9,6 +10,8 @@ export const endpoint = {
   createUser: `${api}/user/create/`,
   coursesForUser: `${api}/user/courses/`,
   messages: `${api}/messages/`,
+  sendMessage: `${api}/messages/send/`,
+  opinions: `${api}/opinions/`
 };
 
 // urlpatterns = [
