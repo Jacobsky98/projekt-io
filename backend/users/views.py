@@ -111,3 +111,4 @@ class TeacherDetails(APIView):
         article = self.get_object(id)
         article.delete()
         return HttpResponse(status=status.HTTP_204_NO_CONTENT)
+

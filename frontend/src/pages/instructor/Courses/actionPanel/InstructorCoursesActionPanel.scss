@@ -5,4 +5,31 @@
   display: flex;
   width: 100%;
   margin-left: 32px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    height: 15%;
+    background-color: #f0bef9;
+
+    &-title {
+      padding: 8px 0 0 0;
+      text-align: center;
+    }
+  }
+
+  &__content {
+    height: 85%;
+  }
+
+  .MuiBottomNavigation-root {
+    background-color: #f0bef9;
+  }
+
+  .MuiBottomNavigationAction-root {
+    max-width: none;
+  }
 }

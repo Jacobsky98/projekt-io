@@ -22,8 +22,8 @@ export const getUserData = () => {
       // jeżeli nie mamy użytkownika z żadną rolą, to najlepiej zmienić tu na 'role: ROLES.ADMIN,'
       // zalogować się, dodać użytkowników z odpowiednimi rolami i zmienic spowrotem
       const userData = {
-        name: 'Jan',
-        surname: 'Kowalski',
+        name: data ? data.first_name : null,
+        surname: data ? data.last_name : null,
         role: data ? data.role : null,
         id: data ? data.id : null,
       };
@@ -41,7 +41,6 @@ export const login = (username, password) => {
       .then(({ data }) => {
         localStorage.setItem('accessToken', data.access);
         axios.defaults.headers.common['Authorization'] = `JWT ${data.access}`;
-
         dispatch(setTokens(data.access, data.refresh));
         return dispatch(getUserData());
       })

@@ -28,5 +28,5 @@ urlpatterns = [
     path('user/courses/', UserCoursesAPIView.as_view()),
     path('user/create/', UserCreate.as_view(), name="create_user"),
     path('token/obtain/', ObtainTokenPairWithRoleView.as_view(), name='token_create'),
-    path('token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
+    path('token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh')
 ]

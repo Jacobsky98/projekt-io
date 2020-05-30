@@ -58,7 +58,7 @@ const MessagesPage = () => {
   const [chatPeople, setChatPeople] = useState([]);
   const [allMessages, setAllMessages] = useState([]);
   const [messages, setMessages] = useState([]);
-  const [selectedUserId, setSelectedUserId] = useState(null);
+  const [selectedUser, setSelectedUser] = useState(null);
   const [content, setContent] = useState('');
 
   const classes = useStyles();
@@ -94,35 +94,33 @@ const MessagesPage = () => {
     setPerson(event.target.value);
   };
 
-  const handleChangePerson = (personId) => {
-    setSelectedUserId(personId);
+  const handleChangePerson = (person) => {
+    setSelectedUser(person);
     const filteredMessages = allMessages.filter(
       (m) =>
-        (m.id_sender === personId && m.id_receiver === userData.id) ||
-        (m.id_sender === userData.id && m.id_receiver === personId)
+        (m.id_sender === person.id && m.id_receiver === userData.id) ||
+        (m.id_sender === userData.id && m.id_receiver === person.id)
     );
     setMessages(filteredMessages);
-    console.log(filteredMessages);
   };
 
   const sendMessage = (e) => {
-    if (e.key === 'Enter' && content && selectedUserId) {
+    if (e.key === 'Enter' && content && selectedUser) {
       const messageData = {
         id_sender: userData.id,
-        id_receiver: selectedUserId,
+        id_receiver: selectedUser.id,
         content: content,
         title: 'default',
       };
 
       axios
-        .post(endpoint.messages, messageData)
+        .post(endpoint.sendMessage, messageData)
         .then(() => {
           setContent('');
           const newAllMessages = allMessages;
           const newFilteredMessages = messages;
           newAllMessages.push(messageData);
           newFilteredMessages.push(messageData);
-          console.log(newAllMessages);
           setMessages(newFilteredMessages);
           setAllMessages(newAllMessages);
         })
@@ -211,7 +209,7 @@ const MessagesPage = () => {
               <List>
                 {chatPeople &&
                   chatPeople.map((person) => (
-                    <div onClick={() => handleChangePerson(person.id)}>
+                    <div onClick={() => handleChangePerson(person)}>
                       <ListItem button>
                         <ListItemIcon>
                           <PersonIcon style={{ color: '#4267B2' }} />
@@ -238,7 +236,7 @@ const MessagesPage = () => {
           </Grid>
         </Grid>
         <Grid xs={9} spacing={3} container direction="column">
-          <Grid item>{selectedUserId}</Grid>
+          {selectedUser && <Grid item>{selectedUser.username}</Grid>}
           <Grid item>
             <Paper style={{ overflowY: 'scroll', height: '400px' }}>
               {messages &&

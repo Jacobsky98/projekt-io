@@ -1,22 +1,40 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './InstructorCoursesActionPanel.scss';
-import { InstructorLecturesList } from './lecturesList/InstructorLecturesList';
-import { InstructorLecture } from './lecture/InstructorLecture';
+import BottomNavigation from '@material-ui/core/BottomNavigation';
+import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
+import { InstructorAnnouncements } from './announcements/InstructorAnnouncements';
 
 export const InstructorCoursesActionPanel = () => {
+  const [value, setValue] = React.useState(0);
   const dispatch = useDispatch();
   const mapState = (state) => ({
     courses: state.instructor.courses,
-    selected: state.instructor.selectedCourse,
+    selectedCourse: state.instructor.selectedCourse,
   });
 
-  let { courses, selected } = useSelector(mapState);
+  let { courses, selectedCourse } = useSelector(mapState);
 
   return (
     <div className="action-panel">
-      <InstructorLecturesList />
-      <InstructorLecture />
+      <div className="action-panel__header">
+        <span className="action-panel__header-title">
+          {selectedCourse.info}
+        </span>
+        <BottomNavigation
+          value={value}
+          onChange={(event, newValue) => {
+            setValue(newValue);
+          }}
+          showLabels
+        >
+          <BottomNavigationAction label="Zadania" />
+          <BottomNavigationAction label="Ogłoszenia" />
+        </BottomNavigation>
+      </div>
+      <div className="action-panel__content">
+        {value ? <InstructorAnnouncements /> : null}
+      </div>
     </div>
   );
 };

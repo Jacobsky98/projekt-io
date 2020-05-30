@@ -39,7 +39,10 @@ let InstructorNavigationBar = ({ history, ...props }) => {
       />
       <BottomNavigationAction
         label="Log Out"
-        onClick={() => dispatch(authActions.logout())}
+        onClick={() => {
+          history.push('/');
+          dispatch(authActions.logout());
+        }}
         icon={<ExitToAppRoundedIcon fontSize="large" />}
       />
     </BottomNavigation>

@@ -41,7 +41,7 @@ const AdminCoursesPage = () => {
         info: courseName,
         id_teacher: selectedInstructor.id,
       };
-      axios.post(endpoint.courses, courseData).then(() => fetchData());
+      axios.post(endpoint.addCourse, courseData).then(() => fetchData());
     }
   };
 

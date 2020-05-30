@@ -1,0 +1,39 @@
+.instructor-announcements {
+  display: flex;
+  align-items: stretch;
+  height: 100%;
+
+  &__list {
+    width: 30%;
+    background-color: #f9a5a3;
+    display: flex;
+    flex-direction: column;
+
+    &-content {
+      overflow-y: scroll;
+    }
+
+    &-header {
+      margin-top: 8px;
+      text-align: center;
+    }
+
+    &-add {
+      display: flex;
+      justify-content: center;
+    }
+  }
+
+  &__info {
+    width: 70%;
+    margin: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+
+    &-header {
+      text-align: center;
+      margin: 16px;
+    }
+  }
+}

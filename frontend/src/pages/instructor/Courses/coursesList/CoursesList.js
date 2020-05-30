@@ -13,10 +13,11 @@ const CoursesList = () => {
   const dispatch = useDispatch();
   const mapState = (state) => ({
     courses: state.instructor.courses,
-    selected: state.instructor.selected,
+    selectedCourse: state.instructor.selected,
+    userData: state.auth.userData,
   });
 
-  let { courses, selected } = useSelector(mapState);
+  let { userData, courses, selectedCourse } = useSelector(mapState);
 
   useEffect(() => {
     dispatch(getCourses());
@@ -24,17 +25,17 @@ const CoursesList = () => {
 
   return (
     <div className="instructor-courses-list">
-      <span>List przedmiotów</span>
+      <span className="instructor-courses-list__header">List przedmiotów</span>
       <List>
         {courses.map((course, index) => (
           <ListItem
             button
             key={index}
-            onClick={() => dispatch(setSelectedCourse(index))}
+            onClick={() => dispatch(setSelectedCourse(course))}
           >
             <ListItemText
-              primary={'tutaj trzeba wrzucić coś w stylu {course.name}'}
-              secondary={'ale nie wiem co z backendu przyjdzie'}
+              primary={course.info}
+              secondary={`Prowadzący: ${userData.name} ${userData.surname}`}
             />
           </ListItem>
         ))}
