@@ -11,7 +11,9 @@ export const endpoint = {
   coursesForUser: `${api}/user/courses/`,
   messages: `${api}/messages/`,
   sendMessage: `${api}/messages/send/`,
-  opinions: `${api}/opinions/`
+  opinions: `${api}/opinions/`,
+  announcements: `${api}/annoucements/`,
+  tasks: `${api}/tasks/`
 };
 
 // urlpatterns = [

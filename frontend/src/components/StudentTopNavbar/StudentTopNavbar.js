@@ -51,7 +51,10 @@ let StudentTopNavbar = ({ history, ...props }) => {
       />
       <BottomNavigationAction
         label="Wyloguj się"
-        onClick={() => dispatch(authActions.logout())}
+        onClick={() => {
+          history.push('/');
+          dispatch(authActions.logout());
+        }}
         icon={<ExitToAppRoundedIcon fontSize="large" />}
       />
     </BottomNavigation>

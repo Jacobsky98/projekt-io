@@ -4,7 +4,7 @@ $padding: 64px;
   background-color: #90caf9;
   height: 60vh;
   overflow-y: scroll;
-  padding: 16px;
+  padding: 0 16px 16px 16px;
   border-radius: 5px;
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
   position: absolute;
@@ -33,6 +33,11 @@ $padding: 64px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      position: sticky;
+      padding-top: 16px;
+      top: 0;
+      background-color: #90caf9;
+      z-index: 100;
     }
   }
 

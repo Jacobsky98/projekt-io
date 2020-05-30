@@ -59,6 +59,7 @@ const AdminUsersPage = () => {
       };
 
       axios.post(endpoint.createUser, userData).then((res) => {
+        dispatch(setShowUserForm(false));
         fetchData();
       });
     }
