@@ -7,7 +7,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import PersonIcon from '@material-ui/icons/Person';
 import { endpoint } from '../../../constants/endpoints';
-import { ROLES } from '../../../constants/Constants'
+import { ROLES } from '../../../constants/Constants';
 import axios from 'axios';
 import './AdminOpinionsPage.scss';
 
@@ -20,24 +20,24 @@ const AdminOpinionsPage = () => {
   useEffect(() => {
     fetchInstructors();
     fetchOpinions();
-  }, [])
-  
+  }, []);
+
   const fetchInstructors = () => {
     axios.get(endpoint.users).then((res) => {
       if (res.data) {
-        setInstructors(res.data.filter(u => u.role === ROLES.INSTRUCTOR))
+        setInstructors(res.data.filter((u) => u.role === ROLES.INSTRUCTOR));
       }
     });
-  }
+  };
 
   const fetchOpinions = () => {
-    axios.get(endpoint.opinions).then((res) => setOpinions(res.data))
-  }
-  
+    axios.get(endpoint.opinions).then((res) => setOpinions(res.data));
+  };
+
   const changeShownInstructor = (instructor) => {
     setChoosenInstructor(instructor);
-    setShownOpinions(opinions.filter(o => o.id_receiver === instructor.id))
-  }
+    setShownOpinions(opinions.filter((o) => o.id_receiver === instructor.id));
+  };
 
   return (
     <div>
@@ -49,7 +49,10 @@ const AdminOpinionsPage = () => {
               <List>
                 {instructors &&
                   instructors.map((instructor) => (
-                    <ListItem button onClick={() => changeShownInstructor(instructor)}>
+                    <ListItem
+                      button
+                      onClick={() => changeShownInstructor(instructor)}
+                    >
                       <ListItemIcon>
                         <PersonIcon style={{ color: '#4267B2' }} />
                       </ListItemIcon>
@@ -64,8 +67,14 @@ const AdminOpinionsPage = () => {
           </Grid>
         </Grid>
         <Grid item xs={8} direction="column">
-          {choosenInstructor && <Grid item>Opinie o wybranym prowadzącym: {choosenInstructor.username}</Grid>}
-          {!choosenInstructor && <Grid item>Wybierz prowadzącego z listy po lewej stronie!</Grid>}
+          {choosenInstructor && (
+            <Grid item>
+              Opinie o wybranym prowadzącym: {choosenInstructor.username}
+            </Grid>
+          )}
+          {!choosenInstructor && (
+            <Grid item>Wybierz prowadzącego z listy po lewej stronie!</Grid>
+          )}
           <Grid item>
             <Paper className="opinions-list" elevation={3}>
               {shownOpinions &&

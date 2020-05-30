@@ -17,18 +17,24 @@ export const InstructorCoursesActionPanel = () => {
 
   return (
     <div className="action-panel">
-      <span className="action-panel__header">{selectedCourse.info}</span>
-      <BottomNavigation
-        value={value}
-        onChange={(event, newValue) => {
-          setValue(newValue);
-        }}
-        showLabels
-      >
-        <BottomNavigationAction label="Zadania" />
-        <BottomNavigationAction label="Ogłoszenia" />
-      </BottomNavigation>
-      {value ? <Announcements /> : null}
+      <div className="action-panel__header">
+        <span className="action-panel__header-title">
+          {selectedCourse.info}
+        </span>
+        <BottomNavigation
+          value={value}
+          onChange={(event, newValue) => {
+            setValue(newValue);
+          }}
+          showLabels
+        >
+          <BottomNavigationAction label="Zadania" />
+          <BottomNavigationAction label="Ogłoszenia" />
+        </BottomNavigation>
+      </div>
+      <div className="action-panel__content">
+        {value ? <Announcements /> : null}
+      </div>
     </div>
   );
 };

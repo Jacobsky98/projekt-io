@@ -7,6 +7,16 @@ export const GET_ANNOUNCEMENTS = 'GET_ANNOUNCEMENTS';
 export const SET_SELECTED_COURSE = 'SET_SELECTED_COURSE';
 export const SET_SELECTED_ANNOUNCEMENTS = 'SET_SELECTED_ANNOUNCEMENTS';
 export const SET_SELECTED_TASK = 'SET_SELECTED_TASK';
+export const PUT_ANNOUNCEMENT = 'PUT_ANNOUNCEMENT';
+
+export const putAnnouncement = (announcement) => {
+  return (dispatch) => {
+    return axios.post(endpoint.addAnnouncement, announcement).then(() => {
+      dispatch({ type: PUT_ANNOUNCEMENT });
+      return dispatch(getAnnouncements());
+    });
+  };
+};
 
 export const setSelectedTask = (selectedTask) => {
   return {
@@ -31,39 +41,34 @@ export const setSelectedCourse = (selectedCourse) => {
 
 export const getCourses = () => {
   return (dispatch) => {
-    return axios
-      .get(endpoint.courses)
-      .then(({ data }) =>
-        dispatch({
-          type: GET_COURSES,
-          courses: data,
-        })
-      );
+    return axios.get(endpoint.courses).then(({ data }) =>
+      dispatch({
+        type: GET_COURSES,
+        courses: data,
+      })
+    );
   };
 };
 
 export const getTasks = () => {
   return (dispatch) => {
-    return axios
-      .get(endpoint.tasks)
-      .then(({ data }) =>
-        dispatch({
-          type: GET_TASKS,
-          tasks: data,
-        })
-      );
+    return axios.get(endpoint.tasks).then(({ data }) =>
+      dispatch({
+        type: GET_TASKS,
+        tasks: data,
+      })
+    );
   };
 };
 
 export const getAnnouncements = () => {
   return (dispatch) => {
-    return axios
-      .get(endpoint.announcements)
-      .then(({ data }) =>
-        dispatch({
-          type: GET_ANNOUNCEMENTS,
-          announcements: data,
-        })
-      );
+    return axios.get(endpoint.announcements).then(({ data }) => {
+      dispatch({
+        type: GET_ANNOUNCEMENTS,
+        announcements: data,
+      });
+      return Promise.resolve();
+    });
   };
 };

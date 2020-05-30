@@ -2,6 +2,7 @@ import {
   GET_ANNOUNCEMENTS,
   GET_COURSES,
   GET_TASKS,
+  PUT_ANNOUNCEMENT,
   SET_SELECTED_ANNOUNCEMENTS,
   SET_SELECTED_COURSE,
   SET_SELECTED_TASK,
@@ -47,14 +48,20 @@ export default (state = initalState, action) => {
     case SET_SELECTED_ANNOUNCEMENTS:
       return {
         ...state,
-        selectedAnnouncement: action.selectedAnnouncement
+        selectedAnnouncement: action.selectedAnnouncement,
       };
 
     case SET_SELECTED_TASK:
       return {
         ...state,
-        selectedTask: action.selectedTask
+        selectedTask: action.selectedTask,
       };
+
+    case PUT_ANNOUNCEMENT:
+      return {
+        ...state,
+      };
+
     default:
       return state;
   }

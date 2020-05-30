@@ -13,7 +13,8 @@ export const endpoint = {
   sendMessage: `${api}/messages/send/`,
   opinions: `${api}/opinions/`,
   announcements: `${api}/annoucements/`,
-  tasks: `${api}/tasks/`
+  tasks: `${api}/tasks/`,
+  addAnnouncement: `${api}/annoucements/add/`,
 };
 
 // urlpatterns = [
