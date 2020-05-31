@@ -20,7 +20,9 @@ export const InstructorCoursesActionPanel = () => {
     <div className="action-panel">
       <div className="action-panel__header">
         <span className="action-panel__header-title">
-          {selectedCourse ? selectedCourse.name : 'Nie wybrano żadnego przedmiotu'}
+          {selectedCourse
+            ? selectedCourse.name
+            : 'Nie wybrano żadnego przedmiotu'}
         </span>
         <BottomNavigation
           value={value}

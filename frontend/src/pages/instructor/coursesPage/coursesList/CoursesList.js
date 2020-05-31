@@ -27,18 +27,20 @@ const CoursesList = () => {
     <div className="instructor-courses-list">
       <span className="instructor-courses-list__header">List przedmiotów</span>
       <List>
-        {courses.filter((course) => course.id_teacher === userData.id).map((course, index) => (
-          <ListItem
-            button
-            key={index}
-            onClick={() => dispatch(setSelectedCourse(course))}
-          >
-            <ListItemText
-              primary={course.name}
-              secondary={`Prowadzący: ${userData.name} ${userData.surname}`}
-            />
-          </ListItem>
-        ))}
+        {courses
+          .filter((course) => course.id_teacher === userData.id)
+          .map((course, index) => (
+            <ListItem
+              button
+              key={index}
+              onClick={() => dispatch(setSelectedCourse(course))}
+            >
+              <ListItemText
+                primary={course.name}
+                secondary={`Prowadzący: ${userData.name} ${userData.surname}`}
+              />
+            </ListItem>
+          ))}
       </List>
     </div>
   );

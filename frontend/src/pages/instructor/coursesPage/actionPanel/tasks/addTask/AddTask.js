@@ -29,7 +29,9 @@ export const AddTask = ({ onCancel, course }) => {
           label="Deadline"
           type="datetime-local"
           defaultValue="2020-05-30T10:30"
-          onChange={(event) => {handleDateChange(event.target.value)}}
+          onChange={(event) => {
+            handleDateChange(event.target.value);
+          }}
           InputLabelProps={{
             shrink: true,
           }}

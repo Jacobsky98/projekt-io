@@ -44,7 +44,10 @@ export const InstructorTasks = () => {
                       dispatch(setSelectedTask(task));
                     }}
                   >
-                    <ListItemText primary={`Zadanie ${index}`} secondary={`Deadline: ${task.deadline}`} />
+                    <ListItemText
+                      primary={`Zadanie ${index}`}
+                      secondary={`Deadline: ${task.deadline}`}
+                    />
                   </ListItem>
                 ))}
           </List>
@@ -55,13 +58,14 @@ export const InstructorTasks = () => {
           </Button>
         </div>
         <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
-          <AddTask onCancel={() => setOpenDialog(false)} course={selectedCourse} />
+          <AddTask
+            onCancel={() => setOpenDialog(false)}
+            course={selectedCourse}
+          />
         </Dialog>
       </div>
       <div className="instructor-tasks__info">
-        <span className="instructor-tasks__info-header">
-          Opis zadania
-        </span>
+        <span className="instructor-tasks__info-header">Opis zadania</span>
         <p>{selectedTask && selectedTask.description}</p>
       </div>
     </div>
