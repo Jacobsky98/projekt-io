@@ -1,0 +1,19 @@
+.instructor-add-task {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  background-color: #9fa8da !important;
+  width: 30vw;
+  height: 50vh;
+  justify-content: space-between;
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__buttons {
+    display: flex;
+    justify-content: space-between;
+  }
+}

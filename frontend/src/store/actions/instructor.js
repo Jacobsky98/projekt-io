@@ -8,12 +8,22 @@ export const SET_SELECTED_COURSE = 'SET_SELECTED_COURSE';
 export const SET_SELECTED_ANNOUNCEMENTS = 'SET_SELECTED_ANNOUNCEMENTS';
 export const SET_SELECTED_TASK = 'SET_SELECTED_TASK';
 export const PUT_ANNOUNCEMENT = 'PUT_ANNOUNCEMENT';
+export const PUT_TASK = 'PUT_TASK';
 
 export const putAnnouncement = (announcement) => {
   return (dispatch) => {
     return axios.post(endpoint.addAnnouncement, announcement).then(() => {
       dispatch({ type: PUT_ANNOUNCEMENT });
       return dispatch(getAnnouncements());
+    });
+  };
+};
+
+export const putTask = (task) => {
+  return (dispatch) => {
+    return axios.post(endpoint.addTask, task).then(() => {
+      dispatch({ type: PUT_ANNOUNCEMENT });
+      return dispatch(getTasks());
     });
   };
 };

@@ -2,7 +2,7 @@ import {
   GET_ANNOUNCEMENTS,
   GET_COURSES,
   GET_TASKS,
-  PUT_ANNOUNCEMENT,
+  PUT_ANNOUNCEMENT, PUT_TASK,
   SET_SELECTED_ANNOUNCEMENTS,
   SET_SELECTED_COURSE,
   SET_SELECTED_TASK,
@@ -58,6 +58,11 @@ export default (state = initalState, action) => {
       };
 
     case PUT_ANNOUNCEMENT:
+      return {
+        ...state,
+      };
+
+    case PUT_TASK:
       return {
         ...state,
       };

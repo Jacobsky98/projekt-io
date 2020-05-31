@@ -4,6 +4,7 @@ import './InstructorCoursesActionPanel.scss';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import { InstructorAnnouncements } from './announcements/InstructorAnnouncements';
+import { InstructorTasks } from './tasks/InstructorTasks';
 
 export const InstructorCoursesActionPanel = () => {
   const [value, setValue] = React.useState(0);
@@ -33,7 +34,7 @@ export const InstructorCoursesActionPanel = () => {
         </BottomNavigation>
       </div>
       <div className="action-panel__content">
-        {value ? <InstructorAnnouncements /> : null}
+        {value ? <InstructorAnnouncements /> : <InstructorTasks />}
       </div>
     </div>
   );
