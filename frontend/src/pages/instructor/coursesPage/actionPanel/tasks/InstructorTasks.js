@@ -33,7 +33,7 @@ export const InstructorTasks = () => {
         <span className="instructor-tasks__list-header">Lista Zadań</span>
         <div className="instructor-tasks__list-content">
           <List>
-            {tasks &&
+            {selectedCourse &&
               tasks
                 .filter((task) => task.id_course === selectedCourse.id)
                 .map((task, index) => (

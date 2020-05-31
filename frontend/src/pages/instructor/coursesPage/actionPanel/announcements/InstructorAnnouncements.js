@@ -38,7 +38,7 @@ export const InstructorAnnouncements = () => {
         </span>
         <div className="instructor-announcements__list-content">
           <List>
-            {announcements &&
+            {selectedCourse &&
               announcements
                 .filter(
                   (announcement) => announcement.id_course === selectedCourse.id
