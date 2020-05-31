@@ -16,7 +16,7 @@ import StudentGradesPage from '../pages/student/StudentGradesPage/StudentGradesP
 import StudentOpinionsPage from '../pages/student/StudentOpinionsPage/StudentOpinionsPage';
 import { MessagesPage } from '../pages/commons/MessagesPage/MessagesPage';
 import { InstructorNavigationBar } from '../components/InstructorNavigationBar/InstructorNavigationBar';
-import { InstructorCoursesPage } from '../pages/instructor/Courses/InstructorCoursesPage';
+import { InstructorCoursesPage } from '../pages/instructor/coursesPage/InstructorCoursesPage';
 import { InstructorGradesPage } from '../pages/instructor/Grades/InstructorGradesPage';
 import axios from 'axios';
 

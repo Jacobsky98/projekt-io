@@ -17,11 +17,19 @@ const persistConfig = {
   storage,
 };
 
-const rootReducer = combineReducers({
+const appReducer = combineReducers({
   auth: authReducer,
   admin: adminReducer,
   instructor: instructorReducer,
 });
+
+const rootReducer = (state, action) => {
+  if (action.type === 'LOGOUT'){
+    state = undefined;
+  }
+
+  return appReducer(state, action);
+};
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 const store = createStore(

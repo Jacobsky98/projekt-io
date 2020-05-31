@@ -1,4 +1,4 @@
-import { GET_USER_DATA, LOGIN, LOGOUT, SET_TOKENS } from '../actions/auth';
+import { GET_USER_DATA, LOGIN, SET_TOKENS } from '../actions/auth';
 
 const initalState = {
   accessToken: null,
@@ -13,12 +13,6 @@ export default (state = initalState, action) => {
       return {
         ...state,
         isLogged: true,
-      };
-
-    case LOGOUT:
-      return {
-        ...initalState,
-        isLogged: false,
       };
 
     case SET_TOKENS:

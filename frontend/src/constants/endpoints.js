@@ -14,7 +14,7 @@ export const endpoint = {
   opinions: `${api}/opinions/`,
   announcements: `${api}/annoucements/`,
   tasks: `${api}/tasks/`,
-  addAnnouncement: `${api}/annoucements/add/`,
+  addAnnouncement: `${api}/annoucement/add/`,
   sendOpinion: `${api}/opinion/add/`,
   grades: `${api}/grades/`,
   presences: `${api}/presences/`,

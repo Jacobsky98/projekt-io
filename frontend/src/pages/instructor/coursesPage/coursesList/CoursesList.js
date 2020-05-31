@@ -27,14 +27,14 @@ const CoursesList = () => {
     <div className="instructor-courses-list">
       <span className="instructor-courses-list__header">List przedmiotów</span>
       <List>
-        {courses.map((course, index) => (
+        {courses.filter((course) => course.id_teacher === userData.id).map((course, index) => (
           <ListItem
             button
             key={index}
             onClick={() => dispatch(setSelectedCourse(course))}
           >
             <ListItemText
-              primary={course.info}
+              primary={course.name}
               secondary={`Prowadzący: ${userData.name} ${userData.surname}`}
             />
           </ListItem>
