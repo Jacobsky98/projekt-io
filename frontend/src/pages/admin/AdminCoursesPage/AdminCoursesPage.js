@@ -38,7 +38,8 @@ const AdminCoursesPage = () => {
   const addCourse = () => {
     if (courseName && selectedInstructor) {
       const courseData = {
-        info: courseName,
+        name: courseName,
+        info: 'default info',
         id_teacher: selectedInstructor.id,
       };
       axios.post(endpoint.addCourse, courseData).then(() => fetchData());
@@ -61,7 +62,7 @@ const AdminCoursesPage = () => {
                       <MenuBookIcon fontSize={'large'} />{' '}
                     </ListItemIcon>
                     <ListItemText
-                      primary={course.info}
+                      primary={course.name}
                       secondary={`PROWADZĄCY: NIEMA`}
                     ></ListItemText>
                   </ListItem>

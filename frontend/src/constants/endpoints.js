@@ -2,9 +2,10 @@ const api = 'http://localhost:8000';
 
 export const endpoint = {
   courses: `${api}/courses/`,
-  addCourse: `${api}/courses/add/`,
+  addCourse: `${api}/course/add/`,
   authorize: `${api}/token/obtain/`,
   currentUser: `${api}/current_user/`,
+  assignUserToCourse: `${api}/userCourse/add/`,
   users: `${api}/users/`,
   getUser: (userId) => `${api}/user/${userId}/`,
   createUser: `${api}/user/create/`,

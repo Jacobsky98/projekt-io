@@ -18,6 +18,7 @@ import { MessagesPage } from '../pages/commons/MessagesPage/MessagesPage';
 import { InstructorNavigationBar } from '../components/InstructorNavigationBar/InstructorNavigationBar';
 import { InstructorCoursesPage } from '../pages/instructor/coursesPage/InstructorCoursesPage';
 import { InstructorGradesPage } from '../pages/instructor/Grades/InstructorGradesPage';
+import { AssignStudentsPage } from '../pages/instructor/AssignStudentsPage/AssignStudentsPage';
 import axios from 'axios';
 
 axios.defaults.headers.common['Authorization'] = `JWT ${localStorage.getItem(
@@ -80,6 +81,10 @@ const AppRouter = () => {
             <Route
               path="/instructor/courses"
               render={() => <InstructorCoursesPage />}
+            />
+            <Route
+              path="/instructor/students"
+              render={() => <AssignStudentsPage />}
             />
             <Route
               path="/instructor/messages"

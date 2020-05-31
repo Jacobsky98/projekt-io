@@ -6,6 +6,7 @@ import MenuBookIcon from '@material-ui/icons/MenuBook';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import ChatBubbleRoundedIcon from '@material-ui/icons/ChatBubbleRounded';
 import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded';
+import AssignmentIcon from '@material-ui/icons/Assignment';
 import { useDispatch } from 'react-redux';
 import * as authActions from '../../store/actions/auth';
 import { withRouter } from 'react-router-dom';
@@ -26,6 +27,11 @@ let InstructorNavigationBar = ({ history, ...props }) => {
         label="Courses"
         onClick={() => history.push('/instructor/courses')}
         icon={<MenuBookIcon fontSize="large" />}
+      />
+      <BottomNavigationAction
+        label="Students"
+        onClick={() => history.push('/instructor/students')}
+        icon={<AssignmentIcon fontSize="large" />}
       />
       <BottomNavigationAction
         label="Messages"
