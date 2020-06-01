@@ -105,7 +105,7 @@ class PresenceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Presence
-        fields = ['id_student', 'id_course', 'was_present']
+        fields = ['id_student', 'id_course', 'date', 'was_present']
 
     def create(self, validated_data):
         instance = self.Meta.model(**validated_data)
@@ -116,6 +116,6 @@ class PresenceSerializer(serializers.ModelSerializer):
 class UserCourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserCourse
-        fields = "__all__"
+        fields = ['id_user', 'id_course']
 
 

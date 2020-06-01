@@ -5,7 +5,7 @@ from rest_framework import permissions
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from users.models import User
-from .models import Message, Course, Opinions, File, Annoucement, Grade, Task, Presence
+from .models import Message, Course, Opinions, File, Annoucement, Grade, Task, Presence, UserCourse
 from .serializers import MessageSerializer, CourseSerializer, OpinionsSerializer, FileSerializer, AnnoucementSerializer,\
     GradeSerializer, TaskSerializer, PresenceSerializer, UserCourseSerializer
 from rest_framework import status
@@ -266,6 +266,33 @@ class PresenceCreate(APIView):
                 return Response(json, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class UserCourseAPIViewIdUser(APIView):
+    def get(self, request, id_user=None):
+        if id_user:
+            articles = UserCourse.objects.filter(id_user=id_user)
+            serializer = UserCourseSerializer(articles, many=True)
+            json = serializer.data
+            return Response(json, status=status.HTTP_201_CREATED)
+        else:
+            articles = UserCourse.objects.all()
+            serializer = UserCourseSerializer(articles, many=True)
+            json = serializer.data
+            return Response(json, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class UserCourseAPIViewIdCourse(APIView):
+    def get(self, request, id_course=None):
+        if id_course:
+            articles = UserCourse.objects.filter(id_course=id_course)
+            serializer = UserCourseSerializer(articles, many=True)
+            json = serializer.data
+            return Response(json, status=status.HTTP_201_CREATED)
+        else:
+            articles = UserCourse.objects.all()
+            serializer = UserCourseSerializer(articles, many=True)
+            json = serializer.data
+            return Response(json, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class UserCourseCreate(APIView):
     def post(self, request):

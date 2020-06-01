@@ -16,8 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from .views import MessageAPIView, CourseAPIView, CourseDetails, OpinionsDetails, AnnoucementAPIView, GradeAPIView, TaskAPIView, PresenceAPIView, OpinionsAPIView, \
-    FileAPIView, UserCourseCreate
-from .views import CourseCreate, MessageCreate, FileCreate, OpinionCreate, AnnoucementCreate, GradeCreate, TaskCreate, PresenceCreate, FileDownload
+    FileAPIView, UserCourseAPIViewIdUser, UserCourseAPIViewIdCourse
+from .views import CourseCreate, MessageCreate, FileCreate, OpinionCreate, AnnoucementCreate, GradeCreate, TaskCreate, PresenceCreate, FileDownload, UserCourseCreate
 from django.contrib.auth import views as auth_views
 from rest_framework_swagger.views import get_swagger_view
 
@@ -42,6 +42,10 @@ urlpatterns = [
     path('files/', FileAPIView.as_view()),
     path('file/<int:id>/', FileDownload.as_view()),
     path('api_documentation/', schema_view),
+
+    path('userCourse/', UserCourseAPIViewIdCourse.as_view()),
+    path('userCourse/user/<int:id_user>/', UserCourseAPIViewIdUser.as_view()),
+    path('userCourse/course/<int:id_course>/', UserCourseAPIViewIdCourse.as_view()),
 
     #post
     path('userCourse/add/', UserCourseCreate.as_view(), name='userCourse_add'),
