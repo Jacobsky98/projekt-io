@@ -16,48 +16,7 @@ import { useSelector } from 'react-redux';
 import { endpoint } from '../../../constants/endpoints';
 import axios from 'axios';
 import './StudentCoursesPage.scss';
-
-const information = `Contrary to popular belief, Lorem Ipsum is not simply random text.
-It has roots in a piece of classical Latin literature from 45 BC,making it over 2000 years old. 
-Richard McClintock, a Latin professorat Hampden-Sydney College in Virginia, looked up one of the more
-obscure Latin words, consectetur, from a Lorem Ipsum passage, and going
-through the cites of the word in classical literature, discovered the
-undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of
-"de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero,
-written in 45 BC. This book is a treatise on the theory of ethics, very popular
-during the Renaissance. The first line of Lorem Ipsum,
-"Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
-The standard chunk of Lorem Ipsum used since the 1500s is reproduced below
-for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum"
-by Cicero are also reproduced in their exact original form, accompanied by English versions
-from the 1914 translation by H. Rackham.`;
-
-const notices = [
-  {
-    date: '11-05-2020',
-    content: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.`,
-  },
-  {
-    date: '10-05-2020',
-    content: `It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. `,
-  },
-  {
-    date: '09-05-2020',
-    content: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.`,
-  },
-  {
-    date: '08-05-2020',
-    content: `It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. `,
-  },
-  {
-    date: '07-05-2020',
-    content: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.`,
-  },
-  {
-    date: '06-05-2020',
-    content: `It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. `,
-  },
-];
+import moment from 'moment';
 
 const tasks = [
   { name: 'Zadanie #1', deadline: '14.05.2020 23.59', isSent: false },
@@ -103,6 +62,8 @@ function TabPanel(props) {
 export default function StudentCoursesPage() {
   const [value, setValue] = useState(0);
   const [courses, setCourses] = useState([]);
+  const [information, setInformation] = useState(null);
+  const [annoucements, setAnnouncements] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState(null);
   const currentUserData = useSelector((state) => state.auth.userData);
 
@@ -114,10 +75,18 @@ export default function StudentCoursesPage() {
   }, []);
 
   useEffect(() => {
-    const currentCourse = courses.find(
-      (course) => course.id === selectedCourse
-    );
-    //set info about specific course
+    (async () => {
+      if (selectedCourse) {
+        const currentCourse = courses.find(
+          (course) => course.id === selectedCourse
+        );
+        setInformation('info' in currentCourse ? currentCourse.info : null);
+        const courseAnnouncements = await axios.get(
+          endpoint.courseAnnoucement + currentCourse.id + '/'
+        );
+        setAnnouncements(courseAnnouncements.data);
+      }
+    })();
   }, [selectedCourse]);
 
   const handleChange = (event, newValue) => {
@@ -135,13 +104,16 @@ export default function StudentCoursesPage() {
                 <ListItem
                   button
                   key={index}
-                  onClick={() => setSelectedCourse(data.id)}
+                  onClick={() => {
+                    console.log(data);
+                    setSelectedCourse(data.id);
+                  }}
                 >
                   <ListItemIcon>
                     <MenuBookIcon style={{ color: '#4267B2' }} />
                   </ListItemIcon>
                   <ListItemText
-                    primary={data.info}
+                    primary={data.name}
                     secondary={`Prowadzący: ${data.teacher_first_name} ${data.teacher_last_name}`}
                   />
                 </ListItem>
@@ -161,89 +133,113 @@ export default function StudentCoursesPage() {
             <Tab label="Zadania" />
           </Tabs>
           <TabPanel value={value} index={0}>
-            {information}
+            {selectedCourse ? (
+              information ? (
+                information
+              ) : (
+                <p>Brak informacji na temat tego kursu!</p>
+              )
+            ) : (
+              <p>Proszę wybrać kurs, aby zobaczyć informacje!</p>
+            )}
           </TabPanel>
           <TabPanel value={value} index={1}>
             <div className="notice-list">
-              {notices &&
-                notices.map((notice, index) => (
-                  <div className="notice" key={index}>
-                    <div className="notice-date">{notice.date}</div>
-                    <div className="notice-content">{notice.content}</div>
-                  </div>
-                ))}
+              {selectedCourse ? (
+                annoucements.length > 0 ? (
+                  annoucements &&
+                  annoucements.map((item, index) => (
+                    <div className="notice" key={index}>
+                      <div className="notice-date">
+                        {moment(item.date).format('DD-MM-YYYY HH:mm:ss')}
+                      </div>
+                      <div className="notice-title">{item.title}</div>
+                      <div className="notice-content">{item.content}</div>
+                    </div>
+                  ))
+                ) : (
+                  <p>Brak ogłoszeń dla tego kursu!</p>
+                )
+              ) : (
+                <p>Proszę wybrać kurs, aby zobaczyć ogłoszenia!</p>
+              )}
             </div>
           </TabPanel>
           <TabPanel value={value} index={2}>
-            <Grid container direction="row" spacing={3}>
-              <Grid item xs={4}>
-                <div className="tasks-list">
-                  <List>
-                    {tasks &&
-                      tasks.map((task, index) => (
-                        <ListItem button key={index}>
-                          <Grid container direction="column">
-                            <Grid item>{task.name}</Grid>
-                            <Grid item>Termin: {task.deadline}</Grid>
-                            <Grid item>
-                              STATUS: {task.isSent ? 'WYSŁANE' : 'NIE WYSŁANO'}
+            {selectedCourse ? (
+              <Grid container direction="row" spacing={3}>
+                <Grid item xs={4}>
+                  <div className="tasks-list">
+                    <List>
+                      {tasks &&
+                        tasks.map((task, index) => (
+                          <ListItem button key={index}>
+                            <Grid container direction="column">
+                              <Grid item>{task.name}</Grid>
+                              <Grid item>Termin: {task.deadline}</Grid>
+                              <Grid item>
+                                STATUS:{' '}
+                                {task.isSent ? 'WYSŁANE' : 'NIE WYSŁANO'}
+                              </Grid>
                             </Grid>
-                          </Grid>
-                        </ListItem>
-                      ))}
-                  </List>
-                </div>
-              </Grid>
-              <Grid item xs={8} spacing={3}>
-                <div className="task-information">
-                  <div className="task-info">Wybrane zadanie: Zadanie #1</div>
-                  {information}
-                  {information}
-                  {information}
-                </div>
-                <div className="task-actions">
-                  <Grid container direction="row" spacing={3}>
-                    <Grid item xs={8}>
-                      <div className="sent-files-area">
-                        {sentFiles &&
-                          sentFiles.map((file, index) => (
-                            <div className="added-file" key={index}>
-                              <div>{file.name}</div>
-                              <div>
-                                <IconButton style={{ padding: 0 }}>
-                                  <CloseIcon className="remove-file-icon" />
-                                </IconButton>
+                          </ListItem>
+                        ))}
+                    </List>
+                  </div>
+                </Grid>
+                <Grid item xs={8} spacing={3}>
+                  <div className="task-information">
+                    <div className="task-info">Wybrane zadanie: Zadanie #1</div>
+                    {information}
+                    {information}
+                    {information}
+                  </div>
+                  <div className="task-actions">
+                    <Grid container direction="row" spacing={3}>
+                      <Grid item xs={8}>
+                        <div className="sent-files-area">
+                          {sentFiles &&
+                            sentFiles.map((file, index) => (
+                              <div className="added-file" key={index}>
+                                <div>{file.name}</div>
+                                <div>
+                                  <IconButton style={{ padding: 0 }}>
+                                    <CloseIcon className="remove-file-icon" />
+                                  </IconButton>
+                                </div>
                               </div>
-                            </div>
-                          ))}
-                      </div>
-                    </Grid>
-                    <Grid
-                      container
-                      direction="column"
-                      justify="space-around"
-                      alignItems="center"
-                    >
-                      <Grid item>
-                        <Button
-                          className="button-area"
-                          variant="contained"
-                          component="label"
-                        >
-                          Dodaj pliki
-                          <input type="file" style={{ display: 'none' }} />
-                        </Button>
+                            ))}
+                        </div>
                       </Grid>
-                      <Grid item>
-                        <Button variant="contained" color="primary">
-                          Wyślij
-                        </Button>
+                      <Grid
+                        container
+                        direction="column"
+                        justify="space-around"
+                        alignItems="center"
+                      >
+                        <Grid item>
+                          <Button
+                            className="button-area"
+                            variant="contained"
+                            component="label"
+                          >
+                            Dodaj pliki
+                            <input type="file" style={{ display: 'none' }} />
+                          </Button>
+                        </Grid>
+                        <Grid item>
+                          <Button variant="contained" color="primary">
+                            Wyślij
+                          </Button>
+                        </Grid>
                       </Grid>
                     </Grid>
-                  </Grid>
-                </div>
+                  </div>
+                </Grid>
               </Grid>
-            </Grid>
+            ) : (
+              <p>Proszę wybrać kurs, aby zobaczyć zadania!</p>
+            )}
           </TabPanel>
         </Paper>
       </Grid>

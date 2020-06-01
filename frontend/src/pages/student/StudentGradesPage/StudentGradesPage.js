@@ -23,9 +23,6 @@ const StudentGradesPage = () => {
       const gradesForUser = await axios.get(
         endpoint.studentGrades + currentUserData.id + '/'
       );
-      /*console.log(currentUserData);
-      console.log(coursesForUser);
-      console.log(gradesForUser);*/
       setAllGrades(gradesForUser.data);
       setCourses(coursesForUser.data);
     })();
