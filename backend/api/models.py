@@ -52,7 +52,10 @@ class User_Tasks_Files(models.Model):
 class Grade(models.Model):
     id_student = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     id_task = models.ForeignKey(Task, on_delete=models.CASCADE)
+    id_course = models.ForeignKey(Course, on_delete=models.CASCADE, default=1)
     grade = models.IntegerField()
+    date = models.DateTimeField(default=timezone.now)
+    info = models.TextField(max_length=100, blank=True, default='')
 
 
 class Opinions(models.Model):

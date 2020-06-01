@@ -78,10 +78,12 @@ class FileSerializer(serializers.ModelSerializer):
 
 class GradeSerializer(serializers.ModelSerializer):
     grade = serializers.IntegerField()
+    date = serializers.DateTimeField(default=timezone.now)
+    info = serializers.CharField(max_length=100, default='')
 
     class Meta:
         model = Grade
-        fields = ['id_student', 'id_task', 'grade']
+        fields = ['id_student', 'id_task', 'id_course', 'grade', 'date', 'info']
 
     def create(self, validated_data):
         instance = self.Meta.model(**validated_data)

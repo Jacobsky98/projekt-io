@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from .views import MessageAPIView, CourseAPIView, CourseDetails, OpinionsDetails, AnnoucementAPIView, GradeAPIView, TaskAPIView, PresenceAPIView, OpinionsAPIView, \
-    FileAPIView, UserCourseAPIViewIdUser, UserCourseAPIViewIdCourse
+    FileAPIView, UserCourseAPIView
 from .views import CourseCreate, MessageCreate, FileCreate, OpinionCreate, AnnoucementCreate, GradeCreate, TaskCreate, PresenceCreate, FileDownload, UserCourseCreate
 from django.contrib.auth import views as auth_views
 from rest_framework_swagger.views import get_swagger_view
@@ -27,25 +27,42 @@ urlpatterns = [
     #get
     path('messages/', MessageAPIView.as_view()),
     path('message/<int:id>/', MessageAPIView.as_view()),
+
     path('courses/', CourseAPIView.as_view()),
     path('course/<int:id>/', CourseAPIView.as_view()),
+
     path('opinions/', OpinionsAPIView.as_view()),
     path('opinions/<int:id>/', OpinionsAPIView.as_view()),
+
     path('annoucements/', AnnoucementAPIView.as_view()),
     path('annoucement/<int:id>/', AnnoucementAPIView.as_view()),
+
     path('grades/', GradeAPIView.as_view()),
     path('grade/<int:id>/', GradeAPIView.as_view()),
+    path('grades/taskStudent/<int:id_task>/<int:id_student>/', GradeAPIView.as_view()),
+    path('grades/courseStudent/<int:id_course>/<int:id_student>/', GradeAPIView.as_view()),
+    path('grades/task/<int:id_task>/', GradeAPIView.as_view()),
+    path('grades/student/<int:id_student>/', GradeAPIView.as_view()),
+
     path('tasks/', TaskAPIView.as_view()),
     path('task/<int:id>/', TaskAPIView.as_view()),
+
     path('presences/', PresenceAPIView.as_view()),
     path('presence/<int:id>/', PresenceAPIView.as_view()),
+    path('presences/<int:id_course>/<int:id_student>/', PresenceAPIView.as_view()),
+    path('presences/course/<int:id_course>/', PresenceAPIView.as_view()),
+    path('presences/student/<int:id_student>/', PresenceAPIView.as_view()),
+
     path('files/', FileAPIView.as_view()),
     path('file/<int:id>/', FileDownload.as_view()),
     path('api_documentation/', schema_view),
 
-    path('userCourse/', UserCourseAPIViewIdCourse.as_view()),
-    path('userCourse/user/<int:id_user>/', UserCourseAPIViewIdUser.as_view()),
-    path('userCourse/course/<int:id_course>/', UserCourseAPIViewIdCourse.as_view()),
+    path('userCourse/', UserCourseAPIView.as_view()),
+    path('userCourse/user/<int:id_user>/', UserCourseAPIView.as_view()),
+    path('userCourse/course/<int:id_course>/', UserCourseAPIView.as_view()),
+    path('userCourse/<int:id_course>/<int:id_user>/', UserCourseAPIView.as_view()),
+
+
 
     #post
     path('userCourse/add/', UserCourseCreate.as_view(), name='userCourse_add'),

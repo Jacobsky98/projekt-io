@@ -180,6 +180,7 @@ class FileDownload(APIView):
                 report.read(),
                 headers={'Content-Disposition': 'attachment; filename='+file_name},
                 content_type='application/octet-stream')
+        return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 
@@ -199,15 +200,39 @@ class FileCreate(APIView):
 
 class GradeAPIView(APIView):
 
-    def get(self, request, id=None):
-        serializer = GradeSerializer()
+    def get(self, request, id=None, id_student=None, id_task=None, id_course=None):
+        serializer = PresenceSerializer()
         if id:
             articles = Grade.objects.get(id=id)
             serializer = GradeSerializer(articles)
+            json = serializer.data
+            return Response(json, status=status.HTTP_201_CREATED)
+        elif id_student and id_task:
+            articles = Grade.objects.filter(id_student=id_student, id_task=id_task)
+            serializer = GradeSerializer(articles, many=True)
+            json = serializer.data
+            return Response(json, status=status.HTTP_201_CREATED)
+        elif id_student and id_course:
+            articles = Grade.objects.filter(id_student=id_student, id_course=id_course)
+            serializer = GradeSerializer(articles, many=True)
+            json = serializer.data
+            return Response(json, status=status.HTTP_201_CREATED)
+        elif id_student:
+            articles = Grade.objects.filter(id_student=id_student)
+            serializer = GradeSerializer(articles, many=True)
+            json = serializer.data
+            return Response(json, status=status.HTTP_201_CREATED)
+        elif id_task:
+            articles = Grade.objects.filter(id_task=id_task)
+            serializer = GradeSerializer(articles, many=True)
+            json = serializer.data
+            return Response(json, status=status.HTTP_201_CREATED)
         else:
             articles = Grade.objects.all()
             serializer = GradeSerializer(articles, many=True)
-        return Response(serializer.data)
+            json = serializer.data
+            return Response(json, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class GradeCreate(APIView):
 
@@ -246,15 +271,35 @@ class TaskCreate(APIView):
 
 class PresenceAPIView(APIView):
 
-    def get(self, request, id=None):
+    def get(self, request, id=None, id_student=None, id_course=None):
         serializer = PresenceSerializer()
         if id:
             articles = Presence.objects.get(id=id)
             serializer = PresenceSerializer(articles)
+            json = serializer.data
+            return Response(json, status=status.HTTP_201_CREATED)
+        elif id_student and id_course:
+            articles = Presence.objects.filter(id_student=id_student, id_course=id_course)
+            serializer = PresenceSerializer(articles, many=True)
+            json = serializer.data
+            return Response(json, status=status.HTTP_201_CREATED)
+        elif id_student:
+            articles = Presence.objects.filter(id_student=id_student)
+            serializer = PresenceSerializer(articles, many=True)
+            json = serializer.data
+            return Response(json, status=status.HTTP_201_CREATED)
+        elif id_course:
+            articles = Presence.objects.filter(id_course=id_course)
+            serializer = PresenceSerializer(articles, many=True)
+            json = serializer.data
+            return Response(json, status=status.HTTP_201_CREATED)
         else:
             articles = Presence.objects.all()
             serializer = PresenceSerializer(articles, many=True)
-        return Response(serializer.data)
+            json = serializer.data
+            return Response(json, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class PresenceCreate(APIView):
     def post(self, request, format='json'):
@@ -266,23 +311,19 @@ class PresenceCreate(APIView):
                 return Response(json, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class UserCourseAPIViewIdUser(APIView):
-    def get(self, request, id_user=None):
-        if id_user:
+class UserCourseAPIView(APIView):
+    def get(self, request, id_user=None, id_course=None):
+        if id_course and id_user:
+            articles = UserCourse.objects.filter(id_user=id_user, id_course=id_course)
+            serializer = UserCourseSerializer(articles, many=True)
+            json = serializer.data
+            return Response(json, status=status.HTTP_201_CREATED)
+        elif id_user:
             articles = UserCourse.objects.filter(id_user=id_user)
             serializer = UserCourseSerializer(articles, many=True)
             json = serializer.data
             return Response(json, status=status.HTTP_201_CREATED)
-        else:
-            articles = UserCourse.objects.all()
-            serializer = UserCourseSerializer(articles, many=True)
-            json = serializer.data
-            return Response(json, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-class UserCourseAPIViewIdCourse(APIView):
-    def get(self, request, id_course=None):
-        if id_course:
+        elif id_course:
             articles = UserCourse.objects.filter(id_course=id_course)
             serializer = UserCourseSerializer(articles, many=True)
             json = serializer.data
@@ -293,6 +334,8 @@ class UserCourseAPIViewIdCourse(APIView):
             json = serializer.data
             return Response(json, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 
 class UserCourseCreate(APIView):
     def post(self, request):
