@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import { endpoint } from '../../../constants/endpoints';
 import axios from 'axios';
 import './StudentPresencePage.scss';
+import moment from 'moment';
 
 const StudentPresencePage = () => {
   const [courses, setCourses] = useState([]);
@@ -14,9 +15,16 @@ const StudentPresencePage = () => {
   const [selectedCourse, setSelectedCourse] = useState(null);
   const currentUserData = useSelector((state) => state.auth.userData);
 
+  const orderByDate = (presences) => {
+    const cpy = [...presences];
+    cpy.sort((a, b) => new Date(a.date).valueOf() - new Date(b.date).valueOf());
+    return cpy;
+  };
+
   useEffect(() => {
     (async () => {
       const coursesForUser = await axios.get(endpoint.coursesForUser);
+      console.log(coursesForUser);
       setCourses(coursesForUser.data);
     })();
   }, []);
@@ -27,7 +35,7 @@ const StudentPresencePage = () => {
       presences = presences.data.filter(
         (presence) => presence.id_course === selectedCourse
       );
-      setPresences(presences);
+      setPresences(orderByDate(presences));
     })();
   }, [selectedCourse]);
 
@@ -55,7 +63,7 @@ const StudentPresencePage = () => {
                         <MenuBookIcon style={{ color: '#4267B2' }} />
                       </ListItemIcon>
                       <ListItemText
-                        primary={data.info}
+                        primary={data.name}
                         secondary={`Prowadzący: ${data.teacher_first_name} ${data.teacher_last_name}`}
                       />
                     </ListItem>
@@ -78,7 +86,10 @@ const StudentPresencePage = () => {
                       {presences && presences.length > 0 ? (
                         presences.map((presence) => (
                           <li>
-                            ??? -{' '}
+                            {moment(presence.date).format(
+                              'DD-MM-YYYY HH:mm:ss'
+                            )}{' '}
+                            -{' '}
                             {presence.was_present ? 'OBECNOŚĆ' : 'NIEOBECNOŚĆ'}
                           </li>
                         ))
