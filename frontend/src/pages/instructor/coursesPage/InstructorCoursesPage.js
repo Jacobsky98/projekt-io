@@ -1,6 +1,6 @@
 import React from 'react';
 import './InstructorCoursesPage.scss';
-import { CoursesList } from './coursesList/CoursesList';
+import { CoursesList } from '../../../components/coursesList/CoursesList';
 import { InstructorCoursesActionPanel } from './actionPanel/InstructorCoursesActionPanel';
 
 const InstructorCoursesPage = () => {

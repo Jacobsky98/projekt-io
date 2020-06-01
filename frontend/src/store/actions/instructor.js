@@ -4,9 +4,13 @@ import { endpoint } from '../../constants/endpoints';
 export const GET_COURSES = 'GET_COURSES';
 export const GET_TASKS = 'GET_TASKS';
 export const GET_ANNOUNCEMENTS = 'GET_ANNOUNCEMENTS';
+export const GET_STUDENTS = 'GET_STUDENTS';
+
+export const SET_SELECTED_STUDENT = 'SET_SELECTED_STUDENT';
 export const SET_SELECTED_COURSE = 'SET_SELECTED_COURSE';
 export const SET_SELECTED_ANNOUNCEMENTS = 'SET_SELECTED_ANNOUNCEMENTS';
 export const SET_SELECTED_TASK = 'SET_SELECTED_TASK';
+
 export const PUT_ANNOUNCEMENT = 'PUT_ANNOUNCEMENT';
 export const PUT_TASK = 'PUT_TASK';
 
@@ -28,6 +32,13 @@ export const putTask = (task) => {
   };
 };
 
+export const setSelectedStudent = (selectedStudent) => {
+  return {
+    type: SET_SELECTED_TASK,
+    selectedStudent,
+  };
+};
+
 export const setSelectedTask = (selectedTask) => {
   return {
     type: SET_SELECTED_TASK,
@@ -46,6 +57,17 @@ export const setSelectedCourse = (selectedCourse) => {
   return {
     type: SET_SELECTED_COURSE,
     selectedCourse,
+  };
+};
+
+export const getStudents = () => {
+  return (dispatch) => {
+    return axios.get(endpoint.students).then(({ data }) =>
+      dispatch({
+        type: GET_STUDENTS,
+        students: data,
+      })
+    );
   };
 };
 

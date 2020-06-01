@@ -6,7 +6,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import {
   getCourses,
   setSelectedCourse,
-} from '../../../../store/actions/instructor';
+} from '../../store/actions/instructor';
 import './CoursesList.scss';
 
 const CoursesList = () => {

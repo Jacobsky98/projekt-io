@@ -24,27 +24,27 @@ let InstructorNavigationBar = ({ history, ...props }) => {
       showLabels
     >
       <BottomNavigationAction
-        label="Courses"
+        label="Przedmioty"
         onClick={() => history.push('/instructor/courses')}
         icon={<MenuBookIcon fontSize="large" />}
       />
       <BottomNavigationAction
-        label="Students"
+        label="Studenci"
         onClick={() => history.push('/instructor/students')}
         icon={<AssignmentIcon fontSize="large" />}
       />
       <BottomNavigationAction
-        label="Messages"
+        label="Wiadomości"
         onClick={() => history.push('/instructor/messages')}
         icon={<MailOutlineIcon fontSize="large" />}
       />
       <BottomNavigationAction
-        label="Grades"
+        label="Oceny"
         onClick={() => history.push('/instructor/grades')}
         icon={<SchoolIcon fontSize="large" />}
       />
       <BottomNavigationAction
-        label="Log Out"
+        label="Wyloguj"
         onClick={() => {
           history.push('/');
           dispatch(authActions.logout());

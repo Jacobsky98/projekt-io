@@ -1,11 +1,11 @@
 import {
   GET_ANNOUNCEMENTS,
-  GET_COURSES,
+  GET_COURSES, GET_STUDENTS,
   GET_TASKS,
   PUT_ANNOUNCEMENT,
   PUT_TASK,
   SET_SELECTED_ANNOUNCEMENTS,
-  SET_SELECTED_COURSE,
+  SET_SELECTED_COURSE, SET_SELECTED_STUDENT,
   SET_SELECTED_TASK,
 } from '../actions/instructor';
 
@@ -13,9 +13,11 @@ const initalState = {
   courses: [],
   tasks: [],
   announcements: [],
+  students: [],
   selectedCourse: undefined,
   selectedTask: undefined,
   selectedAnnouncement: undefined,
+  selectedStudent: undefined,
 };
 
 export default (state = initalState, action) => {
@@ -66,6 +68,18 @@ export default (state = initalState, action) => {
     case PUT_TASK:
       return {
         ...state,
+      };
+
+    case SET_SELECTED_STUDENT:
+      return {
+        ...state,
+        selectedStudent: state.selectedStudent
+      };
+
+    case GET_STUDENTS:
+      return {
+        ...state,
+        students: state.students
       };
 
     default:
