@@ -19,15 +19,24 @@ from wsgiref.util import FileWrapper
 
 
 class AnnoucementAPIView(APIView):
-    def get(self, request, id=None):
+    def get(self, request, id=None, id_course=None):
         serializer = AnnoucementSerializer()
         if id:
             articles = Annoucement.objects.get(id=id)
             serializer = AnnoucementSerializer(articles)
+            json = serializer.data
+            return Response(json, status=status.HTTP_201_CREATED)
+        elif id_course:
+            articles = Annoucement.objects.filter(id_course=id_course)
+            serializer = AnnoucementSerializer(articles, many=True)
+            json = serializer.data
+            return Response(json, status=status.HTTP_201_CREATED)
         else:
             articles = Annoucement.objects.all()
             serializer = AnnoucementSerializer(articles, many=True)
-        return Response(serializer.data)
+            json = serializer.data
+            return Response(json, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class AnnoucementCreate(APIView):
 

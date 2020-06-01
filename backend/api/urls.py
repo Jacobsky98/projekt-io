@@ -35,6 +35,7 @@ urlpatterns = [
     path('opinions/<int:id>/', OpinionsAPIView.as_view()),
 
     path('annoucements/', AnnoucementAPIView.as_view()),
+    path('annoucements/course/<int:id_course>/', AnnoucementAPIView.as_view()),
     path('annoucement/<int:id>/', AnnoucementAPIView.as_view()),
 
     path('grades/', GradeAPIView.as_view()),
