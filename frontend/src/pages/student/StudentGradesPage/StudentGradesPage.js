@@ -7,9 +7,11 @@ import { useSelector } from 'react-redux';
 import { endpoint } from '../../../constants/endpoints';
 import axios from 'axios';
 import './StudentGradesPage.scss';
+import moment from 'moment';
 
 const StudentGradesPage = () => {
   const [courses, setCourses] = useState([]);
+  const [allGrades, setAllGrades] = useState([]);
   const [grades, setGrades] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [average, setAverage] = useState(0);
@@ -18,21 +20,32 @@ const StudentGradesPage = () => {
   useEffect(() => {
     (async () => {
       const coursesForUser = await axios.get(endpoint.coursesForUser);
+      const gradesForUser = await axios.get(
+        endpoint.studentGrades + currentUserData.id + '/'
+      );
+      /*console.log(currentUserData);
+      console.log(coursesForUser);
+      console.log(gradesForUser);*/
+      setAllGrades(gradesForUser.data);
       setCourses(coursesForUser.data);
     })();
   }, []);
 
   useEffect(() => {
     (async () => {
-      const grades = await axios.get(endpoint.grades);
-      setGrades(grades.data);
-      countAverage();
+      setGrades(
+        allGrades.filter((grade) => grade.id_course === selectedCourse)
+      );
     })();
   }, [selectedCourse]);
 
+  useEffect(() => {
+    countAverage();
+  }, [grades, selectedCourse]);
+
   const countAverage = () => {
     const sum = grades.reduce((prev, curr) => curr.grade + prev, 0);
-    setAverage(sum);
+    setAverage(sum / (grades.length >= 1 ? grades.length : 1));
   };
 
   return (
@@ -56,7 +69,7 @@ const StudentGradesPage = () => {
                         <MenuBookIcon style={{ color: '#4267B2' }} />
                       </ListItemIcon>
                       <ListItemText
-                        primary={data.info}
+                        primary={data.name}
                         secondary={`Prowadzący: ${data.teacher_first_name} ${data.teacher_last_name}`}
                       />
                     </ListItem>
@@ -75,7 +88,10 @@ const StudentGradesPage = () => {
                     <>
                       {grades && grades.length > 0 ? (
                         grades.map((grade) => (
-                          <li>??? - {grade.grade.toFixed(1)} - ???</li>
+                          <li>
+                            {moment(grade.date).format('DD-MM-YYYY HH:mm:ss')} -{' '}
+                            {grade.grade.toFixed(1)} - {grade.info}
+                          </li>
                         ))
                       ) : (
                         <p>Brak odnotowanych ocen na tym przedmiocie!</p>

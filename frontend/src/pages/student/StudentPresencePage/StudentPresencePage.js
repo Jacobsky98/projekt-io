@@ -24,7 +24,6 @@ const StudentPresencePage = () => {
   useEffect(() => {
     (async () => {
       const coursesForUser = await axios.get(endpoint.coursesForUser);
-      console.log(coursesForUser);
       setCourses(coursesForUser.data);
     })();
   }, []);

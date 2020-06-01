@@ -21,5 +21,6 @@ export const endpoint = {
   grades: `${api}/grades/`,
   presences: `${api}/presences/`,
   addGrade: `${api}/grade/add/`,
-  students: `${api}/userCourse/`
+  students: `${api}/userCourse/`,
+  studentGrades: `${api}/grades/student/`,
 };
