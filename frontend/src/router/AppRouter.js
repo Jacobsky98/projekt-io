@@ -2,7 +2,6 @@ import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import LoginPage from '../pages/commons/LoginPage/LoginPage';
-import RegisterPage from '../pages/commons/RegisterPage/RegisterPage';
 import { ROLES } from '../constants/Constants';
 import { PageTemplate } from '../components/PageTemplate/PageTemplate';
 import { AdminNavigationBar } from '../components/AdminNavigationBar/AdminNavigationBar';
@@ -102,7 +101,6 @@ const AppRouter = () => {
   } else {
     return (
       <Switch>
-        <Route path="/register" render={() => <RegisterPage />} />
         <Route path="/" render={() => <LoginPage />} />
       </Switch>
     );
