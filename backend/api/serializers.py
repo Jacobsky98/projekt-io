@@ -95,7 +95,7 @@ class TaskSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Task
-        fields = ['id_course', 'deadline']
+        fields = ['id_course', 'deadline', 'description']
 
     def create(self, validated_data):
         instance = self.Meta.model(**validated_data)
