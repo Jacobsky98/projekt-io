@@ -39,8 +39,11 @@ const AppRouter = () => {
           <Switch>
             <Route
               path="/student/courses"
-              // render={() => <StudentCoursesPage />}
-              render={() => <File />}
+              render={() => 
+                <div>
+                  <StudentCoursesPage />
+                  <File />
+                </div>}
             />
             <Route
               path="/student/presence"
