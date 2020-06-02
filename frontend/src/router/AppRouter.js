@@ -9,7 +9,7 @@ import StudentTopNavbar from '../components/StudentTopNavbar/StudentTopNavbar';
 import { AdminCoursesPage } from '../pages/admin/AdminCoursesPage/AdminCoursesPage';
 import { AdminOpinionsPage } from '../pages/admin/AdminOpinionsPage/AdminOpinionsPage';
 import { AdminUsersPage } from '../pages/admin/AdminUsersPage/AdminUsersPage';
-import StudentCoursesPage from '../pages/student/StudentCoursesPage/StudentCoursesPage';
+import StudentCoursesPage, { File } from '../pages/student/StudentCoursesPage/StudentCoursesPage';
 import StudentPresencePage from '../pages/student/StudentPresencePage/StudentPresencePage';
 import StudentGradesPage from '../pages/student/StudentGradesPage/StudentGradesPage';
 import StudentOpinionsPage from '../pages/student/StudentOpinionsPage/StudentOpinionsPage';
@@ -39,7 +39,11 @@ const AppRouter = () => {
           <Switch>
             <Route
               path="/student/courses"
-              render={() => <StudentCoursesPage />}
+              render={() => 
+                <div>
+                  <StudentCoursesPage />
+                  <File />
+                </div>}
             />
             <Route
               path="/student/presence"

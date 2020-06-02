@@ -63,7 +63,7 @@ class OpinionsSerializer(serializers.ModelSerializer):
 
 class FileSerializer(serializers.ModelSerializer):
     # filename = serializers.CharField(max_length=50)
-    file = serializers.FileField(default='files/tmp')
+    file = serializers.FileField()
     date_sent = serializers.DateTimeField(default=timezone.now)
 
     class Meta:
