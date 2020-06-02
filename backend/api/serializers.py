@@ -116,8 +116,13 @@ class PresenceSerializer(serializers.ModelSerializer):
 
 
 class UserCourseSerializer(serializers.ModelSerializer):
+    user_first_name = serializers.ReadOnlyField(source='id_user.first_name')
+    user_last_name = serializers.ReadOnlyField(source='id_user.last_name')
+    user_role = serializers.ReadOnlyField(source='id_user.role')
+    user_username = serializers.ReadOnlyField(source='id_user.username')
+    user_email = serializers.ReadOnlyField(source='id_user.email')
     class Meta:
         model = UserCourse
-        fields = ['id_user', 'id_course']
+        fields = ['id_user', 'id_course', 'user_first_name', 'user_last_name', 'user_username', 'user_email', 'user_role']
 
 
