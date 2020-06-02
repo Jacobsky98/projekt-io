@@ -194,7 +194,7 @@ class FileDownload(APIView):
 
 
 class FileCreate(APIView):
-    # permission_classes = (permissions.AllowAny,) ### to trzeba odkomentowac jak chce sie miec dostep bez tokena
+    permission_classes = (permissions.AllowAny,) ### to trzeba odkomentowac jak chce sie miec dostep bez tokena
     queryset = File.objects.all()
     parser_classes = (FormParser, MultiPartParser)
     serializer_class = FileSerializer

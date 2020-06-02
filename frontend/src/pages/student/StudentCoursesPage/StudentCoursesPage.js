@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
@@ -65,6 +65,8 @@ export default function StudentCoursesPage() {
   const [information, setInformation] = useState(null);
   const [annoucements, setAnnouncements] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState(null);
+  const [file, setFile] = useState(null);
+  
   const currentUserData = useSelector((state) => state.auth.userData);
 
   useEffect(() => {
@@ -89,9 +91,6 @@ export default function StudentCoursesPage() {
     })();
   }, [selectedCourse]);
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
 
   return (
     <Grid container direction="row" justify="space-around">
@@ -243,6 +242,29 @@ export default function StudentCoursesPage() {
           </TabPanel>
         </Paper>
       </Grid>
+
     </Grid>
   );
+}
+
+export function File() {
+  const fileInput = useRef(null);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const formData = new FormData();
+    formData.append('file', fileInput.current.files[0])
+    const config = {
+      headers: {
+          'content-type': 'multipart/form-data'
+      }
+    }
+    axios.post(`${endpoint.addFile}`, formData, config)
+  }
+    return (
+      <form onSubmit={handleSubmit}>
+        <input type="file" ref={fileInput}></input>
+        <input type="submit"></input>
+      </form>
+    )
 }
