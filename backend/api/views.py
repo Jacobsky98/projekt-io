@@ -5,7 +5,7 @@ from rest_framework import permissions
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from users.models import User
-from .models import Message, Course, Opinions, File, Annoucement, Grade, Task, Presence, UserCourse
+from .models import Message, Course, Opinions, File, Annoucement, Grade, Task, Presence, UserCourse, User_Tasks_Files
 from .serializers import MessageSerializer, CourseSerializer, OpinionsSerializer, FileSerializer, AnnoucementSerializer,\
     GradeSerializer, TaskSerializer, PresenceSerializer, UserCourseSerializer, UserTasksFilesSerializer
 from rest_framework import status
@@ -329,6 +329,18 @@ class UserTasksFilesCreate(APIView):
                 json = serializer.data
                 return Response(json, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class UserTasksFilesAPIView(APIView):
+    def get(self, request, id_course=None):
+        if id_course:
+            tasks_from_course = Task.objects.filter(id_course=id_course)
+            tasks_ids_to_retrieve = [el.__dict__['id'] for el in tasks_from_course]
+            articles = User_Tasks_Files.objects.filter(id_task__in = tasks_ids_to_retrieve)
+            serializer = UserTasksFilesSerializer(articles, many=True)
+            json = serializer.data
+            return Response(json, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class UserCourseAPIView(APIView):
     def get(self, request, id_user=None, id_course=None):
