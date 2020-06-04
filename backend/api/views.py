@@ -7,7 +7,7 @@ from rest_framework.parsers import JSONParser
 from users.models import User
 from .models import Message, Course, Opinions, File, Annoucement, Grade, Task, Presence, UserCourse
 from .serializers import MessageSerializer, CourseSerializer, OpinionsSerializer, FileSerializer, AnnoucementSerializer,\
-    GradeSerializer, TaskSerializer, PresenceSerializer, UserCourseSerializer
+    GradeSerializer, TaskSerializer, PresenceSerializer, UserCourseSerializer, UserTasksFilesSerializer
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -316,6 +316,16 @@ class PresenceCreate(APIView):
         if serializer.is_valid():
             presence = serializer.save()
             if presence:
+                json = serializer.data
+                return Response(json, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class UserTasksFilesCreate(APIView):
+    def post(self, request, format='json'):
+        serializer = UserTasksFilesSerializer(data=request.data)
+        if serializer.is_valid():
+            new_assignment = serializer.save()
+            if new_assignment:
                 json = serializer.data
                 return Response(json, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

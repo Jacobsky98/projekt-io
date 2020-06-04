@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Message, Course, Opinions, Annoucement, File, Grade, Task, Presence, UserCourse
+from .models import Message, Course, Opinions, Annoucement, File, Grade, Task, Presence, UserCourse, User_Tasks_Files
 from django.utils import timezone
 
 class MessageSerializer(serializers.ModelSerializer):
@@ -95,7 +95,21 @@ class TaskSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Task
-        fields = ['id_course', 'deadline', 'description']
+        fields = ['id', 'id_course', 'deadline', 'description']
+
+    def create(self, validated_data):
+        instance = self.Meta.model(**validated_data)
+        instance.save()
+        return instance
+
+class UserTasksFilesSerializer(serializers.ModelSerializer):
+    id_user = serializers.IntegerField()
+    id_task = serializers.IntegerField()
+    id_file = serializers.IntegerField()
+    
+    class Meta:
+        model = User_Tasks_Files
+        fields = ['id_user', 'id_task', 'id_file']
 
     def create(self, validated_data):
         instance = self.Meta.model(**validated_data)
