@@ -1,11 +1,17 @@
 import { ROLES } from '../../constants/Constants';
 import axios from 'axios';
 import { endpoint } from '../../constants/endpoints';
+import { setError } from './global';
 
 export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
 export const SET_TOKENS = 'SET_TOKENS';
 export const GET_USER_DATA = 'GET_USER_DATA';
+
+//komunikaty bledow mozna potem wyrzucic w jedno miejsce, zobaczymy jak to sie przyjmie
+const LOGIN_ERROR = 'Wystąpił błąd poczas pobierania tokenu!';
+const GET_USER_DATA_ERROR =
+  'Wystąpił błąd podczas pobierania danych użytkownika!';
 
 export const setTokens = (accessToken, refreshToken) => {
   return {
@@ -17,20 +23,25 @@ export const setTokens = (accessToken, refreshToken) => {
 
 export const getUserData = () => {
   return (dispatch) => {
-    return axios.get(endpoint.currentUser).then(({ data }) => {
-      // jeżeli nie mamy użytkownika z żadną rolą, to najlepiej zmienić tu na 'role: ROLES.ADMIN,'
-      // zalogować się, dodać użytkowników z odpowiednimi rolami i zmienic spowrotem
-      console.log(data);
-      const userData = {
-        name: data ? data.first_name : null,
-        surname: data ? data.last_name : null,
-        role: data.role ? data.role : ROLES.STUDENT, // zeby nie wywalalo apki przy logowaniu
-        id: data ? data.id : null,
-      };
+    return axios
+      .get(endpoint.currentUser)
+      .then(({ data }) => {
+        // jeżeli nie mamy użytkownika z żadną rolą, to najlepiej zmienić tu na 'role: ROLES.ADMIN,'
+        // zalogować się, dodać użytkowników z odpowiednimi rolami i zmienic spowrotem
+        console.log(data);
+        const userData = {
+          name: data ? data.first_name : null,
+          surname: data ? data.last_name : null,
+          role: data.role ? data.role : ROLES.STUDENT, // zeby nie wywalalo apki przy logowaniu
+          id: data ? data.id : null,
+        };
 
-      dispatch({ type: GET_USER_DATA, userData });
-      return Promise.resolve();
-    });
+        dispatch({ type: GET_USER_DATA, userData });
+        return Promise.resolve();
+      })
+      .catch((error) => {
+        dispatch(setError(GET_USER_DATA_ERROR));
+      });
   };
 };
 
@@ -46,6 +57,9 @@ export const login = (username, password) => {
       })
       .then(() => {
         dispatch({ type: LOGIN });
+      })
+      .catch((error) => {
+        dispatch(setError(LOGIN_ERROR));
       });
   };
 };

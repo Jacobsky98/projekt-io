@@ -9,7 +9,9 @@ import StudentTopNavbar from '../components/StudentTopNavbar/StudentTopNavbar';
 import { AdminCoursesPage } from '../pages/admin/AdminCoursesPage/AdminCoursesPage';
 import { AdminOpinionsPage } from '../pages/admin/AdminOpinionsPage/AdminOpinionsPage';
 import { AdminUsersPage } from '../pages/admin/AdminUsersPage/AdminUsersPage';
-import StudentCoursesPage, { File } from '../pages/student/StudentCoursesPage/StudentCoursesPage';
+import StudentCoursesPage, {
+  File,
+} from '../pages/student/StudentCoursesPage/StudentCoursesPage';
 import StudentPresencePage from '../pages/student/StudentPresencePage/StudentPresencePage';
 import StudentGradesPage from '../pages/student/StudentGradesPage/StudentGradesPage';
 import StudentOpinionsPage from '../pages/student/StudentOpinionsPage/StudentOpinionsPage';
@@ -19,6 +21,7 @@ import { InstructorCoursesPage } from '../pages/instructor/coursesPage/Instructo
 import { InstructorGradesPage } from '../pages/instructor/Grades/InstructorGradesPage';
 import { AssignStudentsPage } from '../pages/instructor/AssignStudentsPage/AssignStudentsPage';
 import axios from 'axios';
+import { withError } from '../hoc/withError';
 
 axios.defaults.headers.common['Authorization'] = `JWT ${localStorage.getItem(
   'accessToken'
@@ -39,11 +42,12 @@ const AppRouter = () => {
           <Switch>
             <Route
               path="/student/courses"
-              render={() => 
+              render={() => (
                 <div>
                   <StudentCoursesPage />
                   <File />
-                </div>}
+                </div>
+              )}
             />
             <Route
               path="/student/presence"
@@ -111,4 +115,5 @@ const AppRouter = () => {
   }
 };
 
-export default AppRouter;
+const routerWithError = withError(AppRouter);
+export default routerWithError;
