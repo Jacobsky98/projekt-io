@@ -18,18 +18,6 @@ import axios from 'axios';
 import './StudentCoursesPage.scss';
 import moment from 'moment';
 
-const tasks = [
-  { name: 'Zadanie #1', deadline: '14.05.2020 23.59', isSent: false },
-  { name: 'Zadanie #2', deadline: '12.05.2020 23.59', isSent: false },
-  { name: 'Zadanie #3', deadline: '10.05.2020 23.59', isSent: true },
-  { name: 'Zadanie #1', deadline: '14.05.2020 23.59', isSent: false },
-  { name: 'Zadanie #2', deadline: '12.05.2020 23.59', isSent: false },
-  { name: 'Zadanie #3', deadline: '10.05.2020 23.59', isSent: true },
-  { name: 'Zadanie #1', deadline: '14.05.2020 23.59', isSent: false },
-  { name: 'Zadanie #2', deadline: '12.05.2020 23.59', isSent: false },
-  { name: 'Zadanie #3', deadline: '10.05.2020 23.59', isSent: true },
-];
-
 const sentFiles = [
   { name: 'zdjecie.jpg' },
   { name: 'main.cpp' },
@@ -60,13 +48,16 @@ function TabPanel(props) {
 }
 
 export default function StudentCoursesPage() {
+  const fileInput = useRef(null);
+  
   const [value, setValue] = useState(0);
   const [courses, setCourses] = useState([]);
   const [information, setInformation] = useState(null);
   const [annoucements, setAnnouncements] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState(null);
+  const [tasks, setTasks] = useState([]);
+  const [selectedTask, setSelectedTask] = useState(null);
   const [file, setFile] = useState(null);
-  
   const currentUserData = useSelector((state) => state.auth.userData);
 
   useEffect(() => {
@@ -80,17 +71,43 @@ export default function StudentCoursesPage() {
     (async () => {
       if (selectedCourse) {
         const currentCourse = courses.find(
-          (course) => course.id === selectedCourse
+          (course) => course.id === selectedCourse.id
         );
         setInformation('info' in currentCourse ? currentCourse.info : null);
         const courseAnnouncements = await axios.get(
           endpoint.courseAnnoucement + currentCourse.id + '/'
         );
         setAnnouncements(courseAnnouncements.data);
+        const tasks = await axios.get(endpoint.tasks);
+        setTasks(tasks.data.filter(task => task.id_course === selectedCourse.id))
       }
     })();
   }, [selectedCourse]);
 
+  useEffect(() => {
+    if (selectedTask) {
+      console.log(selectedTask);
+    }
+  }, [selectedTask])
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const formData = new FormData();
+    formData.append('file', fileInput.current.files[0])
+    const config = {
+      headers: {
+          'content-type': 'multipart/form-data'
+      }
+    }
+    const data = await axios.post(`${endpoint.addFile}`, formData, config)
+    const obj = {
+      "id_user": currentUserData.id,
+      "id_task": selectedTask.id,
+      "if_file": data.data.id
+    }
+    await axios.post('http://localhost:8000/task/assign', obj)
+    // console.log(data.data.id)
+  }
 
   return (
     <Grid container direction="row" justify="space-around">
@@ -103,10 +120,7 @@ export default function StudentCoursesPage() {
                 <ListItem
                   button
                   key={index}
-                  onClick={() => {
-                    console.log(data);
-                    setSelectedCourse(data.id);
-                  }}
+                  onClick={() => setSelectedCourse(data)}
                 >
                   <ListItemIcon>
                     <MenuBookIcon style={{ color: '#4267B2' }} />
@@ -172,7 +186,7 @@ export default function StudentCoursesPage() {
                     <List>
                       {tasks &&
                         tasks.map((task, index) => (
-                          <ListItem button key={index}>
+                          <ListItem button key={index} onClick={() => setSelectedTask(task)}>
                             <Grid container direction="column">
                               <Grid item>{task.name}</Grid>
                               <Grid item>Termin: {task.deadline}</Grid>
@@ -188,10 +202,36 @@ export default function StudentCoursesPage() {
                 </Grid>
                 <Grid item xs={8} spacing={3}>
                   <div className="task-information">
-                    <div className="task-info">Wybrane zadanie: Zadanie #1</div>
-                    {information}
-                    {information}
-                    {information}
+                    <div className="task-info">Treść zadania: {selectedTask && selectedTask.description}</div>
+                    <div className="task-info">Deadline: {selectedTask && selectedTask.deadline}</div>
+                  
+                    <form onSubmit={handleSubmit}>
+                      <Grid
+                        container
+                        direction="column"
+                        justify="space-around"
+                        alignItems="center"
+                      >
+                        <Grid item>
+                          <Button
+                            className="button-area"
+                            variant="contained"
+                            component="label"
+                          >
+                            Dodaj pliki
+                              <input type="file" ref={fileInput} style={{ display: 'none' }} />
+                          </Button>
+
+                        </Grid>
+                        <Grid item>
+                          <Button variant="contained" type="submit" color="primary">
+                            Wyślij
+                        </Button>
+
+                        </Grid>
+                      </Grid>
+                    </form>
+                  
                   </div>
                   <div className="task-actions">
                     <Grid container direction="row" spacing={3}>
@@ -262,9 +302,12 @@ export function File() {
     axios.post(`${endpoint.addFile}`, formData, config)
   }
     return (
-      <form onSubmit={handleSubmit}>
-        <input type="file" ref={fileInput}></input>
-        <input type="submit"></input>
-      </form>
+      // <form onSubmit={handleSubmit}>
+      //   <input type="file" ref={fileInput}></input>
+      //   <input type="submit"></input>
+      // </form>
+      <>
+
+      </>
     )
 }

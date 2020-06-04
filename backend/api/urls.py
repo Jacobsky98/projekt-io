@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from .views import MessageAPIView, CourseAPIView, CourseDetails, OpinionsDetails, AnnoucementAPIView, GradeAPIView, TaskAPIView, PresenceAPIView, OpinionsAPIView, \
-    FileAPIView, UserCourseAPIView
+    FileAPIView, UserCourseAPIView, UserTasksFilesCreate, UserTasksFilesAPIView
 from .views import CourseCreate, MessageCreate, FileCreate, OpinionCreate, AnnoucementCreate, GradeCreate, TaskCreate, PresenceCreate, FileDownload, UserCourseCreate
 from django.contrib.auth import views as auth_views
 from rest_framework_swagger.views import get_swagger_view
@@ -63,7 +63,7 @@ urlpatterns = [
     path('userCourse/course/<int:id_course>/', UserCourseAPIView.as_view()),
     path('userCourse/<int:id_course>/<int:id_user>/', UserCourseAPIView.as_view()),
 
-
+    path('tasks/course/<int:id_course>/', UserTasksFilesAPIView.as_view()),
 
     #post
     path('userCourse/add/', UserCourseCreate.as_view(), name='userCourse_add'),
@@ -75,4 +75,5 @@ urlpatterns = [
     path('grade/add/', GradeCreate.as_view(), name='grade_add'),
     path('task/add/', TaskCreate.as_view(), name='task_add'),
     path('presence/add/', PresenceCreate.as_view(), name='presence_add'),
+    path('task/assign', UserTasksFilesCreate.as_view(), name='assign_file_to_task'),
 ]
