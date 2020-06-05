@@ -58,10 +58,14 @@ export const InstructorTasks = () => {
           </Button>
         </div>
         <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
-          <AddTask
-            onCancel={() => setOpenDialog(false)}
-            course={selectedCourse}
-          />
+          {selectedCourse ? (
+            <AddTask
+              onCancel={() => setOpenDialog(false)}
+              course={selectedCourse}
+            />
+          ) : (
+            'Nie wybrano żadnego przedmiotu'
+          )}
         </Dialog>
       </div>
       <div className="instructor-tasks__info">

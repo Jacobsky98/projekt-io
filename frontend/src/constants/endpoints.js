@@ -22,6 +22,7 @@ export const endpoint = {
   presences: `${api}/presences/`,
   addGrade: `${api}/grade/add/`,
   students: `${api}/userCourse/`,
+  studentsForCourse: (courseId) => `${api}/userCourse/course/${courseId}/`,
   studentGrades: `${api}/grades/student/`,
   courseAnnoucement: `${api}/annoucements/course/`,
   addFile: `${api}/file/add/`,

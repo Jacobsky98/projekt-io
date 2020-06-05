@@ -25,7 +25,7 @@ const CoursesList = () => {
 
   return (
     <div className="instructor-courses-list">
-      <span className="instructor-courses-list__header">List przedmiotów</span>
+      <span className="instructor-courses-list__header">Lista przedmiotów</span>
       <List>
         {courses
           .filter((course) => course.id_teacher === userData.id)

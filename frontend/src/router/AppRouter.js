@@ -21,6 +21,7 @@ import { InstructorCoursesPage } from '../pages/instructor/coursesPage/Instructo
 import { InstructorGradesPage } from '../pages/instructor/Grades/InstructorGradesPage';
 import { AssignStudentsPage } from '../pages/instructor/AssignStudentsPage/AssignStudentsPage';
 import axios from 'axios';
+import { InstructorPresencePage } from '../pages/instructor/InstructorPresencePage/InstructorPresencePage';
 import { withError } from '../hoc/withError';
 
 axios.defaults.headers.common['Authorization'] = `JWT ${localStorage.getItem(
@@ -100,6 +101,10 @@ const AppRouter = () => {
             <Route
               path="/instructor/grades"
               render={() => <InstructorGradesPage />}
+            />
+            <Route
+              path="/instructor/presence"
+              render={() => <InstructorPresencePage />}
             />
             <Redirect from="/" to="/instructor/courses" />
           </Switch>

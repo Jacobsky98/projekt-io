@@ -65,10 +65,12 @@ export const InstructorAnnouncements = () => {
           </Button>
         </div>
         <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
-          <AddAnnouncement
-            onCancel={() => setOpenDialog(false)}
-            course={selectedCourse}
-          />
+          {selectedCourse ? (
+            <AddAnnouncement
+              onCancel={() => setOpenDialog(false)}
+              course={selectedCourse}
+            />
+          ) : 'Nie wybrano żadnego przedmiotu'}
         </Dialog>
       </div>
       <div className="instructor-announcements__info">

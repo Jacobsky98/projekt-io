@@ -1,0 +1,8 @@
+.StudentsList {
+  display: flex;
+  flex-direction: column;
+
+  &__header {
+    padding: 16px;
+  }
+}

@@ -34,7 +34,7 @@ export const putTask = (task) => {
 
 export const setSelectedStudent = (selectedStudent) => {
   return {
-    type: SET_SELECTED_TASK,
+    type: SET_SELECTED_STUDENT,
     selectedStudent,
   };
 };
@@ -54,20 +54,21 @@ export const setSelectedAnnouncement = (selectedAnnouncement) => {
 };
 
 export const setSelectedCourse = (selectedCourse) => {
-  return {
-    type: SET_SELECTED_COURSE,
-    selectedCourse,
+  return (dispatch) => {
+    dispatch({
+      type: SET_SELECTED_COURSE,
+      selectedCourse,
+    });
+    return dispatch(getStudents(selectedCourse.id));
   };
 };
 
-export const getStudents = () => {
+export const getStudents = (courseId) => {
   return (dispatch) => {
-    return axios.get(endpoint.students).then(({ data }) =>
-      dispatch({
-        type: GET_STUDENTS,
-        students: data,
-      })
-    );
+    return axios.get(endpoint.studentsForCourse(courseId)).then(({ data }) => {
+      dispatch({ type: GET_STUDENTS, students: data });
+      return Promise.resolve();
+    });
   };
 };
 

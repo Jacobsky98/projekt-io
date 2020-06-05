@@ -73,13 +73,13 @@ export default (state = initalState, action) => {
     case SET_SELECTED_STUDENT:
       return {
         ...state,
-        selectedStudent: state.selectedStudent
+        selectedStudent: action.selectedStudent
       };
 
     case GET_STUDENTS:
       return {
         ...state,
-        students: state.students
+        students: action.students
       };
 
     default:

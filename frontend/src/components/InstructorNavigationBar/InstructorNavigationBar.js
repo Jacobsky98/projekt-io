@@ -4,7 +4,7 @@ import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import SchoolIcon from '@material-ui/icons/School';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
-import ChatBubbleRoundedIcon from '@material-ui/icons/ChatBubbleRounded';
+import BarChartIcon from '@material-ui/icons/BarChart';
 import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import { useDispatch } from 'react-redux';
@@ -42,6 +42,11 @@ let InstructorNavigationBar = ({ history, ...props }) => {
         label="Oceny"
         onClick={() => history.push('/instructor/grades')}
         icon={<SchoolIcon fontSize="large" />}
+      />
+      <BottomNavigationAction
+        label="Obecności"
+        onClick={() => history.push('/instructor/presence')}
+        icon={<BarChartIcon fontSize="large" />}
       />
       <BottomNavigationAction
         label="Wyloguj"
