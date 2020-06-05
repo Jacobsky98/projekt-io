@@ -1,6 +1,6 @@
 import {
   GET_ANNOUNCEMENTS,
-  GET_COURSES, GET_STUDENTS,
+  GET_COURSES, GET_GRADES, GET_STUDENTS,
   GET_TASKS,
   PUT_ANNOUNCEMENT,
   PUT_TASK,
@@ -14,6 +14,7 @@ const initalState = {
   tasks: [],
   announcements: [],
   students: [],
+  grades: [],
   selectedCourse: undefined,
   selectedTask: undefined,
   selectedAnnouncement: undefined,
@@ -46,6 +47,7 @@ export default (state = initalState, action) => {
         selectedCourse: action.selectedCourse,
         selectedAnnouncement: undefined,
         selectedTask: undefined,
+        selectedStudent: undefined,
       };
 
     case SET_SELECTED_ANNOUNCEMENTS:
@@ -80,6 +82,12 @@ export default (state = initalState, action) => {
       return {
         ...state,
         students: action.students
+      };
+
+    case GET_GRADES:
+      return {
+        ...state,
+        grades: action.grades
       };
 
     default:

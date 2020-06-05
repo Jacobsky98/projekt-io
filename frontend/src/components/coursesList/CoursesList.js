@@ -29,8 +29,13 @@ const CoursesList = () => {
       <List>
         {courses
           .filter((course) => course.id_teacher === userData.id)
-          .map((course, index) => (
+          .map((course, index) => {
+            console.log(course);
+            console.log(selectedCourse);
+            console.log(index);
+            return (
             <ListItem
+              className={(selectedCourse && selectedCourse.id) === course.id ? 'instructor-courses-list__selected' : 'cokkolwiek'}
               button
               key={index}
               onClick={() => dispatch(setSelectedCourse(course))}
@@ -40,7 +45,7 @@ const CoursesList = () => {
                 secondary={`Prowadzący: ${userData.name} ${userData.surname}`}
               />
             </ListItem>
-          ))}
+          )})}
       </List>
     </div>
   );

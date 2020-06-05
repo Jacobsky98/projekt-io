@@ -5,6 +5,7 @@ export const GET_COURSES = 'GET_COURSES';
 export const GET_TASKS = 'GET_TASKS';
 export const GET_ANNOUNCEMENTS = 'GET_ANNOUNCEMENTS';
 export const GET_STUDENTS = 'GET_STUDENTS';
+export const GET_GRADES = 'GET_GRADES';
 
 export const SET_SELECTED_STUDENT = 'SET_SELECTED_STUDENT';
 export const SET_SELECTED_COURSE = 'SET_SELECTED_COURSE';
@@ -67,6 +68,15 @@ export const getStudents = (courseId) => {
   return (dispatch) => {
     return axios.get(endpoint.studentsForCourse(courseId)).then(({ data }) => {
       dispatch({ type: GET_STUDENTS, students: data });
+      return Promise.resolve();
+    });
+  };
+};
+
+export const getGrades = (courseId, studentId) => {
+  return (dispatch) => {
+    return axios.get(endpoint.gradesForCourseAndStudent(courseId, studentId)).then(({ data }) => {
+      dispatch({ type: GET_GRADES, grades: data });
       return Promise.resolve();
     });
   };

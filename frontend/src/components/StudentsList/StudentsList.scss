@@ -1,8 +1,15 @@
 .StudentsList {
   display: flex;
   flex-direction: column;
+  width: 100%;
+
+  &-selected {
+    background-color: #c4405d !important;
+  }
 
   &__header {
+    display: flex;
+    flex-direction: column;
     padding: 16px;
   }
 }
