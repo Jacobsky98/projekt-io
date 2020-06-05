@@ -30,9 +30,6 @@ const CoursesList = () => {
         {courses
           .filter((course) => course.id_teacher === userData.id)
           .map((course, index) => {
-            console.log(course);
-            console.log(selectedCourse);
-            console.log(index);
             return (
             <ListItem
               className={(selectedCourse && selectedCourse.id) === course.id ? 'instructor-courses-list__selected' : 'cokkolwiek'}

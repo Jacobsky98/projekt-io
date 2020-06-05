@@ -19,6 +19,14 @@ export const InstructorGradesPage = () => {
 
   const { selectedCourse, selectedStudent, students, grades } = useSelector(mapState);
 
+  const getAvarageGrade = () => {
+    let sum = 0;
+    for (const grade of grades) {
+      sum += grade.grade;
+    }
+    return (sum / grades.length).toFixed(2);
+  };
+
   return (
     <div className="InstructorGradesPage">
       <div className="InstructorGradesPage__coursesList">
@@ -31,7 +39,7 @@ export const InstructorGradesPage = () => {
         selectedStudent ?
           <div className="InstructorGradesPage__actionPanel">
             <span className="header">{selectedStudent.user_first_name}</span>
-            <span>Średnia ocen: ujebałeś</span>
+            <span>Średnia ocen: {getAvarageGrade()}</span>
             <List>
               {
                 (selectedCourse || selectedStudent) &&
