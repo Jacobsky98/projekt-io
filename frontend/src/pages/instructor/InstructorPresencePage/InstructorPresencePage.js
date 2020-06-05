@@ -17,7 +17,7 @@ export const InstructorPresencePage = () => {
 
   return (
     <div className="InstructorPresencePage">
-      <CoursesList/>
+      <CoursesList />
     </div>
   );
 };

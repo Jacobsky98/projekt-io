@@ -23,7 +23,7 @@ export const AddTask = ({ onCancel, course }) => {
 
   return (
     <div className="instructor-add-task">
-      <span>Dodaj Ogłoszenie</span>
+      <span>Dodaj Zadanie</span>
       <div className="instructor-add-task__form">
         <TextField
           label="Deadline"

@@ -3,10 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import {
-  getCourses,
-  setSelectedCourse,
-} from '../../store/actions/instructor';
+import { getCourses, setSelectedCourse } from '../../store/actions/instructor';
 import './CoursesList.scss';
 
 const CoursesList = () => {
@@ -31,18 +28,23 @@ const CoursesList = () => {
           .filter((course) => course.id_teacher === userData.id)
           .map((course, index) => {
             return (
-            <ListItem
-              className={(selectedCourse && selectedCourse.id) === course.id ? 'instructor-courses-list__selected' : 'cokkolwiek'}
-              button
-              key={index}
-              onClick={() => dispatch(setSelectedCourse(course))}
-            >
-              <ListItemText
-                primary={course.name}
-                secondary={`Prowadzący: ${userData.name} ${userData.surname}`}
-              />
-            </ListItem>
-          )})}
+              <ListItem
+                className={
+                  (selectedCourse && selectedCourse.id) === course.id
+                    ? 'instructor-courses-list__selected'
+                    : 'cokkolwiek'
+                }
+                button
+                key={index}
+                onClick={() => dispatch(setSelectedCourse(course))}
+              >
+                <ListItemText
+                  primary={course.name}
+                  secondary={`Prowadzący: ${userData.name} ${userData.surname}`}
+                />
+              </ListItem>
+            );
+          })}
       </List>
     </div>
   );

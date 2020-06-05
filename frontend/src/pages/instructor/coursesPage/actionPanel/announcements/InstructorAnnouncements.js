@@ -70,7 +70,9 @@ export const InstructorAnnouncements = () => {
               onCancel={() => setOpenDialog(false)}
               course={selectedCourse}
             />
-          ) : 'Nie wybrano żadnego przedmiotu'}
+          ) : (
+            'Nie wybrano żadnego przedmiotu'
+          )}
         </Dialog>
       </div>
       <div className="instructor-announcements__info">

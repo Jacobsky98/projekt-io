@@ -1,11 +1,14 @@
 import {
   GET_ANNOUNCEMENTS,
-  GET_COURSES, GET_GRADES, GET_STUDENTS,
+  GET_COURSES,
+  GET_GRADES,
+  GET_STUDENTS,
   GET_TASKS,
   PUT_ANNOUNCEMENT,
   PUT_TASK,
   SET_SELECTED_ANNOUNCEMENTS,
-  SET_SELECTED_COURSE, SET_SELECTED_STUDENT,
+  SET_SELECTED_COURSE,
+  SET_SELECTED_STUDENT,
   SET_SELECTED_TASK,
 } from '../actions/instructor';
 
@@ -79,19 +82,19 @@ export default (state = initalState, action) => {
     case SET_SELECTED_STUDENT:
       return {
         ...state,
-        selectedStudent: action.selectedStudent
+        selectedStudent: action.selectedStudent,
       };
 
     case GET_STUDENTS:
       return {
         ...state,
-        students: action.students
+        students: action.students,
       };
 
     case GET_GRADES:
       return {
         ...state,
-        grades: action.grades
+        grades: action.grades,
       };
 
     default:

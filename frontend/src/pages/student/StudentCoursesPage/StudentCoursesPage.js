@@ -49,7 +49,7 @@ function TabPanel(props) {
 
 export default function StudentCoursesPage() {
   const fileInput = useRef(null);
-  
+
   const [value, setValue] = useState(0);
   const [courses, setCourses] = useState([]);
   const [information, setInformation] = useState(null);
@@ -79,7 +79,9 @@ export default function StudentCoursesPage() {
         );
         setAnnouncements(courseAnnouncements.data);
         const tasks = await axios.get(endpoint.tasks);
-        setTasks(tasks.data.filter(task => task.id_course === selectedCourse.id))
+        setTasks(
+          tasks.data.filter((task) => task.id_course === selectedCourse.id)
+        );
       }
     })();
   }, [selectedCourse]);
@@ -88,26 +90,26 @@ export default function StudentCoursesPage() {
     if (selectedTask) {
       console.log(selectedTask);
     }
-  }, [selectedTask])
+  }, [selectedTask]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData();
-    formData.append('file', fileInput.current.files[0])
+    formData.append('file', fileInput.current.files[0]);
     const config = {
       headers: {
-          'content-type': 'multipart/form-data'
-      }
-    }
-    const data = await axios.post(`${endpoint.addFile}`, formData, config)
+        'content-type': 'multipart/form-data',
+      },
+    };
+    const data = await axios.post(`${endpoint.addFile}`, formData, config);
     const obj = {
-      "id_user": currentUserData.id,
-      "id_task": selectedTask.id,
-      "if_file": data.data.id
-    }
-    await axios.post('http://localhost:8000/task/assign', obj)
+      id_user: currentUserData.id,
+      id_task: selectedTask.id,
+      if_file: data.data.id,
+    };
+    await axios.post('http://localhost:8000/task/assign', obj);
     // console.log(data.data.id)
-  }
+  };
 
   return (
     <Grid container direction="row" justify="space-around">
@@ -186,7 +188,11 @@ export default function StudentCoursesPage() {
                     <List>
                       {tasks &&
                         tasks.map((task, index) => (
-                          <ListItem button key={index} onClick={() => setSelectedTask(task)}>
+                          <ListItem
+                            button
+                            key={index}
+                            onClick={() => setSelectedTask(task)}
+                          >
                             <Grid container direction="column">
                               <Grid item>{task.name}</Grid>
                               <Grid item>Termin: {task.deadline}</Grid>
@@ -202,9 +208,13 @@ export default function StudentCoursesPage() {
                 </Grid>
                 <Grid item xs={8} spacing={3}>
                   <div className="task-information">
-                    <div className="task-info">Treść zadania: {selectedTask && selectedTask.description}</div>
-                    <div className="task-info">Deadline: {selectedTask && selectedTask.deadline}</div>
-                  
+                    <div className="task-info">
+                      Treść zadania: {selectedTask && selectedTask.description}
+                    </div>
+                    <div className="task-info">
+                      Deadline: {selectedTask && selectedTask.deadline}
+                    </div>
+
                     <form onSubmit={handleSubmit}>
                       <Grid
                         container
@@ -219,19 +229,24 @@ export default function StudentCoursesPage() {
                             component="label"
                           >
                             Dodaj pliki
-                              <input type="file" ref={fileInput} style={{ display: 'none' }} />
+                            <input
+                              type="file"
+                              ref={fileInput}
+                              style={{ display: 'none' }}
+                            />
                           </Button>
-
                         </Grid>
                         <Grid item>
-                          <Button variant="contained" type="submit" color="primary">
+                          <Button
+                            variant="contained"
+                            type="submit"
+                            color="primary"
+                          >
                             Wyślij
-                        </Button>
-
+                          </Button>
                         </Grid>
                       </Grid>
                     </form>
-                  
                   </div>
                   <div className="task-actions">
                     <Grid container direction="row" spacing={3}>
@@ -282,7 +297,6 @@ export default function StudentCoursesPage() {
           </TabPanel>
         </Paper>
       </Grid>
-
     </Grid>
   );
 }
@@ -293,21 +307,19 @@ export function File() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const formData = new FormData();
-    formData.append('file', fileInput.current.files[0])
+    formData.append('file', fileInput.current.files[0]);
     const config = {
       headers: {
-          'content-type': 'multipart/form-data'
-      }
-    }
-    axios.post(`${endpoint.addFile}`, formData, config)
-  }
-    return (
-      // <form onSubmit={handleSubmit}>
-      //   <input type="file" ref={fileInput}></input>
-      //   <input type="submit"></input>
-      // </form>
-      <>
-
-      </>
-    )
+        'content-type': 'multipart/form-data',
+      },
+    };
+    axios.post(`${endpoint.addFile}`, formData, config);
+  };
+  return (
+    // <form onSubmit={handleSubmit}>
+    //   <input type="file" ref={fileInput}></input>
+    //   <input type="submit"></input>
+    // </form>
+    <></>
+  );
 }

@@ -28,7 +28,7 @@ export const putTask = (task) => {
   return (dispatch) => {
     return axios.post(endpoint.addTask, task).then(() => {
       dispatch({ type: PUT_ANNOUNCEMENT });
-      return dispatch(getTasks());
+      return dispatch(getTasks(task.id_course));
     });
   };
 };
@@ -60,7 +60,7 @@ export const setSelectedCourse = (selectedCourse) => {
       type: SET_SELECTED_COURSE,
       selectedCourse,
     });
-    dispatch(getTasks());
+    dispatch(getTasks(selectedCourse.id));
     return dispatch(getStudents(selectedCourse.id));
   };
 };
@@ -76,10 +76,12 @@ export const getStudents = (courseId) => {
 
 export const getGrades = (courseId, studentId) => {
   return (dispatch) => {
-    return axios.get(endpoint.gradesForCourseAndStudent(courseId, studentId)).then(({ data }) => {
-      dispatch({ type: GET_GRADES, grades: data });
-      return Promise.resolve();
-    });
+    return axios
+      .get(endpoint.gradesForCourseAndStudent(courseId, studentId))
+      .then(({ data }) => {
+        dispatch({ type: GET_GRADES, grades: data });
+        return Promise.resolve();
+      });
   };
 };
 
@@ -94,14 +96,15 @@ export const getCourses = () => {
   };
 };
 
-export const getTasks = () => {
+export const getTasks = (selectedCourseId) => {
   return (dispatch) => {
-    return axios.get(endpoint.tasks).then(({ data }) =>
-      dispatch({
+    return axios.get(endpoint.tasks).then(({ data }) => {
+      const tasks = data.filter((task) => task.id_course === selectedCourseId);
+      return dispatch({
         type: GET_TASKS,
-        tasks: data,
-      })
-    );
+        tasks,
+      });
+    });
   };
 };
 

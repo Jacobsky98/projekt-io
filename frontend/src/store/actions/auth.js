@@ -51,7 +51,7 @@ export const login = (username, password) => {
       .post(endpoint.authorize, { username, password })
       .then(({ data }) => {
         localStorage.setItem('accessToken', data.access);
-        console.log(data.access)
+        console.log(data.access);
         axios.defaults.headers.common['Authorization'] = `JWT ${data.access}`;
         dispatch(setTokens(data.access, data.refresh));
         return dispatch(getUserData());

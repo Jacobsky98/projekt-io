@@ -9,6 +9,7 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
+import { AddGrade } from '../../../components/addGrade/AddGrade';
 
 export const InstructorGradesPage = () => {
   const dispatch = useDispatch();
@@ -20,7 +21,13 @@ export const InstructorGradesPage = () => {
     tasks: state.instructor.tasks,
   });
 
-  const { selectedCourse, selectedStudent, students, grades, tasks } = useSelector(mapState);
+  const {
+    selectedCourse,
+    selectedStudent,
+    students,
+    grades,
+    tasks,
+  } = useSelector(mapState);
 
   const getAvarageGrade = () => {
     let sum = 0;
@@ -30,64 +37,69 @@ export const InstructorGradesPage = () => {
     return (sum / grades.length).toFixed(2);
   };
 
+  const fixedTasks = tasks.map((task) => {
+    const grade = grades.find((grade) => {
+      return task.id === grade.id_task;
+    });
+
+    return {
+      ...task,
+      grade,
+    };
+  });
+
   return (
     <div className="InstructorGradesPage">
       <div className="InstructorGradesPage__coursesList">
-        <CoursesList/>
+        <CoursesList />
       </div>
       <div className="InstructorGradesPage__studentsList">
-        <StudentsList/>
+        <StudentsList />
       </div>
-      {
-        selectedStudent ?
-          <div className="InstructorGradesPage__actionPanel">
-            <span className="header">{selectedStudent.user_first_name}</span>
-            <span>Średnia ocen: {getAvarageGrade()}</span>
+      {selectedStudent ? (
+        <div className="InstructorGradesPage__actionPanel">
+          <span className="header">{selectedStudent.user_first_name}</span>
+          <span>Średnia ocen: {getAvarageGrade()}</span>
+          <div className="list">
             <List>
-              {
-                (selectedCourse || selectedStudent) &&
-                tasks.filter((task) => task.id_course === selectedCourse.id).map((task, index) => {
-                  const grade = grades.find((grade) => {
-                    return task.id === grade.id_task;
-                  });
-
-                  return(
-                    <div key={index} className="listItem">
+              {(selectedCourse || selectedStudent) &&
+                fixedTasks.map((task, index) => {
+                  return (
+                    <div
+                      key={index}
+                      className={`listItem ${
+                        task.grade ? 'listItem-active' : ''
+                      }`}
+                    >
                       <span className="listItem__header">{`Zadanie ${task.id}`}</span>
-                      {
-                        grade ?
-                          <span className="listItem__header">{`Ocena: ${grade.grade}`}</span>
-                          :
-                          <span className="listItem__header">{`Status: Nie oceniono`}</span>
-                      }
+                      {task.grade ? (
+                        <span className="listItem__header">{`Ocena: ${task.grade.grade}`}</span>
+                      ) : (
+                        <span className="listItem__header">{`Status: Nie oceniono`}</span>
+                      )}
                       <div className="listItem__buttons">
                         <Button>Pobierz rozwiązanie</Button>
-                        { !grade && (
-                          <div>
-                            <FormControl>
-                              <Select
-                                value={5}
-                                onChange={() => {}}
-                              >
-                                <MenuItem value={2}>2</MenuItem>
-                                <MenuItem value={3}>3</MenuItem>
-                                <MenuItem value={4}>4</MenuItem>
-                                <MenuItem value={5}>5</MenuItem>
-                              </Select>
-                            </FormControl>
-                            <Button>Oceń</Button>
-                          </div>
+                        {!task.grade && (
+                          <AddGrade
+                            studentId={selectedStudent.id_user}
+                            courseId={selectedCourse.id}
+                            taskId={task.id}
+                          />
                         )}
                       </div>
                     </div>
                   );
-                  })
-              }
+                })}
             </List>
           </div>
-          : <div className="InstructorGradesPage__noSelectedStudent"><span className="InstructorGradesPage__noSelectedStudent-text">Nie wybrałeś żadnego studenta</span></div>
-      }
-
+        </div>
+      ) : (
+        <div className="InstructorGradesPage__noSelectedStudent">
+          <span className="InstructorGradesPage__noSelectedStudent-text">
+            Nie wybrałeś żadnego studenta
+          </span>
+        </div>
+      )}
     </div>
   );
 };

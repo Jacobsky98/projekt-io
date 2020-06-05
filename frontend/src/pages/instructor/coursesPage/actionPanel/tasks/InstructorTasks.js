@@ -24,7 +24,7 @@ export const InstructorTasks = () => {
   let { tasks, selectedTask, selectedCourse } = useSelector(mapState);
 
   useEffect(() => {
-    dispatch(getTasks());
+    dispatch(getTasks(selectedCourse.id));
   }, []);
 
   return (

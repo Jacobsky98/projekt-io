@@ -35,21 +35,30 @@
       width: 100%;
     }
 
-    .listItem {
-      margin: 8px;
-      border-bottom: solid 1px;
-      display: flex;
-      flex-direction: column;
-      background-color: #f9abcd;
+    .list {
+      overflow-y: scroll;
+      width: 100%;
 
-      &__header {
-        text-align: center;
-        padding: 8px;
-      }
-
-      &__buttons {
+      .listItem {
+        margin: 8px;
+        border-bottom: solid 1px;
         display: flex;
-        justify-content: space-around;
+        flex-direction: column;
+        background-color: #f9908d;
+
+        &-active {
+          background-color: #b9d4f9;
+        }
+
+        &__header {
+          text-align: center;
+          padding: 8px;
+        }
+
+        &__buttons {
+          display: flex;
+          justify-content: space-around;
+        }
       }
     }
   }

@@ -1,0 +1,11 @@
+.AddGrade {
+  &__dialogContent {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    background-color: #9fa8da !important;
+    width: 30vw;
+    height: 50vh;
+    justify-content: space-between;
+  }
+}

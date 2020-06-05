@@ -22,12 +22,17 @@ export const StudentsList = () => {
         <span>Lista studentów {selectedCourse.name}</span>
       </div>
       <List>
-        {
-          selectedCourse && students
+        {selectedCourse &&
+          students
             .filter((student) => student.id_course === selectedCourse.id)
             .map((student, index) => (
               <ListItem
-                className={(selectedStudent && selectedStudent.id_user) === student.id_user ? 'StudentsList-selected' : ''}
+                className={
+                  (selectedStudent && selectedStudent.id_user) ===
+                  student.id_user
+                    ? 'StudentsList-selected'
+                    : ''
+                }
                 button
                 key={index}
                 onClick={() => {
@@ -35,11 +40,13 @@ export const StudentsList = () => {
                   dispatch(getGrades(selectedCourse.id, student.id_user));
                 }}
               >
-                <ListItemText primary={`${student.user_first_name} ${student.user_last_name}`} secondary={`Mail: ${student.user_email}`}/>
+                <ListItemText
+                  primary={`${student.user_first_name} ${student.user_last_name}`}
+                  secondary={`Mail: ${student.user_email}`}
+                />
               </ListItem>
-            ))
-        }
+            ))}
       </List>
     </div>
-  )
+  );
 };
