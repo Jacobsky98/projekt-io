@@ -28,7 +28,7 @@ export const putTask = (task) => {
   return (dispatch) => {
     return axios.post(endpoint.addTask, task).then(() => {
       dispatch({ type: PUT_ANNOUNCEMENT });
-      return dispatch(getTasks(task.id_course));
+      return dispatch(getTasks());
     });
   };
 };
@@ -60,7 +60,7 @@ export const setSelectedCourse = (selectedCourse) => {
       type: SET_SELECTED_COURSE,
       selectedCourse,
     });
-    dispatch(getTasks(selectedCourse.id));
+    dispatch(getTasks());
     return dispatch(getStudents(selectedCourse.id));
   };
 };
@@ -96,15 +96,14 @@ export const getCourses = () => {
   };
 };
 
-export const getTasks = (selectedCourseId) => {
+export const getTasks = () => {
   return (dispatch) => {
-    return axios.get(endpoint.tasks).then(({ data }) => {
-      const tasks = data.filter((task) => task.id_course === selectedCourseId);
-      return dispatch({
+    return axios.get(endpoint.tasks).then(({ data }) =>
+      dispatch({
         type: GET_TASKS,
-        tasks,
-      });
-    });
+        tasks: data,
+      })
+    );
   };
 };
 

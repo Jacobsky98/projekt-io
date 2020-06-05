@@ -37,16 +37,18 @@ export const InstructorGradesPage = () => {
     return (sum / grades.length).toFixed(2);
   };
 
-  const fixedTasks = tasks.map((task) => {
-    const grade = grades.find((grade) => {
-      return task.id === grade.id_task;
-    });
+  const fixedTasks = tasks
+    .filter((task) => task.id_course === selectedCourse.id)
+    .map((task) => {
+      const grade = grades.find((grade) => {
+        return task.id === grade.id_task;
+      });
 
-    return {
-      ...task,
-      grade,
-    };
-  });
+      return {
+        ...task,
+        grade,
+      };
+    });
 
   return (
     <div className="InstructorGradesPage">
