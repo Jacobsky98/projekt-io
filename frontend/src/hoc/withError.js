@@ -5,6 +5,8 @@ import Grid from '@material-ui/core/Grid';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
+import CloseIcon from '@material-ui/icons/Close';
+import Error from '@material-ui/icons/Error';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -15,9 +17,9 @@ const useStyles = makeStyles((theme) => ({
   },
   modalContent: {
     backgroundColor: theme.palette.background.paper,
-    border: '2px solid white',
     padding: theme.spacing(2, 4, 3),
     width: '60%',
+    outline: 0,
   },
   width: {
     width: '100%',
@@ -25,11 +27,18 @@ const useStyles = makeStyles((theme) => ({
   },
   modalHeader: {
     display: 'flex',
-    justifyContent: 'space-between',
     alignItems: 'center',
+    justifyContent: 'space-between',
   },
   icon: {
     cursor: 'pointer',
+  },
+  headerTitle: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  errorIcon: {
+    marginRight: '5px',
   },
 }));
 
@@ -60,15 +69,27 @@ export const withError = (WrappedComponent) => {
           open={isError}
           onClose={() => clearErr()}
           closeAfterTransition
+          disableAutoFocus={true}
           BackdropComponent={Backdrop}
           BackdropProps={{ timeout: 350 }}
         >
           <Fade className={classes.modalContent} in={isError}>
-            <>
+            <Grid item>
+              <Grid item className={classes.modalHeader}>
+                <div className={classes.headerTitle}>
+                  <Error fontSize={'large'} className={classes.errorIcon} />
+                  <h2>WYSTĄPIŁ BŁĄD!</h2>
+                </div>
+                <CloseIcon
+                  className={classes.icon}
+                  onClick={() => clearErr()}
+                  fontSize={'large'}
+                />
+              </Grid>
               <Grid item>
                 {isError && <p onClick={() => clearErr()}>{error}</p>}
               </Grid>
-            </>
+            </Grid>
           </Fade>
         </Modal>
         <WrappedComponent {...props} />
