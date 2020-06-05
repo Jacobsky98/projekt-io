@@ -4,9 +4,11 @@ import { CoursesList } from '../../../components/coursesList/CoursesList';
 import { useDispatch, useSelector } from 'react-redux';
 import { StudentsList } from '../../../components/StudentsList/StudentsList';
 import List from '@material-ui/core/List';
-import { getGrades, setSelectedStudent } from '../../../store/actions/instructor';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItem from '@material-ui/core/ListItem';
+import Button from '@material-ui/core/Button';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
 
 export const InstructorGradesPage = () => {
   const dispatch = useDispatch();
@@ -15,9 +17,10 @@ export const InstructorGradesPage = () => {
     selectedStudent: state.instructor.selectedStudent,
     students: state.instructor.students,
     grades: state.instructor.grades,
+    tasks: state.instructor.tasks,
   });
 
-  const { selectedCourse, selectedStudent, students, grades } = useSelector(mapState);
+  const { selectedCourse, selectedStudent, students, grades, tasks } = useSelector(mapState);
 
   const getAvarageGrade = () => {
     let sum = 0;
@@ -43,13 +46,42 @@ export const InstructorGradesPage = () => {
             <List>
               {
                 (selectedCourse || selectedStudent) &&
-                  grades.map((grade, index) => (
-                    <ListItem
-                      key={index}
-                    >
-                      <ListItemText primary={`Zadanie ${grade.id_task}`} secondary={`Ocena: ${grade.grade} Komentarz: ${grade.info}`}/>
-                    </ListItem>
-                  ))
+                tasks.filter((task) => task.id_course === selectedCourse.id).map((task, index) => {
+                  const grade = grades.find((grade) => {
+                    return task.id === grade.id_task;
+                  });
+
+                  return(
+                    <div key={index} className="listItem">
+                      <span className="listItem__header">{`Zadanie ${task.id}`}</span>
+                      {
+                        grade ?
+                          <span className="listItem__header">{`Ocena: ${grade.grade}`}</span>
+                          :
+                          <span className="listItem__header">{`Status: Nie oceniono`}</span>
+                      }
+                      <div className="listItem__buttons">
+                        <Button>Pobierz rozwiązanie</Button>
+                        { !grade && (
+                          <div>
+                            <FormControl>
+                              <Select
+                                value={5}
+                                onChange={() => {}}
+                              >
+                                <MenuItem value={2}>2</MenuItem>
+                                <MenuItem value={3}>3</MenuItem>
+                                <MenuItem value={4}>4</MenuItem>
+                                <MenuItem value={5}>5</MenuItem>
+                              </Select>
+                            </FormControl>
+                            <Button>Oceń</Button>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  );
+                  })
               }
             </List>
           </div>

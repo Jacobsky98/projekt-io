@@ -60,6 +60,7 @@ export const setSelectedCourse = (selectedCourse) => {
       type: SET_SELECTED_COURSE,
       selectedCourse,
     });
+    dispatch(getTasks());
     return dispatch(getStudents(selectedCourse.id));
   };
 };

@@ -48,6 +48,10 @@ export default (state = initalState, action) => {
         selectedAnnouncement: undefined,
         selectedTask: undefined,
         selectedStudent: undefined,
+        students: [],
+        grades: [],
+        announcements: [],
+        tasks: [],
       };
 
     case SET_SELECTED_ANNOUNCEMENTS:
