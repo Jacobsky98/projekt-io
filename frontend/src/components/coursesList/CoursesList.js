@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import { getCourses, setSelectedCourse } from '../../store/actions/instructor';
+import { getCourses, setSelectedCourse, getCourseFiles } from '../../store/actions/instructor';
 import './CoursesList.scss';
 
 const CoursesList = () => {
@@ -20,6 +20,11 @@ const CoursesList = () => {
     dispatch(getCourses());
   }, []);
 
+  const changeCourse = (course) => {
+    dispatch(setSelectedCourse(course));
+    dispatch(getCourseFiles(course));
+  }
+  
   return (
     <div className="instructor-courses-list">
       <span className="instructor-courses-list__header">Lista przedmiotów</span>
@@ -36,7 +41,7 @@ const CoursesList = () => {
                 }
                 button
                 key={index}
-                onClick={() => dispatch(setSelectedCourse(course))}
+                onClick={() => changeCourse(course)}
               >
                 <ListItemText
                   primary={course.name}

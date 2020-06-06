@@ -27,6 +27,7 @@ export const endpoint = {
   courseAnnoucement: `${api}/annoucements/course/`,
   addFile: `${api}/file/add/`,
   getFilesFromCourseId: `${api}/tasks/course/`,
+  getFile: (fileId) => `${api}/file/${fileId}/`,
   gradesForCourseAndStudent: (courseId, studentId) =>
     `${api}/grades/courseStudent/${courseId}/${studentId}/`,
 };
