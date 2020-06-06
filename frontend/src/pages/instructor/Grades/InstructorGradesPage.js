@@ -82,6 +82,13 @@ export const InstructorGradesPage = () => {
       }
     }
 
+    const hasStudentSentSolution = (selectedStudent, task) => {
+      if (selectedStudent && selectedStudent.id_user && task && task.id) {
+        return courseFiles.find(f => f.id_user === selectedStudent.id_user && f.id_task === task.id) 
+      }
+      return false;
+    }
+
   return (
     <div className="InstructorGradesPage">
       <div className="InstructorGradesPage__coursesList">
@@ -112,7 +119,11 @@ export const InstructorGradesPage = () => {
                         <span className="listItem__header">{`Status: Nie oceniono`}</span>
                       )}
                       <div className="listItem__buttons">
-                        <Button onClick={() => downloadFile(task, selectedStudent)}>Pobierz rozwiązanie</Button>
+                        { hasStudentSentSolution(selectedStudent, task)
+                          ? <Button onClick={() => downloadFile(task, selectedStudent)}>Pobierz rozwiązanie</Button>
+                          : <div>Student nie dodał zadania!</div>
+                        }
+                        
                         {!task.grade && (
                           <AddGrade
                             studentId={selectedStudent.id_user}

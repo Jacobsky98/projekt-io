@@ -58,6 +58,7 @@ export default function StudentCoursesPage() {
   const [tasks, setTasks] = useState([]);
   const [selectedTask, setSelectedTask] = useState(null);
   const [file, setFile] = useState(null);
+  const [files, setFiles] = useState([]);
   const currentUserData = useSelector((state) => state.auth.userData);
 
   useEffect(() => {
@@ -94,22 +95,33 @@ export default function StudentCoursesPage() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const formData = new FormData();
-    formData.append('file', fileInput.current.files[0]);
-    const config = {
-      headers: {
-        'content-type': 'multipart/form-data',
-      },
-    };
-    const data = await axios.post(`${endpoint.addFile}`, formData, config);
-    const obj = {
-      id_user: currentUserData.id,
-      id_task: selectedTask.id,
-      if_file: data.data.id,
-    };
-    await axios.post('http://localhost:8000/task/assign', obj);
-    // console.log(data.data.id)
+    Array.from(fileInput.current.files).forEach(async (file) => {
+      const formData = new FormData();
+      formData.append('file', file);
+      const config = {
+        headers: {
+          'content-type': 'multipart/form-data',
+        },
+      };
+      const data = await axios.post(`${endpoint.addFile}`, formData, config);
+      const obj = {
+        id_user: currentUserData.id,
+        id_task: selectedTask.id,
+        if_file: data.data.id,
+      };
+      await axios.post('http://localhost:8000/task/assign', obj);
+    })
+
+    setFiles([])
+    alert('Wysłałeś zadanie!')
+
   };
+  
+  const updateFiles = () => {
+    if (fileInput && fileInput.current) {
+      setFiles(fileInput.current.files);
+    }
+  }
 
   return (
     <Grid container direction="row" justify="space-around">
@@ -207,88 +219,75 @@ export default function StudentCoursesPage() {
                   </div>
                 </Grid>
                 <Grid item xs={8} spacing={3}>
-                  <div className="task-information">
-                    <div className="task-info">
-                      Treść zadania: {selectedTask && selectedTask.description}
-                    </div>
-                    <div className="task-info">
-                      Deadline: {selectedTask && selectedTask.deadline}
-                    </div>
+                  {selectedTask && 
+                    <div className="task-information">
+                      <div className="task-info">
+                        Treść zadania: {selectedTask && selectedTask.description}
+                      </div>
+                      <div className="task-info">
+                        Deadline: {selectedTask && selectedTask.deadline}
+                      </div>
 
-                    <form onSubmit={handleSubmit}>
-                      <Grid
-                        container
-                        direction="column"
-                        justify="space-around"
-                        alignItems="center"
-                      >
-                        <Grid item>
-                          <Button
-                            className="button-area"
-                            variant="contained"
-                            component="label"
-                          >
-                            Dodaj pliki
-                            <input
-                              type="file"
-                              ref={fileInput}
-                              style={{ display: 'none' }}
-                            />
-                          </Button>
+                      <form onSubmit={handleSubmit}>
+                        <Grid
+                          container
+                          direction="row"
+                          justify="center"
+                          alignItems="center"
+                          style={{marginTop: 20}}
+                          spacing={2}
+                        >
+                          <Grid item>
+                            <Button
+                              variant="contained"
+                              component="label"
+                            >
+                              Dodaj pliki
+                              <input
+                                type="file"
+                                ref={fileInput}
+                                style={{ display: 'none' }}
+                                onChange={updateFiles}
+                                multiple="multiple"
+                              />
+                            </Button>
+                          </Grid>
+                          <Grid item>
+                            <Button
+                              variant="contained"
+                              type="submit"
+                              color="primary"
+                            >
+                              Wyślij
+                            </Button>
+                          </Grid>
                         </Grid>
-                        <Grid item>
-                          <Button
-                            variant="contained"
-                            type="submit"
-                            color="primary"
-                          >
-                            Wyślij
-                          </Button>
-                        </Grid>
-                      </Grid>
-                    </form>
-                  </div>
-                  <div className="task-actions">
-                    <Grid container direction="row" spacing={3}>
-                      <Grid item xs={8}>
-                        <div className="sent-files-area">
-                          {sentFiles &&
-                            sentFiles.map((file, index) => (
-                              <div className="added-file" key={index}>
-                                <div>{file.name}</div>
-                                <div>
-                                  <IconButton style={{ padding: 0 }}>
-                                    <CloseIcon className="remove-file-icon" />
-                                  </IconButton>
+                      </form>
+                    </div>
+                  }
+
+                  {selectedTask && 
+                    <div className="task-actions">
+                      <Grid container direction="row" spacing={3}>
+                        <Grid item xs={12}>
+                          <div className="sent-files-area">
+                            {files && 
+                              Array.from(files).map((file, index) => (
+                                <div className="added-file" key={index}>
+                                  <div>{file.name}</div>
+                                  <div>
+                                    <IconButton style={{ padding: 0 }}>
+                                      <CloseIcon className="remove-file-icon" />
+                                    </IconButton>
+                                  </div>
                                 </div>
-                              </div>
-                            ))}
-                        </div>
-                      </Grid>
-                      <Grid
-                        container
-                        direction="column"
-                        justify="space-around"
-                        alignItems="center"
-                      >
-                        <Grid item>
-                          <Button
-                            className="button-area"
-                            variant="contained"
-                            component="label"
-                          >
-                            Dodaj pliki
-                            <input type="file" style={{ display: 'none' }} />
-                          </Button>
-                        </Grid>
-                        <Grid item>
-                          <Button variant="contained" color="primary">
-                            Wyślij
-                          </Button>
+                              ))}
+                          </div>
                         </Grid>
                       </Grid>
-                    </Grid>
-                  </div>
+                    </div>
+                  
+                  }
                 </Grid>
               </Grid>
             ) : (
