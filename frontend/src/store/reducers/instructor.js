@@ -4,6 +4,7 @@ import {
   GET_GRADES,
   GET_STUDENTS,
   GET_TASKS,
+  GET_COURSE_FILES,
   PUT_ANNOUNCEMENT,
   PUT_TASK,
   SET_SELECTED_ANNOUNCEMENTS,
@@ -18,6 +19,7 @@ const initalState = {
   announcements: [],
   students: [],
   grades: [],
+  courseFiles: [],
   selectedCourse: undefined,
   selectedTask: undefined,
   selectedAnnouncement: undefined,
@@ -30,6 +32,12 @@ export default (state = initalState, action) => {
       return {
         ...state,
         courses: action.courses,
+      };
+
+    case GET_COURSE_FILES:
+      return {
+        ...state,
+        courseFiles: action.courseFiles,
       };
 
     case GET_TASKS:

@@ -6,6 +6,8 @@ export const GET_TASKS = 'GET_TASKS';
 export const GET_ANNOUNCEMENTS = 'GET_ANNOUNCEMENTS';
 export const GET_STUDENTS = 'GET_STUDENTS';
 export const GET_GRADES = 'GET_GRADES';
+export const GET_COURSE_FILES = 'GET_COURSE_FILES';
+
 
 export const SET_SELECTED_STUDENT = 'SET_SELECTED_STUDENT';
 export const SET_SELECTED_COURSE = 'SET_SELECTED_COURSE';
@@ -91,6 +93,17 @@ export const getCourses = () => {
       dispatch({
         type: GET_COURSES,
         courses: data,
+      })
+    );
+  };
+};
+
+export const getCourseFiles = (course) => {
+  return (dispatch) => {
+    return axios.get(endpoint.getFilesFromCourseId + course.id + '/').then(({ data }) =>
+      dispatch({
+        type: GET_COURSE_FILES,
+        courseFiles: data,
       })
     );
   };

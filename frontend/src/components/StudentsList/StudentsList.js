@@ -19,7 +19,7 @@ export const StudentsList = () => {
   return (
     <div className="StudentsList">
       <div className="StudentsList__header">
-        <span>Lista studentów {selectedCourse.name}</span>
+        <span>Lista studentów {selectedCourse && selectedCourse.name}</span>
       </div>
       <List>
         {selectedCourse &&
