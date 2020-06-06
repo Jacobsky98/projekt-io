@@ -5,9 +5,9 @@ from rest_framework import permissions
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from users.models import User
-from .models import Message, Course, Opinions, File, Annoucement, Grade, Task, Presence, UserCourse, User_Tasks_Files
+from .models import Message, Course, Opinions, File, Annoucement, Grade, Task, Classes, UserClasses, UserCourse, User_Tasks_Files
 from .serializers import MessageSerializer, CourseSerializer, OpinionsSerializer, FileSerializer, AnnoucementSerializer,\
-    GradeSerializer, TaskSerializer, PresenceSerializer, UserCourseSerializer, UserTasksFilesSerializer
+    GradeSerializer, TaskSerializer, ClassesSerializer, UserCourseSerializer, UserTasksFilesSerializer
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -210,7 +210,6 @@ class FileCreate(APIView):
 class GradeAPIView(APIView):
 
     def get(self, request, id=None, id_student=None, id_task=None, id_course=None):
-        serializer = PresenceSerializer()
         if id:
             articles = Grade.objects.get(id=id)
             serializer = GradeSerializer(articles)
@@ -278,47 +277,68 @@ class TaskCreate(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class PresenceAPIView(APIView):
-
-    def get(self, request, id=None, id_student=None, id_course=None):
-        serializer = PresenceSerializer()
+class ClassesAPIView(APIView):
+    def get(self, request, id=None):
+        serializer = ClassesSerializer()
         if id:
-            articles = Presence.objects.get(id=id)
-            serializer = PresenceSerializer(articles)
-            json = serializer.data
-            return Response(json, status=status.HTTP_201_CREATED)
-        elif id_student and id_course:
-            articles = Presence.objects.filter(id_student=id_student, id_course=id_course)
-            serializer = PresenceSerializer(articles, many=True)
-            json = serializer.data
-            return Response(json, status=status.HTTP_201_CREATED)
-        elif id_student:
-            articles = Presence.objects.filter(id_student=id_student)
-            serializer = PresenceSerializer(articles, many=True)
-            json = serializer.data
-            return Response(json, status=status.HTTP_201_CREATED)
-        elif id_course:
-            articles = Presence.objects.filter(id_course=id_course)
-            serializer = PresenceSerializer(articles, many=True)
-            json = serializer.data
-            return Response(json, status=status.HTTP_201_CREATED)
+            classes = Classes.objects.filter(id_course=id)
+            serializer = ClassesSerializer(classes, many=True)
         else:
-            articles = Presence.objects.all()
-            serializer = PresenceSerializer(articles, many=True)
-            json = serializer.data
-            return Response(json, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            classes = Classes.objects.all()
+            serializer = ClassesSerializer(classes, many=True)
+        return Response(serializer.data)
 
-
-class PresenceCreate(APIView):
+class ClassesCreate(APIView):
     def post(self, request, format='json'):
-        serializer = PresenceSerializer(data=request.data)
+        serializer = ClassesSerializer(data=request.data)
         if serializer.is_valid():
-            presence = serializer.save()
-            if presence:
+            task = serializer.save()
+            if task:
                 json = serializer.data
                 return Response(json, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# class PresenceAPIView(APIView):
+#
+#     def get(self, request, id=None, id_student=None, id_course=None):
+#         serializer = PresenceSerializer()
+#         if id:
+#             articles = Presence.objects.get(id=id)
+#             serializer = PresenceSerializer(articles)
+#             json = serializer.data
+#             return Response(json, status=status.HTTP_201_CREATED)
+#         elif id_student and id_course:
+#             articles = Presence.objects.filter(id_student=id_student, id_course=id_course)
+#             serializer = PresenceSerializer(articles, many=True)
+#             json = serializer.data
+#             return Response(json, status=status.HTTP_201_CREATED)
+#         elif id_student:
+#             articles = Presence.objects.filter(id_student=id_student)
+#             serializer = PresenceSerializer(articles, many=True)
+#             json = serializer.data
+#             return Response(json, status=status.HTTP_201_CREATED)
+#         elif id_course:
+#             articles = Presence.objects.filter(id_course=id_course)
+#             serializer = PresenceSerializer(articles, many=True)
+#             json = serializer.data
+#             return Response(json, status=status.HTTP_201_CREATED)
+#         else:
+#             articles = Presence.objects.all()
+#             serializer = PresenceSerializer(articles, many=True)
+#             json = serializer.data
+#             return Response(json, status=status.HTTP_201_CREATED)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#
+#
+# class PresenceCreate(APIView):
+#     def post(self, request, format='json'):
+#         serializer = PresenceSerializer(data=request.data)
+#         if serializer.is_valid():
+#             presence = serializer.save()
+#             if presence:
+#                 json = serializer.data
+#                 return Response(json, status=status.HTTP_201_CREATED)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class UserTasksFilesCreate(APIView):
     def post(self, request, format='json'):

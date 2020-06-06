@@ -18,11 +18,14 @@ class Course(models.Model):
     info = models.TextField()
 
 
-
-class Presence(models.Model):
-    id_student = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+class Classes(models.Model):
     id_course = models.ForeignKey(Course, on_delete=models.CASCADE)
     date = models.DateTimeField(default=timezone.now)
+
+
+class UserClasses(models.Model):
+    id_student = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    id_classes = models.ForeignKey(Classes, on_delete=models.CASCADE)
     was_present = models.BooleanField()
 
 

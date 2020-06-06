@@ -15,9 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from .views import MessageAPIView, CourseAPIView, CourseDetails, OpinionsDetails, AnnoucementAPIView, GradeAPIView, TaskAPIView, PresenceAPIView, OpinionsAPIView, \
+from .views import MessageAPIView, CourseAPIView, CourseDetails, OpinionsDetails, AnnoucementAPIView, GradeAPIView, TaskAPIView, ClassesAPIView, OpinionsAPIView, \
     FileAPIView, UserCourseAPIView, UserTasksFilesCreate, UserTasksFilesAPIView
-from .views import CourseCreate, MessageCreate, FileCreate, OpinionCreate, AnnoucementCreate, GradeCreate, TaskCreate, PresenceCreate, FileDownload, UserCourseCreate
+from .views import CourseCreate, MessageCreate, FileCreate, OpinionCreate, AnnoucementCreate, GradeCreate, TaskCreate, ClassesCreate, FileDownload, UserCourseCreate
 from django.contrib.auth import views as auth_views
 from rest_framework_swagger.views import get_swagger_view
 
@@ -34,6 +34,8 @@ urlpatterns = [
     path('opinions/', OpinionsAPIView.as_view()),
     path('opinions/<int:id>/', OpinionsAPIView.as_view()),
 
+    path('classes/course/<int:id>/', ClassesAPIView.as_view()),
+
     path('annoucements/', AnnoucementAPIView.as_view()),
     path('annoucements/course/<int:id_course>/', AnnoucementAPIView.as_view()),
     path('annoucement/<int:id>/', AnnoucementAPIView.as_view()),
@@ -48,11 +50,11 @@ urlpatterns = [
     path('tasks/', TaskAPIView.as_view()),
     path('task/<int:id>/', TaskAPIView.as_view()),
 
-    path('presences/', PresenceAPIView.as_view()),
-    path('presence/<int:id>/', PresenceAPIView.as_view()),
-    path('presences/<int:id_course>/<int:id_student>/', PresenceAPIView.as_view()),
-    path('presences/course/<int:id_course>/', PresenceAPIView.as_view()),
-    path('presences/student/<int:id_student>/', PresenceAPIView.as_view()),
+    # path('presences/', PresenceAPIView.as_view()),
+    # path('presence/<int:id>/', PresenceAPIView.as_view()),
+    # path('presences/<int:id_course>/<int:id_student>/', PresenceAPIView.as_view()),
+    # path('presences/course/<int:id_course>/', PresenceAPIView.as_view()),
+    # path('presences/student/<int:id_student>/', PresenceAPIView.as_view()),
 
     path('files/', FileAPIView.as_view()),
     path('file/<int:id>/', FileDownload.as_view()),
@@ -74,6 +76,6 @@ urlpatterns = [
     path('annoucement/add/', AnnoucementCreate.as_view(), name='annoucement_add'),
     path('grade/add/', GradeCreate.as_view(), name='grade_add'),
     path('task/add/', TaskCreate.as_view(), name='task_add'),
-    path('presence/add/', PresenceCreate.as_view(), name='presence_add'),
+    path('classes/add/', ClassesCreate.as_view(), name='classes_add'),
     path('task/assign', UserTasksFilesCreate.as_view(), name='assign_file_to_task'),
 ]
