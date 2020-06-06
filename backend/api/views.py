@@ -183,11 +183,15 @@ class FileDownload(APIView):
         obj = File.objects.get(id=id)
         field_object = File._meta.get_field('file')
         path =  str(field_object.value_from_object(obj))
-        file_name = path[path.index('files/')+1:]
+        file_name = path[path.index('files/')+6:]
+        
         with open(path, 'rb') as report:
             return Response(
                 report.read(),
-                headers={'Content-Disposition': 'attachment; filename='+file_name},
+                headers={
+                    'Content-Disposition': 'attachment; filename='+file_name, 
+                    "Access-Control-Expose-Headers": 'Content-Disposition'
+                },
                 content_type='application/octet-stream')
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
