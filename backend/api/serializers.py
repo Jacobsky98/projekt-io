@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Message, Course, Opinions, Annoucement, File, Grade, Task, Presence, UserCourse
+from .models import Message, Course, Opinions, Annoucement, File, Grade, Task, UserCourse, Classes, UserClasses
 from django.utils import timezone
 
 class MessageSerializer(serializers.ModelSerializer):
@@ -100,12 +100,13 @@ class TaskSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
-class PresenceSerializer(serializers.ModelSerializer):
-    was_present = serializers.BooleanField()
+
+class ClassesSerializer(serializers.ModelSerializer):
+    date = serializers.DateTimeField(default=timezone.now)
 
     class Meta:
-        model = Presence
-        fields = ['id_student', 'id_course', 'was_present']
+        model = Classes
+        fields = ['id', 'id_course', 'date']
 
     def create(self, validated_data):
         instance = self.Meta.model(**validated_data)

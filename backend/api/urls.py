@@ -15,9 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from .views import MessageAPIView, CourseAPIView, CourseDetails, OpinionsDetails, AnnoucementAPIView, GradeAPIView, TaskAPIView, PresenceAPIView, OpinionsAPIView, \
+from .views import MessageAPIView, CourseAPIView, CourseDetails, OpinionsDetails, AnnoucementAPIView, GradeAPIView, TaskAPIView, ClassesAPIView, OpinionsAPIView, \
     FileAPIView, UserCourseCreate
-from .views import CourseCreate, MessageCreate, FileCreate, OpinionCreate, AnnoucementCreate, GradeCreate, TaskCreate, PresenceCreate, FileDownload
+from .views import CourseCreate, MessageCreate, FileCreate, OpinionCreate, AnnoucementCreate, GradeCreate, TaskCreate, FileDownload, ClassesCreate
 from django.contrib.auth import views as auth_views
 from rest_framework_swagger.views import get_swagger_view
 
@@ -37,10 +37,9 @@ urlpatterns = [
     path('grade/<int:id>/', GradeAPIView.as_view()),
     path('tasks/', TaskAPIView.as_view()),
     path('task/<int:id>/', TaskAPIView.as_view()),
-    path('presences/', PresenceAPIView.as_view()),
-    path('presence/<int:id>/', PresenceAPIView.as_view()),
     path('files/', FileAPIView.as_view()),
     path('file/<int:id>/', FileDownload.as_view()),
+    path('classes/course/<int:id>/', ClassesAPIView.as_view()),
     path('api_documentation/', schema_view),
 
     #post
@@ -52,5 +51,6 @@ urlpatterns = [
     path('annoucement/add/', AnnoucementCreate.as_view(), name='annoucement_add'),
     path('grade/add/', GradeCreate.as_view(), name='grade_add'),
     path('task/add/', TaskCreate.as_view(), name='task_add'),
-    path('presence/add/', PresenceCreate.as_view(), name='presence_add'),
+    path('classes/add/', ClassesCreate.as_view(), name='classes_add')
+    # path('presence/add/', PresenceCreate.as_view(), name='presence_add'),
 ]

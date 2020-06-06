@@ -1,10 +1,13 @@
 from django.contrib import admin
-from .models import Annoucement,Course,Presence,UserCourse,Task,File,User_Tasks_Files,Grade,Opinions,Message
+from .models import Annoucement, Course, Classes, UserClasses, UserCourse, Task, File, User_Tasks_Files, Grade, \
+    Opinions, Message
+
 # Register your models here.
 
 admin.site.register(Annoucement)
 admin.site.register(Course)
-admin.site.register(Presence)
+admin.site.register(UserClasses)
+admin.site.register(Classes)
 admin.site.register(UserCourse)
 admin.site.register(Task)
 admin.site.register(File)
