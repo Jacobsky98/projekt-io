@@ -7,12 +7,15 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
+import { useDispatch} from 'react-redux';
+import { setError } from '../../../store/actions/global';
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
 export const AssignStudentsPage = (props) => {
+  const dispatch = useDispatch();
   const mapState = (state) => ({
     userData: state.auth.userData,
   });
@@ -30,7 +33,6 @@ export const AssignStudentsPage = (props) => {
 
   useEffect(() => {
     fetchStudents();
-    fetchStudentsCourses();
     fetchCourses();
   }, []);
 
@@ -49,23 +51,26 @@ export const AssignStudentsPage = (props) => {
     });
   };
 
-  const fetchStudentsCourses = () => {
-    // dobrze byloby jeszcze zweryfikowac, ze prowadzacy nie da rady dodac tego samego studenta
-    // do tego samego kursu wiecej niz raz. Jesli nie damy rady zrobic po stronie backendu
-    // to chociaz po stronie frontendu sprawdzmy.
-    console.log('Oczekiwanie na endpoint z backendu');
-  };
-
-  const assignStudentToCourse = () => {
+  const assignStudentToCourse = async () => {
     if (selectedCourse && selectedStudent) {
-      const assignmentData = {
-        id_user: selectedStudent.id,
-        id_course: selectedCourse.id,
-      };
-      axios
-        .post(endpoint.assignUserToCourse, assignmentData)
-        .then(() => setSuccessOpen(true))
-        .catch(() => setFailureOpen(true));
+      const studentInCourseAssignment = await axios.get(endpoint.studentInCourse(selectedStudent.id, selectedCourse.id))
+      
+      if(studentInCourseAssignment.data && studentInCourseAssignment.data.length === 0) {
+        const assignmentData = {
+          id_user: selectedStudent.id,
+          id_course: selectedCourse.id,
+        };
+          
+        axios
+          .post(endpoint.assignUserToCourse, assignmentData)
+          .then(() => setSuccessOpen(true))
+          .catch(() => setFailureOpen(true));
+      }
+      else {
+        dispatch(setError('Ten student został już zapisany do tego kursu!'));
+      }
+      
+      
     } else {
       setFailureOpen(true);
     }

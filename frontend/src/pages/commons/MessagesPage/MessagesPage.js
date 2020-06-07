@@ -55,6 +55,7 @@ const MessagesPage = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [person, setPerson] = useState();
   const [message, setMessage] = useState('');
+  const [allChatPeople, setAllChatPeople] = useState([]);
   const [chatPeople, setChatPeople] = useState([]);
   const [allMessages, setAllMessages] = useState([]);
   const [messages, setMessages] = useState([]);
@@ -71,18 +72,52 @@ const MessagesPage = () => {
   let { userData } = useSelector(mapState);
 
   useEffect(() => {
-    axios.get(endpoint.users).then((res) => setChatPeople(res.data));
-
-    getMessages();
+    axios.get(endpoint.users).then((res) => {
+      setAllChatPeople(res.data);
+    }) 
   }, []);
+  
+  useEffect(() => {
+    getMessages();
+  }, [allChatPeople])
+
+  useEffect(() => {
+    const filteredPeople = 
+      allChatPeople.filter(person => {
+        const userId = userData.id;
+        const chatterId = person.id
+        const didUsersChat = allMessages.find(m => {
+          if ((m.id_sender === userId && m.id_receiver === chatterId) || (m.id_sender === chatterId && m.id_receiver === userId)) {
+                return true;
+          }
+          return false;
+        })        
+
+        return didUsersChat && person;
+      })
+    setChatPeople(filteredPeople)
+  }, [allMessages])
 
   const getMessages = () => {
-    axios.get(endpoint.messages).then((res) => setAllMessages(res.data));
+    axios
+      .get(endpoint.messages)
+      .then((res) => setAllMessages(res.data));
   };
 
   const handleSendMessage = () => {
-    if (person.length > 0 && message.length > 0) {
-      setIsModalVisible(false);
+    if (person && userData && message.length > 0) {
+      const messageData = {
+        id_sender: userData.id,
+        id_receiver: person,
+        content: message,
+        title: 'default',
+      };
+
+      axios
+        .post(endpoint.sendMessage, messageData)
+        .then(() => getMessages())
+
+      setIsModalVisible(false)
     }
   };
 
@@ -128,6 +163,8 @@ const MessagesPage = () => {
     }
   };
 
+  console.log(messages)
+
   return (
     <div>
       <Modal
@@ -165,9 +202,12 @@ const MessagesPage = () => {
                 }}
               >
                 <option aria-label="None" value="" />
-                <option value={1}>Imię i nazwisko #1</option>
-                <option value={2}>Imię i nazwisko #2</option>
-                <option value={3}>Imię i nazwisko #3</option>
+                {allChatPeople
+                  .filter(el => !chatPeople.includes(el))
+                  .map(person => 
+                    <option value={person.id}>{person.first_name} {person.last_name}</option>  
+                  )
+                }
               </Select>
             </Grid>
             <Grid item>
@@ -215,7 +255,7 @@ const MessagesPage = () => {
                           <PersonIcon style={{ color: '#4267B2' }} />
                         </ListItemIcon>
                         <ListItemText
-                          primary={person.username}
+                          primary={<div>{person.first_name} {person.last_name}</div>}
                           secondary={`Rola: ${person.role}`}
                         />
                       </ListItem>
@@ -236,11 +276,11 @@ const MessagesPage = () => {
           </Grid>
         </Grid>
         <Grid xs={9} spacing={3} container direction="column">
-          {selectedUser && <Grid item>{selectedUser.username}</Grid>}
+          {selectedUser && <Grid item>{selectedUser.first_name} {selectedUser.last_name}</Grid>}
           <Grid item>
             <Paper style={{ overflowY: 'scroll', height: '400px' }}>
               {messages &&
-                messages.map((message) => {
+                messages.sort((a, b) => a.date_send > b.date_send).map((message) => {
                   return message.id_sender !== userData.id ? (
                     <div className="others-message-container">
                       {' '}

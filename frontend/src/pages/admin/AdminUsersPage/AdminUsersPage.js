@@ -16,6 +16,7 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Button from '@material-ui/core/Button';
 import { endpoint } from '../../../constants/endpoints';
+import { setError } from '../../../store/actions/global';
 
 const AdminUsersPage = () => {
   const [users, setUsers] = useState([]);
@@ -58,10 +59,17 @@ const AdminUsersPage = () => {
         role: role,
       };
 
-      axios.post(endpoint.createUser, userData).then((res) => {
-        dispatch(setShowUserForm(false));
-        fetchData();
-      });
+      axios.post(endpoint.createUser, userData)
+        .then((res) => {
+          dispatch(setShowUserForm(false));
+          fetchData();
+        })
+        .catch(err => {
+          dispatch(setError('Za słabe hasło lub niepoprawny email!'));
+        });
+    }
+    else {
+      dispatch(setError('Musisz wypełnić wszystkie pola formularza!'));
     }
   };
 
