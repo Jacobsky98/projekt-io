@@ -17,7 +17,8 @@ from django.contrib import admin
 from django.urls import path
 from .views import MessageAPIView, CourseAPIView, CourseDetails, OpinionsDetails, AnnoucementAPIView, GradeAPIView, TaskAPIView, ClassesAPIView, OpinionsAPIView, \
     FileAPIView, UserCourseAPIView, UserTasksFilesCreate, UserTasksFilesAPIView
-from .views import CourseCreate, MessageCreate, FileCreate, OpinionCreate, AnnoucementCreate, GradeCreate, TaskCreate, ClassesCreate, FileDownload, UserCourseCreate
+from .views import CourseCreate, MessageCreate, FileCreate, OpinionCreate, AnnoucementCreate, GradeCreate, TaskCreate, \
+    ClassesCreate, FileDownload, UserCourseCreate, StudentPresenceAPIView, StudentPresenceAdd, StudentPresenceDetails
 from django.contrib.auth import views as auth_views
 from rest_framework_swagger.views import get_swagger_view
 
@@ -35,6 +36,8 @@ urlpatterns = [
     path('opinions/<int:id>/', OpinionsAPIView.as_view()),
 
     path('classes/course/<int:id>/', ClassesAPIView.as_view()),
+    path('classes/<int:id>/presence/', StudentPresenceAPIView.as_view()),
+    path('classes/<int:id_classes>/presence/<int:id_student>/', StudentPresenceDetails.as_view()),
 
     path('annoucements/', AnnoucementAPIView.as_view()),
     path('annoucements/course/<int:id_course>/', AnnoucementAPIView.as_view()),
@@ -77,5 +80,7 @@ urlpatterns = [
     path('grade/add/', GradeCreate.as_view(), name='grade_add'),
     path('task/add/', TaskCreate.as_view(), name='task_add'),
     path('classes/add/', ClassesCreate.as_view(), name='classes_add'),
+    path('presence/add/', StudentPresenceAdd.as_view(), name='presence_add'),
+    path('presence/add/<int:id>/', StudentPresenceAdd.as_view(), name='presence_add_student'),
     path('task/assign', UserTasksFilesCreate.as_view(), name='assign_file_to_task'),
 ]

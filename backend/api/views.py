@@ -7,7 +7,8 @@ from rest_framework.parsers import JSONParser
 from users.models import User
 from .models import Message, Course, Opinions, File, Annoucement, Grade, Task, Classes, UserClasses, UserCourse, User_Tasks_Files
 from .serializers import MessageSerializer, CourseSerializer, OpinionsSerializer, FileSerializer, AnnoucementSerializer,\
-    GradeSerializer, TaskSerializer, ClassesSerializer, UserCourseSerializer, UserTasksFilesSerializer
+    GradeSerializer, TaskSerializer, ClassesSerializer, UserCourseSerializer, UserTasksFilesSerializer, \
+    StudentPresenceSerializer
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -38,14 +39,15 @@ class AnnoucementAPIView(APIView):
             return Response(json, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class AnnoucementCreate(APIView):
 
+class AnnoucementCreate(APIView):
     def post(self, request):
         serializer = AnnoucementSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class MessageAPIView(APIView):
     def get(self, request):
@@ -64,8 +66,8 @@ class MessageCreate(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class CourseAPIView(APIView):
 
+class CourseAPIView(APIView):
     def get(self, request, id=None):
         serializer = CourseSerializer()
         if id:
@@ -364,6 +366,50 @@ class UserTasksFilesAPIView(APIView):
             json = serializer.data
             return Response(json, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class StudentPresenceAPIView(APIView):
+    def get(self, request, id=None):
+        serializer = StudentPresenceSerializer()
+        if id:
+            presence_list = UserClasses.objects.filter(id_classes=id)
+            serializer = StudentPresenceSerializer(presence_list, many=True)
+        else:
+            presence_list = UserClasses.objects.all()
+            serializer = StudentPresenceSerializer(presence_list, many=True)
+        return Response(serializer.data)
+
+
+class StudentPresenceAdd(APIView):
+    def post(self, request, format='json'):
+        serializer = StudentPresenceSerializer(data=request.data)
+        if serializer.is_valid():
+            new_presence = serializer.save()
+            if new_presence:
+                json = serializer.data
+                return Response(json, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class StudentPresenceDetails(APIView):
+    def get_object(self, id_classes, id_student):
+        try:
+            return UserClasses.objects.get(Q(id_classes=id_classes) & Q(id_student=id_student))
+        except Opinions.DoesNotExist:
+            return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+
+    def put(self, request, id_classes, id_student):
+        presence = self.get_object(id_classes, id_student)
+        serializer = StudentPresenceSerializer(presence, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def get(self, request, id_classes, id_student):
+        presence = self.get_object(id_classes, id_student)
+        serializer = StudentPresenceSerializer(presence)
+        return Response(serializer.data)
 
 
 class UserCourseAPIView(APIView):

@@ -4,6 +4,7 @@ from users.serializers import UserSerializer
 
 from django.utils import timezone
 
+
 class MessageSerializer(serializers.ModelSerializer):
     title = serializers.CharField(max_length=100)
     content = serializers.CharField(style={'base_template': 'textarea.html'})
@@ -18,6 +19,7 @@ class MessageSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
+
 class AnnoucementSerializer(serializers.ModelSerializer):
     date = serializers.DateTimeField(default=timezone.now)
     title = serializers.CharField(max_length=50)
@@ -31,6 +33,7 @@ class AnnoucementSerializer(serializers.ModelSerializer):
         instance = self.Meta.model(**validated_data)
         instance.save()
         return instance
+
 
 class CourseSerializer(serializers.ModelSerializer):
     annoucements = AnnoucementSerializer(many=True, read_only=True)
@@ -47,6 +50,15 @@ class CourseSerializer(serializers.ModelSerializer):
         return instance
 
 
+class StudentPresenceSerializer(serializers.ModelSerializer):
+    student_first_name = serializers.ReadOnlyField(source='id_student.first_name')
+    student_last_name = serializers.ReadOnlyField(source='id_student.last_name')
+    student_username = serializers.ReadOnlyField(source='id_student.username')
+
+    class Meta:
+        model = UserClasses
+        fields = ['id_classes', 'id_student', 'student_first_name', 'student_last_name', 'student_username', 'was_present']
+
 
 class OpinionsSerializer(serializers.ModelSerializer):
     title = serializers.CharField(max_length=100)
@@ -60,7 +72,6 @@ class OpinionsSerializer(serializers.ModelSerializer):
         instance = self.Meta.model(**validated_data)
         instance.save()
         return instance
-
 
 
 class FileSerializer(serializers.ModelSerializer):
