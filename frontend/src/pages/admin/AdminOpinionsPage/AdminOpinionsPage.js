@@ -80,7 +80,7 @@ const AdminOpinionsPage = () => {
               {shownOpinions &&
                 shownOpinions.map((opinion) => (
                   <div className="opinion">
-                    <div className="opinion-title">{opinion.title}</div>
+                    {/* <div className="opinion-title">{opinion.title}</div> */}
                     <div className="opinion-content">{opinion.content}</div>
                   </div>
                 ))}

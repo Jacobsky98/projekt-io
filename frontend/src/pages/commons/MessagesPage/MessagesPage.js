@@ -163,8 +163,6 @@ const MessagesPage = () => {
     }
   };
 
-  console.log(messages)
-
   return (
     <div>
       <Modal
