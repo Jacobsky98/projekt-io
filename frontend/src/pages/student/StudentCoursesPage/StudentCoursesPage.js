@@ -207,7 +207,7 @@ export default function StudentCoursesPage() {
                           >
                             <Grid container direction="column">
                               <Grid item>{task.name}</Grid>
-                              <Grid item>Termin: {task.deadline}</Grid>
+                              <Grid item>Termin: {moment(task.deadline).format('YYYY-MM-DD, HH:mm:ss')}</Grid>
                               <Grid item>
                                 STATUS:{' '}
                                 {task.isSent ? 'WYSŁANE' : 'NIE WYSŁANO'}
@@ -225,7 +225,7 @@ export default function StudentCoursesPage() {
                         Treść zadania: {selectedTask && selectedTask.description}
                       </div>
                       <div className="task-info">
-                        Deadline: {selectedTask && selectedTask.deadline}
+                        Deadline: {selectedTask && moment(selectedTask.deadline).format('YYYY-MM-DD, HH:mm:ss')}
                       </div>
 
                       <form onSubmit={handleSubmit}>

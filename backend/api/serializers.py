@@ -104,7 +104,7 @@ class GradeSerializer(serializers.ModelSerializer):
         return instance
 
 class TaskSerializer(serializers.ModelSerializer):
-    deadline = serializers.DateTimeField(default=timezone.now)
+    deadline = serializers.DateTimeField()
 
     class Meta:
         model = Task

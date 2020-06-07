@@ -12,6 +12,7 @@ import './InstructorAnnouncements.scss';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import { AddAnnouncement } from './addAnnouncement/AddAnnouncement';
+import moment from 'moment';
 
 export const InstructorAnnouncements = () => {
   const [openDialog, setOpenDialog] = useState(false);
@@ -53,7 +54,7 @@ export const InstructorAnnouncements = () => {
                   >
                     <ListItemText
                       primary={announcement.title}
-                      secondary={announcement.date}
+                      secondary={moment(announcement.date).format('DD-MM-YYYY, HH:mm:ss')}
                     />
                   </ListItem>
                 ))}

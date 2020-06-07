@@ -11,6 +11,7 @@ import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import './InstructorTasks.scss';
 import { AddTask } from './addTask/AddTask';
+import moment from 'moment';
 
 export const InstructorTasks = () => {
   const [openDialog, setOpenDialog] = useState(false);
@@ -46,7 +47,7 @@ export const InstructorTasks = () => {
                   >
                     <ListItemText
                       primary={`Zadanie ${index}`}
-                      secondary={`Deadline: ${task.deadline}`}
+                      secondary={`Deadline: ${moment(task.deadline).format('YYYY-MM-DD, HH:mm:ss')}`}
                     />
                   </ListItem>
                 ))}
