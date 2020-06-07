@@ -87,15 +87,9 @@ export default function StudentCoursesPage() {
     })();
   }, [selectedCourse]);
 
-  useEffect(() => {
-    if (selectedTask) {
-      console.log(selectedTask);
-    }
-  }, [selectedTask]);
-
   const handleSubmit = async (event) => {
     event.preventDefault();
-    Array.from(fileInput.current.files).forEach(async (file) => {
+    Array.from(files).forEach(async (file) => {
       const formData = new FormData();
       formData.append('file', file);
       const config = {
@@ -121,6 +115,13 @@ export default function StudentCoursesPage() {
     if (fileInput && fileInput.current) {
       setFiles(fileInput.current.files);
     }
+  }
+
+  const removeFile = (file) => {
+    const indexToRemove = Array.from(files).findIndex(f => f === file);
+    let newArray = Array.from(files);
+    newArray.splice(indexToRemove, 1);
+    setFiles(newArray)
   }
 
   return (
@@ -277,7 +278,7 @@ export default function StudentCoursesPage() {
                                   <div>{file.name}</div>
                                   <div>
                                     <IconButton style={{ padding: 0 }}>
-                                      <CloseIcon className="remove-file-icon" />
+                                      <CloseIcon onClick={() => removeFile(file)}className="remove-file-icon" />
                                     </IconButton>
                                   </div>
                                 </div>
