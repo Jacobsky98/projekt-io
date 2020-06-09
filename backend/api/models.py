@@ -26,7 +26,7 @@ class Classes(models.Model):
 class UserClasses(models.Model):
     id_student = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     id_classes = models.ForeignKey(Classes, on_delete=models.CASCADE)
-    was_present = models.BooleanField()
+    was_present = models.BooleanField(default=False)
 
 
 class UserCourse(models.Model):

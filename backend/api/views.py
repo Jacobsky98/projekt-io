@@ -186,12 +186,12 @@ class FileDownload(APIView):
         field_object = File._meta.get_field('file')
         path =  str(field_object.value_from_object(obj))
         file_name = path[path.index('files/')+6:]
-        
+
         with open(path, 'rb') as report:
             return Response(
                 report.read(),
                 headers={
-                    'Content-Disposition': 'attachment; filename='+file_name, 
+                    'Content-Disposition': 'attachment; filename='+file_name,
                     "Access-Control-Expose-Headers": 'Content-Disposition'
                 },
                 content_type='application/octet-stream')
@@ -297,8 +297,16 @@ class ClassesAPIView(APIView):
 class ClassesCreate(APIView):
     def post(self, request, format='json'):
         serializer = ClassesSerializer(data=request.data)
+        presence_serializer = StudentPresenceSerializer(data=request.data)
         if serializer.is_valid():
             task = serializer.save()
+            id_course = serializer.data['id_course']
+            id_classes = serializer.data['id']
+            print(id_classes)
+            user_course = UserCourse.objects.filter(id_course=id_course).values()
+            for el in user_course:
+                UserClasses.objects.create(id_classes=Classes.objects.get(id=id_classes),
+                                           id_student=User.objects.get(id=el['id_user_id']))
             if task:
                 json = serializer.data
                 return Response(json, status=status.HTTP_201_CREATED)
