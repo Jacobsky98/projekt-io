@@ -7,7 +7,9 @@ export const GET_ANNOUNCEMENTS = 'GET_ANNOUNCEMENTS';
 export const GET_STUDENTS = 'GET_STUDENTS';
 export const GET_GRADES = 'GET_GRADES';
 export const GET_COURSE_FILES = 'GET_COURSE_FILES';
+export const GET_CLASSES = 'GET_CLASSES';
 
+export const SET_SELECTED_CLASS = 'SET_SELECTED_CLASS';
 export const SET_SELECTED_STUDENT = 'SET_SELECTED_STUDENT';
 export const SET_SELECTED_COURSE = 'SET_SELECTED_COURSE';
 export const SET_SELECTED_ANNOUNCEMENTS = 'SET_SELECTED_ANNOUNCEMENTS';
@@ -15,6 +17,8 @@ export const SET_SELECTED_TASK = 'SET_SELECTED_TASK';
 
 export const PUT_ANNOUNCEMENT = 'PUT_ANNOUNCEMENT';
 export const PUT_TASK = 'PUT_TASK';
+
+
 
 export const putAnnouncement = (announcement) => {
   return (dispatch) => {
@@ -41,6 +45,13 @@ export const setSelectedStudent = (selectedStudent) => {
   };
 };
 
+export const setSelectedClass = (selectedClass) => {
+  return {
+    type: SET_SELECTED_CLASS,
+    selectedClass,
+  };
+};
+
 export const setSelectedTask = (selectedTask) => {
   return {
     type: SET_SELECTED_TASK,
@@ -61,6 +72,7 @@ export const setSelectedCourse = (selectedCourse) => {
       type: SET_SELECTED_COURSE,
       selectedCourse,
     });
+    dispatch(getClasses(selectedCourse.id));
     dispatch(getTasks());
     return dispatch(getStudents(selectedCourse.id));
   };
@@ -70,6 +82,15 @@ export const getStudents = (courseId) => {
   return (dispatch) => {
     return axios.get(endpoint.studentsForCourse(courseId)).then(({ data }) => {
       dispatch({ type: GET_STUDENTS, students: data });
+      return Promise.resolve();
+    });
+  };
+};
+
+export const getClasses = (courseId) => {
+  return (dispatch) => {
+    return axios.get(endpoint.classesForCourse(courseId)).then(({ data }) => {
+      dispatch({ type: GET_CLASSES, classes: data });
       return Promise.resolve();
     });
   };

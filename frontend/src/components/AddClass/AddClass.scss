@@ -1,0 +1,14 @@
+.AddClass {
+  display: flex;
+  flex-direction: column;
+
+  &__dialogContent {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    background-color: #9fa8da !important;
+    width: 20vw;
+    height: 20vh;
+    justify-content: space-between;
+  }
+}

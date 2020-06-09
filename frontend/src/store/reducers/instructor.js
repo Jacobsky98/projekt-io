@@ -10,7 +10,7 @@ import {
   SET_SELECTED_ANNOUNCEMENTS,
   SET_SELECTED_COURSE,
   SET_SELECTED_STUDENT,
-  SET_SELECTED_TASK,
+  SET_SELECTED_TASK, GET_CLASSES, SET_SELECTED_CLASS,
 } from '../actions/instructor';
 
 const initalState = {
@@ -20,10 +20,12 @@ const initalState = {
   students: [],
   grades: [],
   courseFiles: [],
+  classes: [],
   selectedCourse: undefined,
   selectedTask: undefined,
   selectedAnnouncement: undefined,
   selectedStudent: undefined,
+  selectedClass: undefined,
 };
 
 export default (state = initalState, action) => {
@@ -57,12 +59,8 @@ export default (state = initalState, action) => {
         ...state,
         selectedCourse: action.selectedCourse,
         selectedAnnouncement: undefined,
-        selectedTask: undefined,
-        selectedStudent: undefined,
-        students: [],
         grades: [],
         announcements: [],
-        tasks: [],
       };
 
     case SET_SELECTED_ANNOUNCEMENTS:
@@ -103,6 +101,18 @@ export default (state = initalState, action) => {
       return {
         ...state,
         grades: action.grades,
+      };
+
+    case GET_CLASSES:
+      return {
+        ...state,
+        classes: action.classes,
+      };
+
+    case SET_SELECTED_CLASS:
+      return {
+        ...state,
+        selectedClass: action.selectedClass,
       };
 
     default:

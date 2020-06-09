@@ -63,6 +63,12 @@ const AdminUsersPage = () => {
         .post(endpoint.createUser, userData)
         .then((res) => {
           dispatch(setShowUserForm(false));
+          setUsername('');
+          setPassword('');
+          setEmail('');
+          setFirstName('');
+          setLastName('');
+          setRole('');
           fetchData();
         })
         .catch((err) => {

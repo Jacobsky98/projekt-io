@@ -2,8 +2,7 @@ import React from 'react';
 import './InstructorPresencePage.scss';
 import { CoursesList } from '../../../components/coursesList/CoursesList';
 import { useDispatch, useSelector } from 'react-redux';
-import { StudentsList } from '../../../components/StudentsList/StudentsList';
-import List from '@material-ui/core/List';
+import { ClassesList } from '../../../components/ClassesList/ClassesList';
 
 export const InstructorPresencePage = () => {
   const dispatch = useDispatch();
@@ -17,7 +16,12 @@ export const InstructorPresencePage = () => {
 
   return (
     <div className="InstructorPresencePage">
-      <CoursesList />
+      <div className="InstructorGradesPage__coursesList">
+        <CoursesList />
+      </div>
+      <div className="InstructorPresencePage__classesList">
+        <ClassesList/>
+      </div>
     </div>
   );
 };
