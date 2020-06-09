@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
-import { useDispatch} from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setError } from '../../../store/actions/global';
 
 function Alert(props) {
@@ -53,24 +53,26 @@ export const AssignStudentsPage = (props) => {
 
   const assignStudentToCourse = async () => {
     if (selectedCourse && selectedStudent) {
-      const studentInCourseAssignment = await axios.get(endpoint.studentInCourse(selectedStudent.id, selectedCourse.id))
-      
-      if(studentInCourseAssignment.data && studentInCourseAssignment.data.length === 0) {
+      const studentInCourseAssignment = await axios.get(
+        endpoint.studentInCourse(selectedStudent.id, selectedCourse.id)
+      );
+
+      if (
+        studentInCourseAssignment.data &&
+        studentInCourseAssignment.data.length === 0
+      ) {
         const assignmentData = {
           id_user: selectedStudent.id,
           id_course: selectedCourse.id,
         };
-          
+
         axios
           .post(endpoint.assignUserToCourse, assignmentData)
           .then(() => setSuccessOpen(true))
           .catch(() => setFailureOpen(true));
-      }
-      else {
+      } else {
         dispatch(setError('Ten student został już zapisany do tego kursu!'));
       }
-      
-      
     } else {
       setFailureOpen(true);
     }

@@ -34,28 +34,28 @@ export const AddTask = ({ onCancel, course }) => {
       <div className="instructor-add-task__form">
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <KeyboardDatePicker
-              label="Deadline"
-              disableToolbar
-              variant="inline"
-              format="dd-MM-yyyy"
-              margin="normal"
-              value={selectedDate}
-              onChange={handleDateChange}
-              KeyboardButtonProps={{
-                'aria-label': 'change date',
-              }}
-            />
+            label="Deadline"
+            disableToolbar
+            variant="inline"
+            format="dd-MM-yyyy"
+            margin="normal"
+            value={selectedDate}
+            onChange={handleDateChange}
+            KeyboardButtonProps={{
+              'aria-label': 'change date',
+            }}
+          />
 
           <KeyboardTimePicker
-              margin="normal"
-              id="time-picker"
-              label="Time picker"
-              value={selectedDate}
-              ampm={false}
-              onChange={handleDateChange}
-              KeyboardButtonProps={{
-                'aria-label': 'change time',
-              }}
+            margin="normal"
+            id="time-picker"
+            label="Time picker"
+            value={selectedDate}
+            ampm={false}
+            onChange={handleDateChange}
+            KeyboardButtonProps={{
+              'aria-label': 'change time',
+            }}
           />
         </MuiPickersUtilsProvider>
         <TextField

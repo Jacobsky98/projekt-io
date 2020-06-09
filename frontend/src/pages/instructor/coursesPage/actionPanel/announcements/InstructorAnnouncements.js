@@ -54,7 +54,9 @@ export const InstructorAnnouncements = () => {
                   >
                     <ListItemText
                       primary={announcement.title}
-                      secondary={moment(announcement.date).format('DD-MM-YYYY, HH:mm:ss')}
+                      secondary={moment(announcement.date).format(
+                        'DD-MM-YYYY, HH:mm:ss'
+                      )}
                     />
                   </ListItem>
                 ))}

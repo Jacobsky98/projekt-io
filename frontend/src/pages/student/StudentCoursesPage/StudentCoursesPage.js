@@ -104,25 +104,24 @@ export default function StudentCoursesPage() {
         if_file: data.data.id,
       };
       await axios.post('http://localhost:8000/task/assign', obj);
-    })
+    });
 
-    setFiles([])
-    alert('Wysłałeś zadanie!')
-
+    setFiles([]);
+    alert('Wysłałeś zadanie!');
   };
-  
+
   const updateFiles = () => {
     if (fileInput && fileInput.current) {
       setFiles(fileInput.current.files);
     }
-  }
+  };
 
   const removeFile = (file) => {
-    const indexToRemove = Array.from(files).findIndex(f => f === file);
+    const indexToRemove = Array.from(files).findIndex((f) => f === file);
     let newArray = Array.from(files);
     newArray.splice(indexToRemove, 1);
-    setFiles(newArray)
-  }
+    setFiles(newArray);
+  };
 
   return (
     <Grid container direction="row" justify="space-around">
@@ -208,7 +207,12 @@ export default function StudentCoursesPage() {
                           >
                             <Grid container direction="column">
                               <Grid item>{task.name}</Grid>
-                              <Grid item>Termin: {moment(task.deadline).format('YYYY-MM-DD, HH:mm:ss')}</Grid>
+                              <Grid item>
+                                Termin:{' '}
+                                {moment(task.deadline).format(
+                                  'YYYY-MM-DD, HH:mm:ss'
+                                )}
+                              </Grid>
                               <Grid item>
                                 STATUS:{' '}
                                 {task.isSent ? 'WYSŁANE' : 'NIE WYSŁANO'}
@@ -220,13 +224,18 @@ export default function StudentCoursesPage() {
                   </div>
                 </Grid>
                 <Grid item xs={8} spacing={3}>
-                  {selectedTask && 
+                  {selectedTask && (
                     <div className="task-information">
                       <div className="task-info">
-                        Treść zadania: {selectedTask && selectedTask.description}
+                        Treść zadania:{' '}
+                        {selectedTask && selectedTask.description}
                       </div>
                       <div className="task-info">
-                        Deadline: {selectedTask && moment(selectedTask.deadline).format('YYYY-MM-DD, HH:mm:ss')}
+                        Deadline:{' '}
+                        {selectedTask &&
+                          moment(selectedTask.deadline).format(
+                            'YYYY-MM-DD, HH:mm:ss'
+                          )}
                       </div>
 
                       <form onSubmit={handleSubmit}>
@@ -235,14 +244,11 @@ export default function StudentCoursesPage() {
                           direction="row"
                           justify="center"
                           alignItems="center"
-                          style={{marginTop: 20}}
+                          style={{ marginTop: 20 }}
                           spacing={2}
                         >
                           <Grid item>
-                            <Button
-                              variant="contained"
-                              component="label"
-                            >
+                            <Button variant="contained" component="label">
                               Dodaj pliki
                               <input
                                 type="file"
@@ -265,20 +271,23 @@ export default function StudentCoursesPage() {
                         </Grid>
                       </form>
                     </div>
-                  }
+                  )}
 
-                  {selectedTask && 
+                  {selectedTask && (
                     <div className="task-actions">
                       <Grid container direction="row" spacing={3}>
                         <Grid item xs={12}>
                           <div className="sent-files-area">
-                            {files && 
+                            {files &&
                               Array.from(files).map((file, index) => (
                                 <div className="added-file" key={index}>
                                   <div>{file.name}</div>
                                   <div>
                                     <IconButton style={{ padding: 0 }}>
-                                      <CloseIcon onClick={() => removeFile(file)}className="remove-file-icon" />
+                                      <CloseIcon
+                                        onClick={() => removeFile(file)}
+                                        className="remove-file-icon"
+                                      />
                                     </IconButton>
                                   </div>
                                 </div>
@@ -287,8 +296,7 @@ export default function StudentCoursesPage() {
                         </Grid>
                       </Grid>
                     </div>
-                  
-                  }
+                  )}
                 </Grid>
               </Grid>
             ) : (

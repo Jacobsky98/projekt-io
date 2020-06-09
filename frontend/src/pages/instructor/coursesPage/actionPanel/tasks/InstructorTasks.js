@@ -47,7 +47,9 @@ export const InstructorTasks = () => {
                   >
                     <ListItemText
                       primary={`Zadanie ${index}`}
-                      secondary={`Deadline: ${moment(task.deadline).format('YYYY-MM-DD, HH:mm:ss')}`}
+                      secondary={`Deadline: ${moment(task.deadline).format(
+                        'YYYY-MM-DD, HH:mm:ss'
+                      )}`}
                     />
                   </ListItem>
                 ))}

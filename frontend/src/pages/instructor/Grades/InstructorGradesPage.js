@@ -10,10 +10,9 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import { AddGrade } from '../../../components/addGrade/AddGrade';
-import axios from "axios";
+import axios from 'axios';
 import { endpoint } from '../../../constants/endpoints';
 import fileDownload from 'js-file-download';
-
 
 export const InstructorGradesPage = () => {
   const dispatch = useDispatch();
@@ -32,7 +31,7 @@ export const InstructorGradesPage = () => {
     students,
     grades,
     tasks,
-    courseFiles
+    courseFiles,
   } = useSelector(mapState);
 
   const getAvarageGrade = () => {
@@ -46,8 +45,8 @@ export const InstructorGradesPage = () => {
   const fixedTasks = tasks
     .filter((task) => task.id_course === (selectedCourse && selectedCourse.id))
     .map((task) => {
-      let grade = null
-      if(grades) {
+      let grade = null;
+      if (grades) {
         grade = grades.find((grade) => {
           return task.id === grade.id_task;
         });
@@ -59,35 +58,40 @@ export const InstructorGradesPage = () => {
       };
     });
 
-    const downloadFile = async (task, selectedStudent) => {
-      const selectedStudentId = selectedStudent && selectedStudent.id_user;
-      const taskId = task && task.id; 
-      const userTaskSolutions = courseFiles.filter(
-        f => f.id_user === selectedStudentId && f.id_task === taskId
-      )
-      for (let i=0; i<userTaskSolutions.length; ++i) {
-        const file = await axios.get(endpoint.getFile(userTaskSolutions[i].if_file), {responseType: 'blob'});
-        const disposition = file.headers['content-disposition'];
-        let filename = null;
-        
-        // tricky way to get filename from header
-        if (disposition && disposition.indexOf('attachment') !== -1) {
-          var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
-          var matches = filenameRegex.exec(disposition);
-          if (matches != null && matches[1]) { 
-            filename = matches[1].replace(/['"]/g, '');
-          }
-        }      
-        fileDownload(file.data, filename);
-      }
-    }
+  const downloadFile = async (task, selectedStudent) => {
+    const selectedStudentId = selectedStudent && selectedStudent.id_user;
+    const taskId = task && task.id;
+    const userTaskSolutions = courseFiles.filter(
+      (f) => f.id_user === selectedStudentId && f.id_task === taskId
+    );
+    for (let i = 0; i < userTaskSolutions.length; ++i) {
+      const file = await axios.get(
+        endpoint.getFile(userTaskSolutions[i].if_file),
+        { responseType: 'blob' }
+      );
+      const disposition = file.headers['content-disposition'];
+      let filename = null;
 
-    const hasStudentSentSolution = (selectedStudent, task) => {
-      if (selectedStudent && selectedStudent.id_user && task && task.id) {
-        return courseFiles.find(f => f.id_user === selectedStudent.id_user && f.id_task === task.id) 
+      // tricky way to get filename from header
+      if (disposition && disposition.indexOf('attachment') !== -1) {
+        var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+        var matches = filenameRegex.exec(disposition);
+        if (matches != null && matches[1]) {
+          filename = matches[1].replace(/['"]/g, '');
+        }
       }
-      return false;
+      fileDownload(file.data, filename);
     }
+  };
+
+  const hasStudentSentSolution = (selectedStudent, task) => {
+    if (selectedStudent && selectedStudent.id_user && task && task.id) {
+      return courseFiles.find(
+        (f) => f.id_user === selectedStudent.id_user && f.id_task === task.id
+      );
+    }
+    return false;
+  };
 
   return (
     <div className="InstructorGradesPage">
@@ -119,11 +123,16 @@ export const InstructorGradesPage = () => {
                         <span className="listItem__header">{`Status: Nie oceniono`}</span>
                       )}
                       <div className="listItem__buttons">
-                        { hasStudentSentSolution(selectedStudent, task)
-                          ? <Button onClick={() => downloadFile(task, selectedStudent)}>Pobierz rozwiązanie</Button>
-                          : <div>Student nie dodał zadania!</div>
-                        }
-                        
+                        {hasStudentSentSolution(selectedStudent, task) ? (
+                          <Button
+                            onClick={() => downloadFile(task, selectedStudent)}
+                          >
+                            Pobierz rozwiązanie
+                          </Button>
+                        ) : (
+                          <div>Student nie dodał zadania!</div>
+                        )}
+
                         {!task.grade && (
                           <AddGrade
                             studentId={selectedStudent.id_user}

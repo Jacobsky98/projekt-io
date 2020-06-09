@@ -59,16 +59,16 @@ const AdminUsersPage = () => {
         role: role,
       };
 
-      axios.post(endpoint.createUser, userData)
+      axios
+        .post(endpoint.createUser, userData)
         .then((res) => {
           dispatch(setShowUserForm(false));
           fetchData();
         })
-        .catch(err => {
+        .catch((err) => {
           dispatch(setError('Za słabe hasło lub niepoprawny email!'));
         });
-    }
-    else {
+    } else {
       dispatch(setError('Musisz wypełnić wszystkie pola formularza!'));
     }
   };

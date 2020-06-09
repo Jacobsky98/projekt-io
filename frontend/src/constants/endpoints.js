@@ -30,5 +30,6 @@ export const endpoint = {
   getFile: (fileId) => `${api}/file/${fileId}/`,
   gradesForCourseAndStudent: (courseId, studentId) =>
     `${api}/grades/courseStudent/${courseId}/${studentId}/`,
-  studentInCourse: (studentId, courseId) => `${api}/userCourse/${courseId}/${studentId}/`
+  studentInCourse: (studentId, courseId) =>
+    `${api}/userCourse/${courseId}/${studentId}/`,
 };
