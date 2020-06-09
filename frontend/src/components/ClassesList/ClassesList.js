@@ -1,13 +1,16 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import List from '@material-ui/core/List';
+import axios from 'axios';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import {
+  getPresence,
   setSelectedClass,
 } from '../../store/actions/instructor';
 import './ClassesList.scss';
 import { AddClass } from '../AddClass/AddClass';
+import { endpoint } from '../../constants/endpoints';
 
 export const ClassesList = () => {
   const dispatch = useDispatch();
@@ -40,7 +43,7 @@ export const ClassesList = () => {
                   key={index}
                   onClick={() => {
                     dispatch(setSelectedClass(oneClass));
-                    // dispatch(getGrades(selectedCourse.id, student.id_user));
+                    dispatch(getPresence(oneClass.id));
                   }}
                 >
                   <ListItemText

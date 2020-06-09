@@ -8,6 +8,7 @@ export const GET_STUDENTS = 'GET_STUDENTS';
 export const GET_GRADES = 'GET_GRADES';
 export const GET_COURSE_FILES = 'GET_COURSE_FILES';
 export const GET_CLASSES = 'GET_CLASSES';
+export const GET_PRESENCE = 'GET_PRESENCE';
 
 export const SET_SELECTED_CLASS = 'SET_SELECTED_CLASS';
 export const SET_SELECTED_STUDENT = 'SET_SELECTED_STUDENT';
@@ -82,6 +83,15 @@ export const getStudents = (courseId) => {
   return (dispatch) => {
     return axios.get(endpoint.studentsForCourse(courseId)).then(({ data }) => {
       dispatch({ type: GET_STUDENTS, students: data });
+      return Promise.resolve();
+    });
+  };
+};
+
+export const getPresence = (classId) => {
+  return (dispatch) => {
+    return axios.get(endpoint.getPresenceForClass(classId)).then(({ data }) => {
+      dispatch({ type: GET_PRESENCE, presence: data });
       return Promise.resolve();
     });
   };
