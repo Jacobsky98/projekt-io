@@ -1,21 +1,10 @@
 import React, { useState } from 'react';
 import './InstructorPresencePage.scss';
 import { CoursesList } from '../../../components/coursesList/CoursesList';
-import { useDispatch, useSelector } from 'react-redux';
 import { ClassesList } from '../../../components/ClassesList/ClassesList';
+import { PresenceList } from '../../../components/presenceList/PresenceList';
 
 export const InstructorPresencePage = () => {
-  const [presence, setPresence] = useState([]);
-  const dispatch = useDispatch();
-  const mapState = (state) => ({
-    selectedCourse: state.instructor.selectedCourse,
-    selectedStudent: state.instructor.selectedStudent,
-    students: state.instructor.students,
-  });
-
-  const { selectedCourse, selectedStudent, students } = useSelector(mapState);
-
-
 
   return (
     <div className="InstructorPresencePage">
@@ -23,7 +12,10 @@ export const InstructorPresencePage = () => {
         <CoursesList />
       </div>
       <div className="InstructorPresencePage__classesList">
-        <ClassesList/>
+        <ClassesList />
+      </div>
+      <div className="InstructorPresencePage__presenceList">
+        <PresenceList />
       </div>
     </div>
   );

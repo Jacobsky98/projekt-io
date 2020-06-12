@@ -10,7 +10,6 @@ import {
 } from '../../store/actions/instructor';
 import './ClassesList.scss';
 import { AddClass } from '../AddClass/AddClass';
-import { endpoint } from '../../constants/endpoints';
 
 export const ClassesList = () => {
   const dispatch = useDispatch();

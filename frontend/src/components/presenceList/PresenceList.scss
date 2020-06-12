@@ -1,0 +1,45 @@
+.PresenceList {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  .MuiList-padding {
+    padding: 0;
+  }
+
+  .MuiButtonBase-root {
+    background-color: #c4405d;
+
+    &:hover {
+      background-color: #a83852 !important;
+    }
+  }
+
+  .Mui-selected {
+    background-color: #819766 !important;
+
+    &:hover {
+      background-color: #556344 !important;
+    }
+  }
+
+  &__header {
+    padding: 8px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+
+    &-primary {
+      font-size: 24px;
+    }
+
+    &-secondary {
+      font-size: 16px;
+      font-weight: lighter;
+    }
+  }
+
+  &__list {
+    overflow-y: scroll;
+  }
+}
