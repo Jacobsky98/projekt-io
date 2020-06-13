@@ -18,15 +18,6 @@ import axios from 'axios';
 import './StudentCoursesPage.scss';
 import moment from 'moment';
 
-const sentFiles = [
-  { name: 'zdjecie.jpg' },
-  { name: 'main.cpp' },
-  { name: 'zdjecie.jpg' },
-  { name: 'main.cpp' },
-  { name: 'zdjecie.jpg' },
-  { name: 'main.cpp' },
-];
-
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -59,6 +50,7 @@ export default function StudentCoursesPage() {
   const [selectedTask, setSelectedTask] = useState(null);
   const [file, setFile] = useState(null);
   const [files, setFiles] = useState([]);
+  const [sentFilesForCourse, setSentFilesForCourse] = useState([]);
   const currentUserData = useSelector((state) => state.auth.userData);
 
   useEffect(() => {
@@ -83,6 +75,7 @@ export default function StudentCoursesPage() {
         setTasks(
           tasks.data.filter((task) => task.id_course === selectedCourse.id)
         );
+        getFilesForCourse();
       }
     })();
   }, [selectedCourse]);
@@ -110,6 +103,11 @@ export default function StudentCoursesPage() {
     alert('Wysłałeś zadanie!');
   };
 
+  const getFilesForCourse = async () => {
+    const sentFilesForCourse = await axios.get(endpoint.tasksForCourse(selectedCourse.id));
+    setSentFilesForCourse(sentFilesForCourse.data);
+  }
+
   const updateFiles = () => {
     if (fileInput && fileInput.current) {
       setFiles(fileInput.current.files);
@@ -122,6 +120,17 @@ export default function StudentCoursesPage() {
     newArray.splice(indexToRemove, 1);
     setFiles(newArray);
   };
+  
+  const getCorrectForm = (number) => {
+    const unityDigit = number % 10;
+    if (number === 1) {
+      return 'plik';
+    }
+    if (unityDigit === 2 || unityDigit === 3 || unityDigit === 4) {
+      return 'pliki';
+    }
+    return 'plików';
+  }
 
   return (
     <Grid container direction="row" justify="space-around">
@@ -199,27 +208,33 @@ export default function StudentCoursesPage() {
                   <div className="tasks-list">
                     <List>
                       {tasks &&
-                        tasks.map((task, index) => (
-                          <ListItem
-                            button
-                            key={index}
-                            onClick={() => setSelectedTask(task)}
-                          >
-                            <Grid container direction="column">
-                              <Grid item>{task.name}</Grid>
-                              <Grid item>
-                                Termin:{' '}
-                                {moment(task.deadline).format(
-                                  'YYYY-MM-DD, HH:mm:ss'
-                                )}
+                        tasks.map((task, index) => {
+                          const sentFiles = sentFilesForCourse.filter(el => 
+                            el.id_task === task.id && el.id_user === currentUserData.id
+                          )
+
+                          return (
+                            <ListItem
+                              button
+                              key={index}
+                              onClick={() => setSelectedTask(task)}
+                            >
+                              <Grid container direction="column">
+                                <Grid item>{task.name}</Grid>
+                                <Grid item>
+                                  Termin:{' '}
+                                  {moment(task.deadline).format(
+                                    'YYYY-MM-DD, HH:mm:ss'
+                                  )}
+                                </Grid>
+                                <Grid item>
+                                  STATUS: {sentFiles.length ? `Wysłałeś ${sentFiles.length} ${getCorrectForm(sentFiles.length)}!` : 'NIE WYSŁANO!'}
+                                </Grid>
                               </Grid>
-                              <Grid item>
-                                STATUS:{' '}
-                                {task.isSent ? 'WYSŁANE' : 'NIE WYSŁANO'}
-                              </Grid>
-                            </Grid>
-                          </ListItem>
-                        ))}
+                            </ListItem>
+                          )
+                        }
+                        )}
                     </List>
                   </div>
                 </Grid>

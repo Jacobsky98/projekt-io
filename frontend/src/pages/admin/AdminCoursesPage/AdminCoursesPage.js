@@ -63,7 +63,6 @@ const AdminCoursesPage = () => {
                     </ListItemIcon>
                     <ListItemText
                       primary={course.name}
-                      secondary={`PROWADZĄCY: NIEMA`}
                     ></ListItemText>
                   </ListItem>
                 </div>

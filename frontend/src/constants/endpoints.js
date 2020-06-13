@@ -36,4 +36,5 @@ export const endpoint = {
   addClass: `${api}/classes/add/`,
   getPresenceForClass: (courseId) => `${api}/classes/${courseId}/presence/`,
   presenceForStudent: (classId, studentId) => `${api}/classes/${classId}/presence/${studentId}/`,
+  tasksForCourse: (courseId) => `${api}/tasks/course/${courseId}/`,
 };
